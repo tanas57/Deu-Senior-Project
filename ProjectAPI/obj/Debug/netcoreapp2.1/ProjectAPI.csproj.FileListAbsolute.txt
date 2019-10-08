@@ -1,0 +1,14 @@
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\ProjectAPI.deps.json
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\ProjectAPI.runtimeconfig.json
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\ProjectAPI.runtimeconfig.dev.json
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\ProjectAPI.dll
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\ProjectAPI.pdb
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.csprojAssemblyReference.cache
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.RazorAssemblyInfo.cache
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.RazorAssemblyInfo.cs
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.AssemblyInfoInputs.cache
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.AssemblyInfo.cs
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.RazorTargetAssemblyInfo.cache
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.dll
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.pdb

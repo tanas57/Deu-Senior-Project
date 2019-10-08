@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+using ProjectAPI.Services;
 
 namespace ProjectAPI
 {
@@ -15,6 +17,10 @@ namespace ProjectAPI
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton<ICustomerServices, CustomerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -24,11 +30,11 @@ namespace ProjectAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+                app.UseHsts();
 
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.UseHttpsRedirection();
+            app.UseMvc();
         }
     }
 }
