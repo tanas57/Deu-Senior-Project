@@ -19,6 +19,12 @@ namespace ProjectAPI.Controllers
         {
             _services = services;
         }
+        [HttpPost]
+        [Route("deneme")]
+        public void deneme()
+        {
+            //
+        }
 
         [HttpPost]
         [Route("AddCustomer")]
