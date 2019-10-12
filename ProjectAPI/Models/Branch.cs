@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectAPI.Models
 {
-    public class BranchModel
+    public class Branch
     {
         [Key]
         public int Id { get; set; }

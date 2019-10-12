@@ -12,3 +12,4 @@ C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netco
 C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.RazorTargetAssemblyInfo.cache
 C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.dll
 C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\obj\Debug\netcoreapp2.1\ProjectAPI.pdb
+C:\Users\MusluNET\Documents\GitHub\Deu-Senior-Project\ProjectAPI\bin\Debug\netcoreapp2.1\appsettings.json

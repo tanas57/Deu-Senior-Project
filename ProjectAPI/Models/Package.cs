@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ProjectAPI.Models
 {
-    public class PackageModel
+    public class Package
     {
         [Key]
         public int Id { get; set; }
         public string Barcode { get; set; }
-        [Key]
-        public int CustomerId { get; set; }
         public float PackageWeigth { get; set; }
         public float PackageDesi { get; set; }
-        public int PackageOutBranch { get; set; }
-        public int PackageInBranch { get; set; }
+        public Branch PackageOutBranch { get; set; }
+        public Branch PackageInBranch { get; set; }
+        public Customer Customer { get; set; }
+        public ICollection<PackageStatus> PackageStatus { get; set; }
     }
 }

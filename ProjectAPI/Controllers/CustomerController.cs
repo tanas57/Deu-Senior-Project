@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjectAPI.Data;
 using ProjectAPI.Models;
 using ProjectAPI.Services;
 
 namespace ProjectAPI.Controllers
 {
-    [Route("api/")]
+    [Route("customer")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
@@ -19,32 +20,33 @@ namespace ProjectAPI.Controllers
         {
             _services = services;
         }
-        [HttpPost]
+        [HttpGet]
         [Route("deneme")]
-        public void deneme()
+        public ActionResult deneme()
         {
-            //
+            
+            return Ok();
         }
 
         [HttpPost]
         [Route("AddCustomer")]
-        public ActionResult<CustomerModel> AddCustomer(CustomerModel customer)
+        public ActionResult<Customer> AddCustomer(Customer customer)
         {
             var Addingcustomer = _services.AddCustomer(customer);
 
-            if (Addingcustomer == null) return NotFound();
+            //if (Addingcustomer == null) return NotFound();
 
             return Addingcustomer;
         }
         [HttpGet]
         [Route("CustomerList")]
-        public ActionResult<Dictionary<string, CustomerModel>> GetCustomers()
+        public ActionResult<List<Customer>> GetCustomers()
         {
             var customers = _services.GetCustomer();
 
-            if (customers.Count == 0) return NotFound();
+            if (customers.Result.Count == 0) return NotFound();
 
-            return customers;
+            return customers.Result;
         }
     }
 }
