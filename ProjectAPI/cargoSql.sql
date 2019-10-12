@@ -1,0 +1,42 @@
+CREATE TABLE Customer(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	FullName VARCHAR(100) NOT NULL,
+	Address VARCHAR(300) NOT NULL,
+	Phone VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE Branch(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	BranchName VARCHAR(50) NOT NULL,
+	BranchAddress VARCHAR(300) NOT NULL,
+	BranchPhone VARCHAR(15) NOT NULL
+);
+
+CREATE TABLE Package(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	Barcode VARCHAR(50) NOT NULL,
+	CustomerId INT NOT NULL,
+	PackageWeigth FLOAT,
+	PackageDesi FLOAT,
+	PackageOutBranch INT NOT NULL,
+	PackageInBranch INT NOT NULL,
+);
+
+ALTER TABLE Package 
+ADD CONSTRAINT FK_Package_Customer FOREIGN KEY (CustomerId) REFERENCES Customer(Id);
+ALTER TABLE Package 
+ADD CONSTRAINT FK_OutBranch_Branch FOREIGN KEY (PackageOutBranch) REFERENCES Branch(Id);
+ALTER TABLE Package 
+ADD CONSTRAINT FK_InBranch_Branch FOREIGN KEY (PackageInBranch) REFERENCES Branch(Id);
+
+CREATE TABLE PackageStatus(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	PackageId INT NOT NULL,
+	StatusBranch INT NOT NULL,
+	Status VARCHAR(500) NOT NULL
+);
+
+ALTER TABLE PackageStatus 
+ADD CONSTRAINT FK_PackageStatus_Package FOREIGN KEY (PackageId) REFERENCES Package(Id);
+ALTER TABLE PackageStatus 
+ADD CONSTRAINT FK_StatusBranch_Branch FOREIGN KEY (PackageId) REFERENCES Branch(Id);
