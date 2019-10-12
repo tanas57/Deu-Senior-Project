@@ -6,47 +6,34 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectAPI.Data;
 using ProjectAPI.Models;
-using ProjectAPI.Services;
 
 namespace ProjectAPI.Controllers
 {
-    [Route("customer")]
+    [Route("Customer")]
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerServices _services;
-
-        public CustomerController(ICustomerServices services)
+        private readonly ProjectContext _context;
+        public CustomerController(ProjectContext context)
         {
-            _services = services;
-        }
-        [HttpGet]
-        [Route("deneme")]
-        public ActionResult deneme()
-        {
-            
-            return Ok();
+            _context = context;
         }
 
         [HttpPost]
         [Route("AddCustomer")]
         public ActionResult<Customer> AddCustomer(Customer customer)
         {
-            var Addingcustomer = _services.AddCustomer(customer);
+            //var Addingcustomer = _services.AddCustomer(customer);
 
             //if (Addingcustomer == null) return NotFound();
 
-            return Addingcustomer;
+            return null;
         }
         [HttpGet]
-        [Route("CustomerList")]
-        public ActionResult<List<Customer>> GetCustomers()
+        [Route("List")]
+        public IEnumerable<Customer> GetCustomers()
         {
-            var customers = _services.GetCustomer();
-
-            if (customers.Result.Count == 0) return NotFound();
-
-            return customers.Result;
+            return _context.Customers;
         }
     }
 }
