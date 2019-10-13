@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="223dp" />
 
-        <FrameLayout
-            android:id="@+id/content_frame"
-            android:layout_width="match_parent"
-            android:layout_height="223dp" />
-
-        <androidx.appcompat.widget.AppCompatEditText
+    <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/barcode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="30dp" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
-</FrameLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
