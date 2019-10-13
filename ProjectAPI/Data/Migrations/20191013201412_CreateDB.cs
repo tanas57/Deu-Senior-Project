@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectAPI.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class CreateDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,7 +43,7 @@ namespace ProjectAPI.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Barcode = table.Column<string>(nullable: true),
+                    Barcode = table.Column<long>(nullable: false),
                     PackageWeigth = table.Column<float>(nullable: false),
                     PackageDesi = table.Column<float>(nullable: false),
                     PackageOutBranchId = table.Column<int>(nullable: true),
