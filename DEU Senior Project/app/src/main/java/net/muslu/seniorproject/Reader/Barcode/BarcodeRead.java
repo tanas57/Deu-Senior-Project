@@ -12,6 +12,8 @@ import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import net.muslu.seniorproject.R;
+import net.muslu.seniorproject.Api.AddressHelper;
+import net.muslu.seniorproject.Api.AddressByBarcode;
 
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
@@ -52,10 +54,7 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         EditText editText = findViewById(R.id.barcode);
         editText.setText(rawResult.getText());
-        // Note:
-        // * Wait 2 seconds to resume the preview.
-        // * On older devices continuously stopping and resuming camera preview can result in freezing the app.
-        // * I don't know why this is the case but I don't have the time to figure out.
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -63,6 +62,13 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
                 mScannerView.resumeCameraPreview(BarcodeRead.this);
             }
         }, 1000);
+    }
+
+    protected String doInBackground(String ... params){
+        AddressHelper addressHelper = new AddressByBarcode();
+
+        //addressHelper.AddressByBarcode(AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, 1231231212);
+        return "";
     }
 
 
