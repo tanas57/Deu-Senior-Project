@@ -11,6 +11,7 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+import net.muslu.seniorproject.Api.Address;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
 import net.muslu.seniorproject.Api.AddressByBarcode;
@@ -65,9 +66,12 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
     }
 
     protected String doInBackground(String ... params){
-        AddressHelper addressHelper = new AddressByBarcode();
+        AddressHelper addressByBarcode = new AddressByBarcode(
+                AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, 1231231212
+        );
 
-        //addressHelper.AddressByBarcode(AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, 1231231212);
+        String apiUrl = addressByBarcode.GetAddress();
+
         return "";
     }
 

@@ -1,19 +1,22 @@
 package net.muslu.seniorproject.Api;
 
-public class AddressByBarcode extends AddressHelper implements IAddressByBarcode {
+import android.util.Log;
 
-    public String AddressByBarcode(ApiProcess apiProcess, long barcode){
-        String tempUrl = getApi_address();
+public class AddressByBarcode extends AddressHelper implements IAddress {
 
-        switch (apiProcess){
-            case GET_CUSTOMER_BY_BARCODE:
-                tempUrl = tempUrl + apiProcess.GET_CUSTOMER_BY_BARCODE.getUrl() + barcode;
-                break;
-
-            case GET_PACKAGE_BY_BARCODE:
-                tempUrl = tempUrl + apiProcess.GET_PACKAGE_BY_BARCODE.getUrl() + barcode;
-                break;
-        }
-        return  tempUrl;
+    public AddressByBarcode(ApiProcess apiProcess, long barcode) {
+        setBarcode(barcode);
+        setApiProcess(apiProcess);
     }
+
+    public String GetAddress(){
+        if(getApiProcess() != null && getBarcode() > 0) {
+            setResult(getApi_address() + getApiProcess().getUrl() + getBarcode());
+
+            return getResult();
+        }
+        Log.v("error_addressByBarcode", "there is an error; it may be empty variable");
+        return "error";
+    }
+
 }

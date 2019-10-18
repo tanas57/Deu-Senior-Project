@@ -1,12 +1,53 @@
 package net.muslu.seniorproject.Api;
 
-public class AddressHelper {
+public class AddressHelper implements IAddress {
 
-    protected String api_address = "https://localhost:44362";
+    protected long barcode;
+    protected ApiProcess apiProcess;
+    protected String result;
+
+    protected String getResult() {
+        return result;
+    }
+
+    protected void setResult(String result) {
+        this.result = result;
+    }
+
+    protected ApiProcess getApiProcess() {
+        return apiProcess;
+    }
+
+    protected void setApiProcess(ApiProcess apiProcess) {
+        this.apiProcess = apiProcess;
+    }
+
+    protected long getBarcode() {
+        return barcode;
+    }
+
+    protected void setBarcode(long barcode) {
+        this.barcode = barcode;
+    }
+
+    public AddressHelper() {
+        setApi_address("https://localhost:44362");
+    }
+
+    protected String api_address;
 
     protected String getApi_address() {
         return api_address;
     }
+
+    protected void setApi_address(String api_address){ this.api_address = api_address;}
+
+
+    @Override
+    public String GetAddress() {
+        return null;
+    }
+
 
     public enum ApiProcess{
         GET_PACKAGES("/package/list"),
