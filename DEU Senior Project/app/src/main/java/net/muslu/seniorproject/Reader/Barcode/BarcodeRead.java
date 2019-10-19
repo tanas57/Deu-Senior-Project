@@ -5,6 +5,7 @@ import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -32,17 +33,15 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
     private ZXingScannerView mScannerView;
     private AppCompatTextView result;
     protected Coordinate coordinate;
+    protected BarcodeData data;
     RecyclerView rv;
 
-    Integer[] drawableArray = {R.drawable.barcode, R.drawable.barcode, R.drawable.barcode,
-            R.drawable.barcode, R.drawable.barcode,R.drawable.barcode, R.drawable.barcode, R.drawable.barcode,
-            R.drawable.barcode, R.drawable.barcode};
-    String[] titleArray = {"Title1","Title2","Title3","Title4","Title5","Title6","Title7","Title8","Title9","Title10"};
-    String[] subtitleArray = {"subtitle1","subtitle2","subtitle3","subtitle4","subtitle5","subtitle6","subtitle7","subtitle8","subtitle9","subtitle10"};
-    CustomAdapter ad;
+    private CustomAdapter ad;
 
     public BarcodeRead() {
+
         this.coordinate = new Coordinate();
+        this.data = new BarcodeData();
     }
 
     @Override
@@ -55,8 +54,12 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         contentFrame.addView(mScannerView);
 
+        this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
+        this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
+        this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
+
         rv = findViewById(R.id.rv);
-        ad = new CustomAdapter(BarcodeRead.this,drawableArray,titleArray,subtitleArray);
+        ad = new CustomAdapter(BarcodeRead.this,this.data.GetData());
         rv.setAdapter(ad);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(true);

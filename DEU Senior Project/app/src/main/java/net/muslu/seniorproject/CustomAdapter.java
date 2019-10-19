@@ -14,11 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
+
+import java.util.ArrayList;
+
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
     private Context mContext;
-    private Integer[] mImage;
-    private String[] mTitle;
-    private String[] msubTitle;
+    private ArrayList<BarcodeReadModel> data;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -36,13 +38,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         }
     }
 
-    public CustomAdapter(Context mContext, Integer[] image,String[] title,String[] subTitle) {
+    public CustomAdapter(Context mContext, ArrayList<BarcodeReadModel> data) {
         this.mContext = mContext;
-        this.mImage = image;
-        this.mTitle = title;
-        this.msubTitle = subTitle;
+        this.data = data;
     }
-    
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent,
                                            int viewType) {
@@ -55,16 +55,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int i) {
 
+        BarcodeReadModel barcodeReadModel = this.data.get(i);
 
-        holder.customerName.setText(mTitle[i]);
-        holder.customerAddress.setText(msubTitle[i]);
-        Picasso.with(mContext).load(mImage[i]).into(holder.packageBarcode);
+        holder.customerName.setText(barcodeReadModel.getCustomerFullName());
+        holder.customerAddress.setText(barcodeReadModel.getCustomerAddress());
+        Picasso.with(mContext).load(barcodeReadModel.getBarcode()).into(holder.packageBarcode);
 
 
     }
 
     @Override
     public int getItemCount() {
-        return mTitle.length;
+        return this.data.size();
     }
 }

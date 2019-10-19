@@ -2,16 +2,23 @@ package net.muslu.seniorproject.Reader.Barcode;
 
 public class BarcodeReadModel {
 
-    protected long barcode;
+    protected int barcode;
     protected String customerFullName;
     protected String customerAddress;
     protected String customerPhone;
+
+    public BarcodeReadModel(int barcode, String customerFullName, String customerAddress, String customerPhone) {
+       setBarcode(barcode);
+       setCustomerFullName(customerFullName);
+       setCustomerAddress(customerAddress);
+       setCustomerPhone(customerPhone);
+    }
 
     public String getCustomerAddress() {
         return customerAddress;
     }
 
-    public void setCustomerAddress(String customerAddress) {
+    protected void setCustomerAddress(String customerAddress) {
         this.customerAddress = customerAddress;
     }
 
@@ -19,15 +26,15 @@ public class BarcodeReadModel {
         return customerPhone;
     }
 
-    public void setCustomerPhone(String customerPhone) {
+    protected void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
 
-    public long getBarcode() {
+    public int getBarcode() {
         return barcode;
     }
 
-    public void setBarcode(long barcode) {
+    protected void setBarcode(int barcode) {
         this.barcode = barcode;
     }
 
@@ -35,7 +42,7 @@ public class BarcodeReadModel {
         return customerFullName;
     }
 
-    public void setCustomerFullName(String customerFullName) {
+    protected void setCustomerFullName(String customerFullName) {
         this.customerFullName = customerFullName;
     }
 }
