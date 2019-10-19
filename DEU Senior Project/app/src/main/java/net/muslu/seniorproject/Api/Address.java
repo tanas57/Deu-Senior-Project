@@ -1,8 +1,8 @@
 package net.muslu.seniorproject.Api;
 
-public class Address extends AddressHelper implements IAddress{
+public class Address extends AddressHelper {
 
-    @Override
+
     public String GetAddress(ApiProcess apiProcess) {
         String tempUrl = getApi_address();
 

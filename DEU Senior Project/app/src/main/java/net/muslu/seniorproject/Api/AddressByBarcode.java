@@ -15,7 +15,7 @@ public class AddressByBarcode extends AddressHelper implements IAddress {
 
             return getResult();
         }
-        Log.v("error_addressByBarcode", "there is an error; it may be empty variable");
+        Log.d("error_addressByBarcode", "there is an error; it may be empty variable");
         return "error";
     }
 

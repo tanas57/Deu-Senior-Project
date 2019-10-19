@@ -11,11 +11,24 @@
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="223dp" />
-
-    <androidx.appcompat.widget.AppCompatEditText
+    <EditText
+        android:id="@+id/barcode2"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:text="12345678910"/>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="click"/>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_marginTop="15dp"
+        android:background="@android:color/white"
+        android:textColor="@android:color/holo_blue_light"
+        android:layout_gravity="center"
             android:id="@+id/barcode"
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="match_parent" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
