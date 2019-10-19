@@ -31,7 +31,7 @@ public class AddressHelper implements IAddress {
     }
 
     public AddressHelper() {
-        setApi_address("https://localhost:44362");
+        setApi_address("http://api.muslu.net");
     }
 
     protected String api_address;

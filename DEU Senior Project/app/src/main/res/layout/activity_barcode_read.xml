@@ -2,7 +2,6 @@
 
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,24 +10,11 @@
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="223dp" />
-    <EditText
-        android:id="@+id/barcode2"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:text="12345678910"/>
-    <Button
-        android:id="@+id/button"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="click"/>
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_marginTop="15dp"
-        android:background="@android:color/white"
-        android:textColor="@android:color/holo_blue_light"
-        android:layout_gravity="center"
-            android:id="@+id/barcode"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+        android:padding="2dp"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

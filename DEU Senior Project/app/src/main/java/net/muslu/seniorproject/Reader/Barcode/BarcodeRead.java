@@ -6,17 +6,18 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+import net.muslu.seniorproject.CustomAdapter;
+import net.muslu.seniorproject.Map.Coordinate;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
 import net.muslu.seniorproject.Api.AddressByBarcode;
@@ -30,28 +31,35 @@ import java.net.URL;
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
     private AppCompatTextView result;
-    private EditText editText;
+    protected Coordinate coordinate;
+    RecyclerView rv;
+
+    Integer[] drawableArray = {R.drawable.barcode, R.drawable.barcode, R.drawable.barcode,
+            R.drawable.barcode, R.drawable.barcode,R.drawable.barcode, R.drawable.barcode, R.drawable.barcode,
+            R.drawable.barcode, R.drawable.barcode};
+    String[] titleArray = {"Title1","Title2","Title3","Title4","Title5","Title6","Title7","Title8","Title9","Title10"};
+    String[] subtitleArray = {"subtitle1","subtitle2","subtitle3","subtitle4","subtitle5","subtitle6","subtitle7","subtitle8","subtitle9","subtitle10"};
+    CustomAdapter ad;
+
+    public BarcodeRead() {
+        this.coordinate = new Coordinate();
+    }
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_barcode_read);
 
-        result = findViewById(R.id.barcode);
-        result.setText("denemeeee");
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
 
         contentFrame.addView(mScannerView);
 
-        editText = findViewById(R.id.barcode2);
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Background().execute(editText.getText().toString());
-            }
-        });
-
+        rv = findViewById(R.id.rv);
+        ad = new CustomAdapter(BarcodeRead.this,drawableArray,titleArray,subtitleArray);
+        rv.setAdapter(ad);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        rv.setHasFixedSize(true);
     }
 
     @Override
@@ -69,13 +77,17 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
     @Override
     public void handleResult(Result rawResult) {
-        //Toast.makeText(this, "Contents = " + rawResult.getText() +
-        //  ", Format = " + rawResult.getBarcodeFormat().toString(), Toast.LENGTH_SHORT).show();
 
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC,  5555);
         toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT,111);
 
-        new Background().execute(rawResult.getText());
+        AddressHelper addressByBarcode = new AddressByBarcode(
+                AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, Long.parseLong(rawResult.getText())
+        );
+
+        String apiUrl = addressByBarcode.GetAddress();
+
+        new Background().execute(apiUrl);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -83,16 +95,13 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
             public void run() {
                 mScannerView.resumeCameraPreview(BarcodeRead.this);
             }
-        }, 1000);
+        }, 100);
     }
 
-    class Background extends AsyncTask<String, String ,String> {
+    protected class Background extends AsyncTask<String, String ,String> {
         protected String doInBackground(String... params) {
-            AddressHelper addressByBarcode = new AddressByBarcode(
-                    AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, Long.parseLong(params[0])
-            );
 
-            String apiUrl = addressByBarcode.GetAddress();
+            String apiUrl = params[0];
 
             Log.d("url", apiUrl);
             HttpURLConnection connection = null;
@@ -118,8 +127,9 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         @Override
         protected void onPostExecute(String s) {
-            result.setText(s);
-            Log.d("error", s);
+            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
+            Log.d("GET JSON RESULT", s);
         }
+
     }
 }
