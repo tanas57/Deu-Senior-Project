@@ -28,8 +28,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
@@ -60,11 +58,6 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
         mScannerView.setFormats(format);*/
 
         contentFrame.addView(mScannerView);
-        /*
-        this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
-        this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
-        this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
-        */
 
         rv = findViewById(R.id.rv);
         ad = new CustomAdapter(BarcodeRead.this, data.GetData());
@@ -98,7 +91,7 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         String apiUrl = addressByBarcode.GetAddress();
 
-        new Background().execute(apiUrl);
+        new Background().execute(apiUrl, rawResult.getText());
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -110,10 +103,11 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
     }
 
     protected class Background extends AsyncTask<String, String ,String> {
+        protected long barcode;
         protected String doInBackground(String... params) {
 
             String apiUrl = params[0];
-
+            barcode = Long.parseLong(params[1]);
             Log.d("url", apiUrl);
             HttpURLConnection connection = null;
             BufferedReader bufferedReader = null;
@@ -140,12 +134,16 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
         protected void onPostExecute(String s) {
             Log.w("GET JSON RESULT", s);
             if(!s.contains("error")){
-                if(data.AddData(JsonProcess.GetPackageInfo(s))){
-                    ad.notifyItemInserted(data.GetSize());
-                    //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();
+                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode);
+                if(newPackage != null){
+                    if(data.AddData(newPackage)){
+                        ad.notifyItemInserted(data.GetSize());
+                        Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
+                        //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
             else

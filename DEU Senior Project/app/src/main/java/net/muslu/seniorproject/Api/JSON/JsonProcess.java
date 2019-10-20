@@ -7,11 +7,11 @@ import org.json.JSONObject;
 
 public final class JsonProcess {
 
-    public static BarcodeReadModel GetPackageInfo(String s){
+    public static BarcodeReadModel GetPackageInfo(String s, long barcode){
 
         try {
             JSONObject pack = new JSONObject(s);
-            return new BarcodeReadModel(pack.getInt("id"), pack.getString("fullName"), pack.getString("address"), pack.getString("phone"));
+            return new BarcodeReadModel(barcode, pack.getString("fullName"), pack.getString("address"), pack.getString("phone"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
