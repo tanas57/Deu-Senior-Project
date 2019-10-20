@@ -27,4 +27,6 @@ public class BarcodeData {
     }
 
     public ArrayList<BarcodeReadModel> GetData(){ return this.data; }
+    
+    public int GetSize() { return this.data.size(); }
 }

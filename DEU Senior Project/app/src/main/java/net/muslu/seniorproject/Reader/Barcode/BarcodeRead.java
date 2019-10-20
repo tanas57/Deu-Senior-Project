@@ -5,7 +5,6 @@ import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -23,6 +22,9 @@ import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
 import net.muslu.seniorproject.Api.AddressByBarcode;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -32,8 +34,9 @@ import java.net.URL;
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
     private AppCompatTextView result;
-    protected Coordinate coordinate;
-    protected BarcodeData data;
+
+    private Coordinate coordinate;
+    private BarcodeData data;
     RecyclerView rv;
 
     private CustomAdapter ad;
@@ -53,16 +56,17 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
         mScannerView = new ZXingScannerView(this);
 
         contentFrame.addView(mScannerView);
-
+        /*
         this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
         this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
         this.data.AddData(R.drawable.barcode, "Tayip Muslu", "205/7 Sokak No 16/1 D 8 Buca İzmir", "05462003052");
+        */
 
         rv = findViewById(R.id.rv);
-        ad = new CustomAdapter(BarcodeRead.this,this.data.GetData());
+        ad = new CustomAdapter(BarcodeRead.this, data.GetData());
         rv.setAdapter(ad);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setHasFixedSize(true);
+        rv.setHasFixedSize(false);
     }
 
     @Override
@@ -130,8 +134,16 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         @Override
         protected void onPostExecute(String s) {
-            Toast.makeText(getApplicationContext(), s, Toast.LENGTH_LONG).show();
-            Log.d("GET JSON RESULT", s);
+            try {
+                JSONObject pack = new JSONObject(s);
+                data.AddData(R.drawable.barcode, pack.getString("fullName"), pack.getString("address"), pack.getString("phone"));
+                Log.v("JSON", pack.toString());
+                ad.notifyItemInserted(data.GetSize());
+                //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.v("GET JSON RESULT", s);
         }
 
     }
