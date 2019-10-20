@@ -9,31 +9,30 @@ import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.CustomAdapter;
 import net.muslu.seniorproject.Map.Coordinate;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
 import net.muslu.seniorproject.Api.AddressByBarcode;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
-    private AppCompatTextView result;
 
     private Coordinate coordinate;
     private BarcodeData data;
@@ -54,6 +53,11 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
+
+        /*List<BarcodeFormat> format = new ArrayList<BarcodeFormat>();
+        format.add(BarcodeFormat.CODE_128);
+
+        mScannerView.setFormats(format);*/
 
         contentFrame.addView(mScannerView);
         /*
@@ -102,7 +106,7 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
             public void run() {
                 mScannerView.resumeCameraPreview(BarcodeRead.this);
             }
-        }, 100);
+        }, 333);
     }
 
     protected class Background extends AsyncTask<String, String ,String> {
@@ -134,16 +138,18 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
 
         @Override
         protected void onPostExecute(String s) {
-            try {
-                JSONObject pack = new JSONObject(s);
-                data.AddData(R.drawable.barcode, pack.getString("fullName"), pack.getString("address"), pack.getString("phone"));
-                Log.v("JSON", pack.toString());
-                ad.notifyItemInserted(data.GetSize());
-                //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            Log.w("GET JSON RESULT", s);
+            if(!s.contains("error")){
+                if(data.AddData(JsonProcess.GetPackageInfo(s))){
+                    ad.notifyItemInserted(data.GetSize());
+                    //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();
+                }
             }
-            Log.v("GET JSON RESULT", s);
+            else
+             Toast.makeText(getApplicationContext(), "Barkod tam anlaşılamadı", Toast.LENGTH_LONG).show();
         }
 
     }

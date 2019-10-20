@@ -39,7 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="6dp"
-                android:layout_marginTop="2dp"
                 android:text="Customer name Here"
                 android:textColor="@android:color/black"
                 android:textSize="13dp" />
@@ -53,7 +52,7 @@
             >
             <ImageView
                 android:id="@+id/makeCall"
-                android:layout_width="20dp"
+                android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_phone_in_talk_black_24dp"
                 android:tint="@android:color/holo_blue_light"
@@ -62,7 +61,7 @@
             <ImageView
                 android:layout_marginTop="15dp"
                 android:id="@+id/delete"
-                android:layout_width="20dp"
+                android:layout_width="25dp"
                 android:layout_height="match_parent"
                 android:tint="@android:color/holo_blue_light"
                 android:src="@drawable/ic_delete_black_24dp"
