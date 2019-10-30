@@ -14,10 +14,10 @@ public class BarcodeData {
 
         if(barcodeReadModel == null) return false;
 
-        for (int i = 0; i < GetSize(); i++){
+        /*for (int i = 0; i < GetSize(); i++){
             if(getDataByID(i).getBarcode() == barcodeReadModel.getBarcode())
                 return false;
-        }
+        }*/
 
         data.add(barcodeReadModel);
 
