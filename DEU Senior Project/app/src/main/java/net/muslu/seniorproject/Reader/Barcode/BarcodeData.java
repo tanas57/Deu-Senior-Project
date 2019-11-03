@@ -1,8 +1,9 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-
-public class BarcodeData {
+@SuppressWarnings("serial")
+public class BarcodeData implements Serializable {
 
     protected ArrayList<BarcodeReadModel> data;
 
@@ -14,10 +15,10 @@ public class BarcodeData {
 
         if(barcodeReadModel == null) return false;
 
-        /*for (int i = 0; i < GetSize(); i++){
+        for (int i = 0; i < GetSize(); i++){
             if(getDataByID(i).getBarcode() == barcodeReadModel.getBarcode())
                 return false;
-        }*/
+        }
 
         data.add(barcodeReadModel);
 

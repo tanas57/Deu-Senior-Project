@@ -1,6 +1,8 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
-public class BarcodeReadModel {
+import java.io.Serializable;
+
+public class BarcodeReadModel implements Serializable {
 
     protected static final String API_URL = "http://barcodes4.me/barcode/c128b/";
 

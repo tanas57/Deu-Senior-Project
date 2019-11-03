@@ -2,37 +2,29 @@ package net.muslu.seniorproject.Map;
 
 import android.location.Address;
 
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
 
-public class Coordinate implements ICoordinate {
+import com.google.android.gms.maps.model.LatLng;
 
-    protected List<Address> addresses;
+public class Coordinate {
 
-    public Coordinate() {
-        this.addresses = new ArrayList<Address>();
+    public LatLng getLatLng() {
+        return latLng;
     }
 
-    protected List<Address> getAddresses() {
-        return addresses;
+    protected void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
-    protected void addAddress(Address address) {
-        this.addresses.add(address);
+    protected LatLng latLng;
+
+    public Coordinate(LatLng latLng) {
+        setLatLng(latLng);
     }
 
+    @NonNull
     @Override
-    public void GetAddress(String address) {
-
-    }
-
-    @Override
-    public Address GetGeoCoordinates() {
-        return null;
-    }
-
-    @Override
-    public List<Address> GetAllAddresses() {
-        return null;
+    public String toString() {
+        return latLng.latitude + " " + latLng.longitude;
     }
 }

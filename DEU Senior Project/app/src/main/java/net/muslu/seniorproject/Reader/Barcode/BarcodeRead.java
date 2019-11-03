@@ -1,27 +1,31 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
+import android.Manifest;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.CustomAdapter;
-import net.muslu.seniorproject.Map.Coordinate;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
 import net.muslu.seniorproject.Api.AddressByBarcode;
+import net.muslu.seniorproject.Routing.MapsActivity;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -32,15 +36,12 @@ import java.net.URL;
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
 
-    private Coordinate coordinate;
     private BarcodeData data;
     RecyclerView rv;
 
     private CustomAdapter ad;
-
+    String[] perms = {Manifest.permission.CAMERA};
     public BarcodeRead() {
-
-        this.coordinate = new Coordinate();
         this.data = new BarcodeData();
     }
 
@@ -48,29 +49,44 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setContentView(R.layout.activity_barcode_read);
-
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
+
         mScannerView = new ZXingScannerView(this);
-
-        /*List<BarcodeFormat> format = new ArrayList<BarcodeFormat>();
-        format.add(BarcodeFormat.CODE_128);
-
-        mScannerView.setFormats(format);*/
-
         contentFrame.addView(mScannerView);
+
+
+        if(!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
+        }
 
         rv = findViewById(R.id.rv);
         ad = new CustomAdapter(BarcodeRead.this, data.GetData());
         rv.setAdapter(ad);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(false);
+
+        final ImageView button = findViewById(R.id.route);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(BarcodeRead.this, "tıklandııı", Toast.LENGTH_LONG).show();
+
+                Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
+                map.putExtra("data", data);
+                startActivity(map);
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mScannerView.setResultHandler(this);
-        mScannerView.startCamera();
+        if(!EasyPermissions.hasPermissions(this, perms)) {
+            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
+        }else {
+            mScannerView.setResultHandler(this);
+            mScannerView.startCamera();
+        }
     }
 
     @Override
@@ -101,6 +117,13 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
             }
         }, 333);
     }
+
+    /*public void deneme(){
+        ArrayList<BarcodeReadModel> asdas = data.GetData();
+        for (BarcodeReadModel item: asdas) {
+            Log.v("itemmm", item.getCoordinate().getLatLng().toString());
+        }
+    }*/
 
     protected class Background extends AsyncTask<String, String ,String> {
         protected long barcode;
@@ -148,6 +171,8 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
             }
             else
              Toast.makeText(getApplicationContext(), "Barkod tam anlaşılamadı", Toast.LENGTH_LONG).show();
+
+            //deneme();
         }
 
     }
