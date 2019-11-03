@@ -35,12 +35,12 @@ import java.net.URL;
 
 public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
-
     private BarcodeData data;
-    RecyclerView rv;
-
+    private RecyclerView rv;
     private CustomAdapter ad;
-    String[] perms = {Manifest.permission.CAMERA};
+
+    String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
+
     public BarcodeRead() {
         this.data = new BarcodeData();
     }
@@ -99,7 +99,7 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
     public void handleResult(Result rawResult) {
 
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC,  5555);
-        toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT,111);
+        toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT,155);
 
         AddressHelper addressByBarcode = new AddressByBarcode(
                 AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, Long.parseLong(rawResult.getText())
@@ -117,13 +117,6 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
             }
         }, 333);
     }
-
-    /*public void deneme(){
-        ArrayList<BarcodeReadModel> asdas = data.GetData();
-        for (BarcodeReadModel item: asdas) {
-            Log.v("itemmm", item.getCoordinate().getLatLng().toString());
-        }
-    }*/
 
     protected class Background extends AsyncTask<String, String ,String> {
         protected long barcode;
@@ -171,8 +164,6 @@ public class BarcodeRead extends BarcodeReaderActivity implements ZXingScannerVi
             }
             else
              Toast.makeText(getApplicationContext(), "Barkod tam anlaşılamadı", Toast.LENGTH_LONG).show();
-
-            //deneme();
         }
 
     }
