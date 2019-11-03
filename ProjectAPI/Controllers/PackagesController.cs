@@ -10,7 +10,7 @@ using ProjectAPI.Models;
 
 namespace ProjectAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("package")]
     [ApiController]
     public class PackagesController : ControllerBase
     {
@@ -23,6 +23,7 @@ namespace ProjectAPI.Controllers
 
         // GET: api/Packages
         [HttpGet]
+        [Route("list")]
         public IEnumerable<Package> GetPackages()
         {
             return _context.Packages
@@ -33,15 +34,16 @@ namespace ProjectAPI.Controllers
         }
 
         // GET: api/Packages/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPackage([FromRoute] int id)
+        //[HttpGet("{barcode}")]
+        [Route("getPackage/{barcode}")]
+        public async Task<IActionResult> GetPackage([FromRoute] long barcode)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var package = await _context.Packages.FindAsync(id);
+            var package = await _context.Packages.FirstOrDefaultAsync(x => x.Barcode == barcode);
 
             if (package == null)
             {
@@ -49,6 +51,23 @@ namespace ProjectAPI.Controllers
             }
 
             return Ok(package);
+        }
+        [Route("customer/{barcode}")]
+        public async Task<IActionResult> GetPackageOwner([FromRoute] long barcode)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var package = await _context.Packages.Include(x=> x.Customer).FirstOrDefaultAsync(x => x.Barcode == barcode);
+
+            if (package == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(package.Customer);
         }
 
         // PUT: api/Packages/5

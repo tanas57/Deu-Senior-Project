@@ -10,7 +10,7 @@ namespace ProjectAPI.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Barcode { get; set; }
+        public long Barcode { get; set; }
         public float PackageWeigth { get; set; }
         public float PackageDesi { get; set; }
         public Branch PackageOutBranch { get; set; }

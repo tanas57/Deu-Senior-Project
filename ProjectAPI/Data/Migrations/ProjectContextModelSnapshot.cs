@@ -59,7 +59,7 @@ namespace ProjectAPI.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Barcode");
+                    b.Property<long>("Barcode");
 
                     b.Property<int?>("CustomerId");
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Senior Project</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="google_key">AIzaSyCrN6atEBUzLR6Ubv7J53IwWp5GJ5KzBxs</string>
 </resources>
