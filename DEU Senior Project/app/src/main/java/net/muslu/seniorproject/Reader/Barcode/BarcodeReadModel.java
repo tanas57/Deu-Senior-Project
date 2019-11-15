@@ -1,8 +1,17 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
-import java.io.Serializable;
+import android.app.Application;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
 
-public class BarcodeReadModel implements Serializable {
+import net.muslu.seniorproject.Api.Geocoder.AddressToLatLng;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Locale;
+
+public class BarcodeReadModel extends Application implements Serializable {
 
     protected static final String API_URL = "http://barcodes4.me/barcode/c128b/";
 
@@ -25,6 +34,17 @@ public class BarcodeReadModel implements Serializable {
        setCustomerFullName(customerFullName);
        setCustomerAddress(customerAddress);
        setCustomerPhone(customerPhone);
+       try {
+           //AddressToLatLng addressToLatLng = new AddressToLatLng(this);
+           //addressToLatLng.GetLatLng();
+           Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+           List<Address> latlng = null;
+           latlng = geocoder.getFromLocationName(getCustomerAddress(), 1);
+           double longitude = latlng.get(0).getLongitude();
+           double latitude = latlng.get(0).getLatitude();
+           Log.v("GECODER", "DÖNEN VERİLER: " + longitude + ", " + latitude);
+       }
+       catch (Exception e) { e.printStackTrace();}
     }
 
     public String getCustomerAddress() {
