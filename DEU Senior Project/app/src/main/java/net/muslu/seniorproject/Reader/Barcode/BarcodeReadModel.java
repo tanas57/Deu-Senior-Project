@@ -20,6 +20,7 @@ public class BarcodeReadModel extends Application implements Serializable {
     protected String barcodeImgApiURL;
     protected long barcode;
     protected Customer customer;
+    protected int packageId;
 
     public Customer getCustomer() {
         return customer;
@@ -64,8 +65,6 @@ public class BarcodeReadModel extends Application implements Serializable {
        catch (Exception e) { e.printStackTrace();}
     }
 
-
-
     public long getBarcode() {
         return barcode;
     }
@@ -75,5 +74,12 @@ public class BarcodeReadModel extends Application implements Serializable {
         setBarcodeImgApiURL();
     }
 
+    public int getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(int packageId) {
+        this.packageId = packageId;
+    }
 
 }
