@@ -13,7 +13,7 @@ import java.util.Locale;
 public class BarcodeReadModel extends Application implements Serializable {
 
     protected static final String API_URL = "http://barcodes4.me/barcode/c128b/";
-
+    protected int packageId;
     protected String barcodeImgApiURL;
     protected long barcode;
     protected String customerFullName;
@@ -86,5 +86,13 @@ public class BarcodeReadModel extends Application implements Serializable {
 
     protected void setCustomerFullName(String customerFullName) {
         this.customerFullName = customerFullName;
+    }
+
+    public int getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(int packageId) {
+        this.packageId = packageId;
     }
 }
