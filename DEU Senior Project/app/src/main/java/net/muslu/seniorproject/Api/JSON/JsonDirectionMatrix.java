@@ -4,20 +4,18 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,8 +24,42 @@ import java.util.List;
  */
 // direction & duration matrix
 public class JsonDirectionMatrix {
-    private double[] distances;
-    private double[] durations;
+
+    public class GeneticAlgoritmData {
+        private int[][] distances;
+        private int[][] durations;
+        private BarcodeData barcodeData;
+
+        public BarcodeData getBarcodeData() {
+            return barcodeData;
+        }
+
+        public void setBarcodeData(BarcodeData barcodeData) {
+            this.barcodeData = barcodeData;
+        }
+
+        public GeneticAlgoritmData() {
+            barcodeData = getBarcodeData();
+        }
+
+        public int[][] getDistances() {
+            return distances;
+        }
+
+        public void setDistances(int[][] distances) {
+            this.distances = distances;
+        }
+
+        public int[][] getDurations() {
+            return durations;
+        }
+
+        public void setDurations(int[][] durations) {
+            this.durations = durations;
+        }
+
+    }
+
     private BarcodeData barcodeData;
     private Context context;
 
@@ -42,15 +74,6 @@ public class JsonDirectionMatrix {
     public BarcodeData getBarcodeData() { return barcodeData; }
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
-
-
-    public double[] getDistances() { return distances; }
-
-    public void setDistances(double[] distances) { this.distances = distances; }
-
-    public double[] getDurations() { return durations; }
-
-    public void setDurations(double[] durations) { this.durations = durations; }
 
     public JsonDirectionMatrix(Context context, BarcodeData barcodeData) {
         setContext(context);
@@ -144,12 +167,12 @@ public class JsonDirectionMatrix {
         }
     }
 
-    public class TaskParser extends AsyncTask<String, Void, List<List<HashMap<String, String>>>>{
+    public class TaskParser extends AsyncTask<String, Void, List<HashMap<String, String>>>{
 
         @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... strings) {
+        protected List<HashMap<String, String>> doInBackground(String... strings) {
             JSONObject jsonObject = null;
-            List<List<HashMap<String, String>>> routes = null;
+            List<HashMap<String, String>> routes = null;
             try{
                 jsonObject = new JSONObject(strings[0]);
                 DistanceParser directionsParser = new DistanceParser();
@@ -161,24 +184,32 @@ public class JsonDirectionMatrix {
         }
 
         @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
+        protected void onPostExecute(List<HashMap<String, String>> lists) {
 
+            GeneticAlgoritmData geneticAlgoritmData = new GeneticAlgoritmData();
+            int barcodeSize =getBarcodeData().GetSize();
+            int [][] distances = new int[barcodeSize][barcodeSize];
+            int [][] durations = new int[barcodeSize][barcodeSize];
 
-            ArrayList points = null;
+            int counter1 = 0, counter2 = 0;
+            for(HashMap<String, String> path : lists){
+                int dis = Integer.parseInt(path.get("dis"));
+                int dur = Integer.parseInt(path.get("dur"));
+                distances[counter1][counter2] = dis;
+                durations[counter1][counter2] = dur;
+                Log.v("PARSE_RESULT => " , ("distance :" + dis + " duration : " + dur));
 
-            for(List<HashMap<String, String>> path : lists){
-                points = new ArrayList();
-
-                for(HashMap<String, String> point : path){
-                    double dis = Double.parseDouble(point.get("dis"));
-                    double dur = Double.parseDouble(point.get("dur"));
-
-                    Log.v("PARSE_RESULT => " , ("distance :" + dis + " duration : " + dur));
+                counter2++;
+                if(counter2 % barcodeSize == 0){
+                    counter1++;
+                    counter2 = 0;
                 }
-
             }
 
-
+            geneticAlgoritmData.setDistances(distances);
+            geneticAlgoritmData.setDurations(durations);
+            geneticAlgoritmData.setBarcodeData(getBarcodeData());
+            new GeneticAlgorithm(geneticAlgoritmData).execute();
         }
     }
 
