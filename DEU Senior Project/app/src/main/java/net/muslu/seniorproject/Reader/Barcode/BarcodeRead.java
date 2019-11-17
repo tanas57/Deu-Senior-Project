@@ -70,7 +70,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BarcodeRead.this, "tıklandııı", Toast.LENGTH_LONG).show();
+                Toast.makeText(BarcodeRead.this, "map is opening", Toast.LENGTH_LONG).show();
 
                 Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
                 map.putExtra("data", data);

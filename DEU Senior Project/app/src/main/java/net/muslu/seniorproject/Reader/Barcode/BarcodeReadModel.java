@@ -5,8 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
 
-import net.muslu.seniorproject.Api.Geocoder.AddressToLatLng;
-
+import com.google.android.gms.maps.model.LatLng;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +19,15 @@ public class BarcodeReadModel extends Application implements Serializable {
     protected String customerFullName;
     protected String customerAddress;
     protected String customerPhone;
+    protected LatLng latLng;
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    protected void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
 
     public String getBarcodeImgApiURL() {
         return this.barcodeImgApiURL;
@@ -35,14 +43,13 @@ public class BarcodeReadModel extends Application implements Serializable {
        setCustomerAddress(customerAddress);
        setCustomerPhone(customerPhone);
        try {
-           //AddressToLatLng addressToLatLng = new AddressToLatLng(this);
-           //addressToLatLng.GetLatLng();
-           Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+           Geocoder geocoder = new Geocoder(BarcodeReadModel.this, Locale.getDefault());
            List<Address> latlng = null;
            latlng = geocoder.getFromLocationName(getCustomerAddress(), 1);
            double longitude = latlng.get(0).getLongitude();
            double latitude = latlng.get(0).getLatitude();
-           Log.v("GECODER", "DÖNEN VERİLER: " + longitude + ", " + latitude);
+           setLatLng(new LatLng(latitude, longitude));
+           Log.v("GECODER", "LONG LAT RESULT : (" + latitude + "," + longitude + ")");
        }
        catch (Exception e) { e.printStackTrace();}
     }
