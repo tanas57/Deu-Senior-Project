@@ -57,8 +57,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
         BarcodeReadModel barcodeReadModel = this.data.get(i);
 
-        holder.customerName.setText(barcodeReadModel.getCustomerFullName());
-        holder.customerAddress.setText(barcodeReadModel.getCustomerAddress());
+        holder.customerName.setText(barcodeReadModel.getCustomer().getCustomerFullName());
+        holder.customerAddress.setText(barcodeReadModel.getCustomer().getCustomerAddress());
         Picasso.with(mContext).load(barcodeReadModel.getBarcodeImgApiURL()).into(holder.packageBarcode);
 
     }
