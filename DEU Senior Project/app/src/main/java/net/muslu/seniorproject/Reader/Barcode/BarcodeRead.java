@@ -40,7 +40,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private BarcodeData data;
     private RecyclerView rv;
     private CustomAdapter ad;
-    private int packageCounter = 0;
+
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
     public BarcodeRead() {
@@ -159,8 +159,6 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
                 BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode);
                 if(newPackage != null){
                     if(data.AddData(newPackage)){
-                        newPackage.setPackageId(packageCounter);
-                        packageCounter++;
                         ad.notifyItemInserted(data.GetSize());
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();

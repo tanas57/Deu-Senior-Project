@@ -25,7 +25,7 @@ public class BarcodeData implements Serializable {
         return true;
     }
 
-    public boolean AddData(int barcode, String fullname, String address, String phone){
+    public boolean AddData(int barcode,int customerId,int customerPriority , String customerFullName, String customerAddress, String customerPhone){
 
         boolean isAdded = false;
         for(int i = 0; i < GetSize(); i++){
@@ -38,9 +38,11 @@ public class BarcodeData implements Serializable {
             this.data
                     .add(new BarcodeReadModel(
                             barcode,
-                            fullname,
-                            address,
-                            phone
+                            customerId,
+                            customerPriority,
+                            customerFullName,
+                            customerAddress,
+                            customerPhone
                     ));
             return true;
         }
