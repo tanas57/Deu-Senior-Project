@@ -6,6 +6,9 @@ import android.location.Geocoder;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+
+import net.muslu.seniorproject.Models.Customer;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
@@ -13,12 +16,20 @@ import java.util.Locale;
 public class BarcodeReadModel extends Application implements Serializable {
 
     protected static final String API_URL = "http://barcodes4.me/barcode/c128b/";
-    protected int packageId;
+
     protected String barcodeImgApiURL;
     protected long barcode;
-    protected String customerFullName;
-    protected String customerAddress;
-    protected String customerPhone;
+    protected Customer customer;
+    protected int packageId;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     protected LatLng latLng;
 
     public String getLatLng() {
@@ -38,37 +49,20 @@ public class BarcodeReadModel extends Application implements Serializable {
         this.barcodeImgApiURL = API_URL + getBarcode() + ".jpg?IsTextDrawn=1&TextSize=22&resolution=2";
     }
 
-    public BarcodeReadModel(long barcode, String customerFullName, String customerAddress, String customerPhone) {
+    public BarcodeReadModel(long barcode, Customer customer) {
        setBarcode(barcode);
-       setCustomerFullName(customerFullName);
-       setCustomerAddress(customerAddress);
-       setCustomerPhone(customerPhone);
+       setCustomer(customer);
+
        try {
            Geocoder geocoder = new Geocoder(BarcodeReadModel.this, Locale.getDefault());
            List<Address> latlng = null;
-           latlng = geocoder.getFromLocationName(getCustomerAddress(), 1);
+           latlng = geocoder.getFromLocationName(customer.getCustomerAddress(), 1);
            double longitude = latlng.get(0).getLongitude();
            double latitude = latlng.get(0).getLatitude();
            setLatLng(new LatLng(latitude, longitude));
            Log.v("GECODER", "LONG LAT RESULT : (" + latitude + "," + longitude + ")");
        }
        catch (Exception e) { e.printStackTrace();}
-    }
-
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
-
-    protected void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    protected void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
     }
 
     public long getBarcode() {
@@ -80,14 +74,6 @@ public class BarcodeReadModel extends Application implements Serializable {
         setBarcodeImgApiURL();
     }
 
-    public String getCustomerFullName() {
-        return customerFullName;
-    }
-
-    protected void setCustomerFullName(String customerFullName) {
-        this.customerFullName = customerFullName;
-    }
-
     public int getPackageId() {
         return packageId;
     }
@@ -95,4 +81,5 @@ public class BarcodeReadModel extends Application implements Serializable {
     public void setPackageId(int packageId) {
         this.packageId = packageId;
     }
+
 }
