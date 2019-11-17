@@ -21,6 +21,7 @@ import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import net.muslu.seniorproject.Api.JSON.JsonDirectionMatrix;
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.CustomAdapter;
 import net.muslu.seniorproject.R;
@@ -72,9 +73,13 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
             public void onClick(View v) {
                 Toast.makeText(BarcodeRead.this, "map is opening", Toast.LENGTH_LONG).show();
 
-                Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
+                JsonDirectionMatrix jsonDirectionMatrix = new JsonDirectionMatrix(BarcodeRead.this, data);
+                jsonDirectionMatrix.Execute();
+                /*Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
                 map.putExtra("data", data);
                 startActivity(map);
+
+                 */
             }
         });
     }

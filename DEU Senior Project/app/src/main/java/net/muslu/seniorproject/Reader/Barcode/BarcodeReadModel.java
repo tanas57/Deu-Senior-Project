@@ -21,9 +21,10 @@ public class BarcodeReadModel extends Application implements Serializable {
     protected String customerPhone;
     protected LatLng latLng;
 
-    public LatLng getLatLng() {
-        return latLng;
+    public String getLatLng() {
+        return latLng.latitude + "," + latLng.longitude;
     }
+
 
     protected void setLatLng(LatLng latLng) {
         this.latLng = latLng;
