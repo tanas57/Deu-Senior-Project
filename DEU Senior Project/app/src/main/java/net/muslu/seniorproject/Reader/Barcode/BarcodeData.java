@@ -1,5 +1,7 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
+import net.muslu.seniorproject.Models.Customer;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 @SuppressWarnings("serial")
@@ -38,11 +40,13 @@ public class BarcodeData implements Serializable {
             this.data
                     .add(new BarcodeReadModel(
                             barcode,
-                            customerId,
-                            customerPriority,
-                            customerFullName,
-                            customerAddress,
-                            customerPhone
+                            new Customer(
+                                customerId,
+                                customerPriority,
+                                customerFullName,
+                                customerAddress,
+                                customerPhone
+                            )
                     ));
             return true;
         }
