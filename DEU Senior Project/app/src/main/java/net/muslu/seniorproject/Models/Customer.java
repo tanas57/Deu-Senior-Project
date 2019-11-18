@@ -2,57 +2,54 @@ package net.muslu.seniorproject.Models;
 
 public class Customer {
 
-    protected int customerId,customerPriority;
-    protected String customerFullName,customerAddress,customerPhone;
+    protected int id, priority;
+    protected String fullName,address,phone;
 
-    public Customer(int customerId, int customerPriority, String customerFullName, String customerAddress, String customerPhone) {
-        setCustomerId(customerId);
-        this.customerPriority = customerPriority;
-        this.customerFullName = customerFullName;
-        this.customerAddress = customerAddress;
-        this.customerPhone = customerPhone;
+    public Customer(int id, int priority, String fullName, String address, String phone) {
+        setId(id);
+        setPriority(priority);
+        setFullName(fullName);
+        setAddress(address);
+        setPhone(phone);
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public int getId() {
+        return id;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    protected void setId(int id) {
+        this.id = id;
     }
 
-    public int getCustomerPriority() {
-        return customerPriority;
+    public int getPriority() {
+        return priority;
     }
 
-    public void setCustomerPriority(int customerPriority) {
-        this.customerPriority = customerPriority;
+    protected void setPriority(int priority) {
+        this.priority = priority;
     }
 
-    public String getCustomerFullName() {
-        return customerFullName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setCustomerFullName(String customerFullName) {
-        this.customerFullName = customerFullName;
+    protected void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
+    protected void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getCustomerPhone() {
-        return customerPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
+    protected void setPhone(String phone) {
+        this.phone = phone;
     }
-
-
-
 }
