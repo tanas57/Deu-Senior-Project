@@ -43,7 +43,10 @@ namespace ProjectAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            var package = await _context.Packages.FirstOrDefaultAsync(x => x.Barcode == barcode);
+            var package = await _context.Packages
+                    .Include(x => x.PackageInBranch)
+                    .Include(y => y.PackageOutBranch)
+                    .Include(c => c.Customer).FirstOrDefaultAsync(x => x.Barcode == barcode);
 
             if (package == null)
             {
