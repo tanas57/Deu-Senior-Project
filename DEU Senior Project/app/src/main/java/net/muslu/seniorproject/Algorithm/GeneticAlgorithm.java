@@ -10,14 +10,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class GeneticAlgorithm extends AsyncTask<String, Void, List<HashMap<String, String>>> {
+public class GeneticAlgorithm {
 
     private List<Route> routes;
     private BarcodeData barcodeData;
     private int[][] distances;
     private int[][] durations;
 
-    private JsonDirectionMatrix.GeneticAlgoritmData geneticAlgoritmData;
     // customer priority
     // package priority
 
@@ -30,8 +29,22 @@ public class GeneticAlgorithm extends AsyncTask<String, Void, List<HashMap<Strin
         for (int i = 0; i< getBarcodeData().GetSize(); i++){
             routes.add(new Route());
         }
+        FillRoutes();
+        new GeneticTask().execute();
     }
 
+    private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
+        @Override
+        protected List<HashMap<String, String>> doInBackground(String... strings) {
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
+            super.onPostExecute(hashMaps);
+        }
+    }
     public void Work(){
         // fill routes by shuflee
         for(Route item : routes){
@@ -40,7 +53,7 @@ public class GeneticAlgorithm extends AsyncTask<String, Void, List<HashMap<Strin
     }
 
     public void FillRoutes(){
-        BarcodeData barcodeData = geneticAlgoritmData.getBarcodeData();
+        BarcodeData barcodeData = getBarcodeData();
         ArrayList<BarcodeReadModel> packages = barcodeData.GetData();
 
         for (Route item : routes){
@@ -56,11 +69,6 @@ public class GeneticAlgorithm extends AsyncTask<String, Void, List<HashMap<Strin
             
         }
         return 0;
-    }
-    @Override
-    protected List<HashMap<String, String>> doInBackground(String... strings) {
-        FillRoutes();
-        return null;
     }
 
     public List<Route> getRoutes() { return routes;  }
