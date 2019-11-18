@@ -4,9 +4,9 @@ import android.util.Log;
 
 public class AddressByBarcode extends AddressHelper implements IAddress {
 
-    public AddressByBarcode(ApiProcess apiProcess, long barcode) {
+    public AddressByBarcode(long barcode) {
         setBarcode(barcode);
-        setApiProcess(apiProcess);
+        setApiProcess(ApiProcess.GET_CUSTOMER_BY_BARCODE);
     }
 
     public String GetAddress(){
@@ -15,7 +15,7 @@ public class AddressByBarcode extends AddressHelper implements IAddress {
 
             return getResult();
         }
-        Log.d("error_addressByBarcode", "there is an error; it may be empty variable");
+        Log.d("Error_addressByBarcode", "there is an error; it may be empty variable");
         return "error";
     }
 
