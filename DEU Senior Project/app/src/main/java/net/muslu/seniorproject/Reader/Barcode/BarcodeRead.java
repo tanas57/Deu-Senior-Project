@@ -43,7 +43,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private CustomAdapter ad;
     private int packageCounter = 0;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
-
+    String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912"};
     public BarcodeRead() {
         this.data = new BarcodeData();
     }
@@ -83,6 +83,16 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
                  */
             }
         });
+
+        for(int i = 0; i<barcodes.length;i++){
+            AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
+            String apiUrl = addressByBarcode.GetAddress();
+
+            new Background().execute(apiUrl, barcodes[i]);
+        }
+
+
+        mScannerView.stopCamera();
     }
 
     @Override
