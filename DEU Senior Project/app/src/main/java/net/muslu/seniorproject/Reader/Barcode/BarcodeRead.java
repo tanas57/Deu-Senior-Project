@@ -43,7 +43,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private CustomAdapter ad;
     private int packageCounter = 0;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
-    String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912"};
+    String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678915"};
     public BarcodeRead() {
         this.data = new BarcodeData();
     }
@@ -76,11 +76,12 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
 
                 JsonDirectionMatrix jsonDirectionMatrix = new JsonDirectionMatrix(BarcodeRead.this, data);
                 jsonDirectionMatrix.Execute();
-                /*Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
+                /*
+                Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
                 map.putExtra("data", data);
                 startActivity(map);
+                */
 
-                 */
             }
         });
 

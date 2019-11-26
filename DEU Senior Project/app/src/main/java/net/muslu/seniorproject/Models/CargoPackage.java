@@ -5,12 +5,14 @@ package net.muslu.seniorproject.Models;
 "packageStatus":null}
  */
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by MusluNET on 18.11.19
  */
-public class CargoPackage {
+public class CargoPackage implements Serializable {
     protected int id;
     protected long barcode;
     protected double packageWeigth;
@@ -18,9 +20,9 @@ public class CargoPackage {
     protected Branch packageInBranch;
     protected Branch packageOutBranch;
     protected Customer customer;
-    protected List<PackageStatus> packageStatuses;
+    protected ArrayList<PackageStatus> packageStatuses;
 
-    public CargoPackage(int id, long barcode, double packageWeigth, double packageDesi, Branch packageInBranch, Branch packageOutBranch, Customer customer, List<PackageStatus> packageStatuses) {
+    public CargoPackage(int id, long barcode, double packageWeigth, double packageDesi, Branch packageInBranch, Branch packageOutBranch, Customer customer, ArrayList<PackageStatus> packageStatuses) {
         setId(id);
         setBarcode(barcode);
         setPackageWeigth(packageWeigth);
@@ -87,11 +89,11 @@ public class CargoPackage {
         this.customer = customer;
     }
 
-    public List<PackageStatus> getPackageStatuses() {
+    public ArrayList<PackageStatus> getPackageStatuses() {
         return packageStatuses;
     }
 
-    protected void setPackageStatuses(List<PackageStatus> packageStatuses) {
+    protected void setPackageStatuses(ArrayList<PackageStatus> packageStatuses) {
         this.packageStatuses = packageStatuses;
     }
 }

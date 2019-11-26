@@ -1,6 +1,8 @@
 package net.muslu.seniorproject.Models;
 
-public class Customer {
+import java.io.Serializable;
+
+public class Customer implements Serializable {
 
     protected int id, priority;
     protected String fullName,address,phone;

@@ -1,6 +1,9 @@
 package net.muslu.seniorproject.Algorithm;
 
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+
 import net.muslu.seniorproject.Api.JSON.JsonDirectionMatrix;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
@@ -19,6 +22,13 @@ public class GeneticAlgorithm {
 
     // customer priority
     // package priority
+    /*
+        * kaçtane kromozom sayımız olacak
+        * kromozomları random doldurma
+        * bunları puanlamak
+        * aralarından en iyi iki ebevyn seçtik
+        *
+     */
 
     public GeneticAlgorithm(JsonDirectionMatrix.GeneticAlgoritmData geneticAlgoritmData) {
         setBarcodeData(geneticAlgoritmData.getBarcodeData());
@@ -26,17 +36,73 @@ public class GeneticAlgorithm {
         setDurations(geneticAlgoritmData.getDurations());
 
         routes = new ArrayList<>();
-        for (int i = 0; i< getBarcodeData().GetSize(); i++){
+        for (int i = 0; i< getBarcodeData().GetSize() * 2; i++){
             routes.add(new Route());
         }
         FillRoutes();
-        new GeneticTask().execute();
+        Work();
+        //new GeneticTask().execute();
     }
+
+    public void Work(){
+        // fill routes by shuflee
+        for(Route item : routes){
+            item.setFitnessScore(FitnessFunction(item));
+            ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
+            String temp = "";
+            for(BarcodeReadModel item2 : models){
+                temp += item2.getPackageId() + " ";
+            }
+            temp += " point => " + item.getFitnessScore();
+            Log.v("FITNESS SCORE", temp);
+            temp = "";
+        }
+    }
+
+    public void FillRoutes(){
+        for (Route item : routes){
+            item.setBarcodeReadModels(GetShuffledModel());
+            /*String temp = "";
+            ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
+            for(BarcodeReadModel item2 : models){
+                temp += item2.getPackageId() + " ";
+            }
+            Log.v("ROUTES", temp);
+            temp = "";
+            */
+        }
+
+    }
+
+    private ArrayList<BarcodeReadModel> GetShuffledModel(){
+        ArrayList<BarcodeReadModel> shuffle = new ArrayList<>();
+        for(BarcodeReadModel item : getBarcodeData().GetData()){
+            shuffle.add(item);
+        }
+        Collections.shuffle(shuffle);
+        return shuffle;
+    }
+
+    private double FitnessFunction(Route item){
+        double temp = 0;
+        ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
+        BarcodeReadModel previous = null, next = null;
+        for(int i = 0; i < models.size(); i++){
+            if(i < models.size() - 1){
+                previous = models.get(i);
+                next = models.get(i+1);
+                //temp += distances[previous.getPackageId()][next.getPackageId()] / durations[previous.getPackageId()][next.getPackageId()];
+                temp += distances[previous.getPackageId()][next.getPackageId()];
+            }
+        }
+        return temp;
+    }
+
 
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
-
+            //Work();
             return null;
         }
 
@@ -45,31 +111,9 @@ public class GeneticAlgorithm {
             super.onPostExecute(hashMaps);
         }
     }
-    public void Work(){
-        // fill routes by shuflee
-        for(Route item : routes){
-            item.setFitnessScore(FitnessFunction(item));
-        }
-    }
-
-    public void FillRoutes(){
-        BarcodeData barcodeData = getBarcodeData();
-        ArrayList<BarcodeReadModel> packages = barcodeData.GetData();
-
-        for (Route item : routes){
-            Collections.shuffle(packages);
-            item.setBarcodeReadModels(packages);
-        }
-
-    }
 
 
-    private int FitnessFunction(Route item){
-        for(BarcodeReadModel model : item.getBarcodeReadModels()){
-            
-        }
-        return 0;
-    }
+
 
     public List<Route> getRoutes() { return routes;  }
 
