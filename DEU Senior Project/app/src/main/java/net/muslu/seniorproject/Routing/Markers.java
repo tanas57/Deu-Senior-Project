@@ -35,11 +35,11 @@ public class Markers {
 
             try {
                 if(addresses!=null){
-                    addresses = geocoder.getFromLocationName(markers.get(i).getCustomer().getCustomerAddress(), 1);
+                    addresses = geocoder.getFromLocationName(markers.get(i).getCustomer().getAddress(), 1);
                 }
 
                 while (addresses == null) {
-                    addresses = geocoder.getFromLocationName(markers.get(i).getCustomer().getCustomerAddress(), 1);
+                    addresses = geocoder.getFromLocationName(markers.get(i).getCustomer().getAddress(), 1);
                     count++;
                     System.out.println("Count: "+count);
                     i=0;

@@ -23,6 +23,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import net.muslu.seniorproject.Api.JSON.JsonDirectionMatrix;
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
+import net.muslu.seniorproject.Api.PackageByBarcode;
 import net.muslu.seniorproject.CustomAdapter;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
@@ -107,9 +108,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         ToneGenerator toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC,  5555);
         toneGen1.startTone(ToneGenerator.TONE_CDMA_ABBR_INTERCEPT,155);
 
-        AddressHelper addressByBarcode = new AddressByBarcode(
-                AddressHelper.ApiProcess.GET_CUSTOMER_BY_BARCODE, Long.parseLong(rawResult.getText())
-        );
+        AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(rawResult.getText()));
 
         String apiUrl = addressByBarcode.GetAddress();
 

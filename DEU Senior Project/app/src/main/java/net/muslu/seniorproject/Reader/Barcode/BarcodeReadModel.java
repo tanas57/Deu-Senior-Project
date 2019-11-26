@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import net.muslu.seniorproject.Models.CargoPackage;
 import net.muslu.seniorproject.Models.Customer;
 
 import java.io.Serializable;
@@ -19,23 +20,26 @@ public class BarcodeReadModel extends Application implements Serializable {
 
     protected String barcodeImgApiURL;
     protected long barcode;
-    protected Customer customer;
+
+    protected CargoPackage cargoPackage;
+    protected LatLng latLng;
     protected int packageId;
 
+    public CargoPackage getCargoPackage() {
+        return cargoPackage;
+    }
+
+    public void setCargoPackage(CargoPackage cargoPackage) {
+        this.cargoPackage = cargoPackage;
+    }
+
     public Customer getCustomer() {
-        return customer;
+        return getCargoPackage().getCustomer();
     }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    protected LatLng latLng;
 
     public String getLatLng() {
         return latLng.latitude + "," + latLng.longitude;
     }
-
 
     protected void setLatLng(LatLng latLng) {
         this.latLng = latLng;
@@ -49,14 +53,14 @@ public class BarcodeReadModel extends Application implements Serializable {
         this.barcodeImgApiURL = API_URL + getBarcode() + ".jpg?IsTextDrawn=1&TextSize=22&resolution=2";
     }
 
-    public BarcodeReadModel(long barcode, Customer customer) {
+    public BarcodeReadModel(long barcode, CargoPackage cargoPackage) {
        setBarcode(barcode);
-       setCustomer(customer);
+       setCargoPackage(cargoPackage);
 
        try {
            Geocoder geocoder = new Geocoder(BarcodeReadModel.this, Locale.getDefault());
            List<Address> latlng = null;
-           latlng = geocoder.getFromLocationName(customer.getCustomerAddress(), 1);
+           latlng = geocoder.getFromLocationName(getCustomer().getAddress(), 1);
            double longitude = latlng.get(0).getLongitude();
            double latitude = latlng.get(0).getLatitude();
            setLatLng(new LatLng(latitude, longitude));

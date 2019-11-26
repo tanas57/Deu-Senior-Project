@@ -51,7 +51,7 @@ public class AddressHelper implements IAddress {
 
     public enum ApiProcess{
         GET_PACKAGES("/package/list"),
-        GET_PACKAGE_BY_BARCODE("/package/"),
+        GET_PACKAGE_BY_BARCODE("/package/getPackage/"),
         GET_CUSTOMER_BY_BARCODE("/package/customer/"),
         GET_CUSTOMER("/customer/"),
         GET_CUSTOMER_ALL("/customer/list"),
