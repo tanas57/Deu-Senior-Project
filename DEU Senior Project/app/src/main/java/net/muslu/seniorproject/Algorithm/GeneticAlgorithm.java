@@ -65,8 +65,19 @@ public class GeneticAlgorithm {
             }
             Route mother = SelectRouteWithWhellSelection();
             Route father = SelectRouteWithWhellSelection();
+            RouteDetail(mother);
+            RouteDetail(father);
             counter++;
         }
+    }
+
+    private void RouteDetail(Route route){
+        String temp = "";
+        for(BarcodeReadModel model : route.getBarcodeReadModels()){
+            temp += model.getPackageId() + " ";
+        }
+        temp += route.getFitnessScore();
+        Log.v("ROUTE DETAIL", temp);
     }
 
     // (Proportional Roulette Whell Selection
@@ -86,8 +97,7 @@ public class GeneticAlgorithm {
             Log.v("PROBABILITIES", " " + probability);
         }
 
-        Random random = new Random();
-        double choose = random.nextInt(100) / 100;
+        double choose = (Math.random() % 101);
         double between = 0.0;
         for (Route route : routes){
             if(between <= choose && choose <= between + route.getFitnessScore()){
