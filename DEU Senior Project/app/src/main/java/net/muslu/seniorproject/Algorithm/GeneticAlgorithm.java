@@ -63,7 +63,8 @@ public class GeneticAlgorithm {
                 Log.v("FITNESS SCORE", temp);
                 temp = "";
             }
-            SelectRouteWithWhellSelection();
+            Route mother = SelectRouteWithWhellSelection();
+            Route father = SelectRouteWithWhellSelection();
             counter++;
         }
     }
@@ -86,7 +87,14 @@ public class GeneticAlgorithm {
         }
 
         Random random = new Random();
-        int choose = random.nextInt((int) Math.floor(sum));
+        double choose = random.nextInt(100) / 100;
+        double between = 0.0;
+        for (Route route : routes){
+            if(between <= choose && choose <= between + route.getFitnessScore()){
+                return route;
+            }
+            between += route.getFitnessScore();
+        }
         return null;
     }
 
@@ -117,7 +125,7 @@ public class GeneticAlgorithm {
                 temp += distances[previous.getPackageId()][next.getPackageId()];
             }
         }
-        return 1000/temp;
+        return 1/(temp/1000); // convert metres to kilometers
     }
 
 
