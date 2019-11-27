@@ -67,6 +67,8 @@ public class GeneticAlgorithm {
             Route father = SelectRouteWithWhellSelection();
             RouteDetail(mother);
             RouteDetail(father);
+            Route child = CrossOverMP(mother, father);
+            RouteDetail(child);
             counter++;
         }
     }
@@ -79,6 +81,50 @@ public class GeneticAlgorithm {
         temp += route.getFitnessScore();
         Log.v("ROUTE DETAIL", temp);
     }
+
+    // Maximal Preservative Crossover (MPX) :
+    private Route CrossOverMP(Route parent1, Route parent2){
+
+        Random random = new Random();
+        double ttt = parent1.getBarcodeReadModels().size() / 2;
+        int n = random.nextInt((int)Math.round(ttt));
+        if(n == 0) n = 1;
+        int startBit = random.nextInt(parent1.getBarcodeReadModels().size() - n);
+
+        ArrayList<BarcodeReadModel> points = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            points.add(parent1.getBarcodeReadModels().get(startBit+i));
+        }
+
+        ArrayList<BarcodeReadModel> parentsPoint = parent2.getBarcodeReadModels();
+
+        // 1 2 0 3
+        // 2
+        // 1
+        // 2 1 3 0
+        for(int i = 0; i < parentsPoint.size(); i++){
+            Log.v("FOR 1", parentsPoint.get(i).getPackageId() + " ");
+            boolean flag = false;
+            for(int j = 0; j < points.size(); j++){
+                Log.v("FOR 2", parentsPoint.get(i).getPackageId() + " " + points.get(j).getPackageId());
+                int parentid = parentsPoint.get(i).getPackageId();
+                int childd = points.get(j).getPackageId();
+                if( parentid == childd) flag = true; break;
+            }
+            if(flag == false){
+                points.add(parentsPoint.get(i));
+                Log.v("EKLENDI", "YENI DEĞER EKLENDİ");
+            }
+        }
+
+        Route child = new Route();
+        child.setBarcodeReadModels(points);
+
+
+        child.setFitnessScore(FitnessFunction(child));
+        return child;
+    }
+
 
     // (Proportional Roulette Whell Selection
 
@@ -135,6 +181,7 @@ public class GeneticAlgorithm {
                 temp += distances[previous.getPackageId()][next.getPackageId()];
             }
         }
+        //return temp;
         return 1/(temp/1000); // convert metres to kilometers
     }
 
