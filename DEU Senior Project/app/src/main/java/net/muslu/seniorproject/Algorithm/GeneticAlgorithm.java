@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class GeneticAlgorithm {
 
@@ -19,6 +20,8 @@ public class GeneticAlgorithm {
     private BarcodeData barcodeData;
     private int[][] distances;
     private int[][] durations;
+
+    private static final int MAX_ITERATION = 1;
 
     // customer priority
     // package priority
@@ -45,40 +48,59 @@ public class GeneticAlgorithm {
     }
 
     public void Work(){
-        // fill routes by shuflee
-        for(Route item : routes){
-            item.setFitnessScore(FitnessFunction(item));
-            ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
-            String temp = "";
-            for(BarcodeReadModel item2 : models){
-                temp += item2.getPackageId() + " ";
+
+        int counter = 1;
+
+        while(counter <= MAX_ITERATION){
+            for(Route item : routes){
+                item.setFitnessScore(FitnessFunction(item));
+                ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
+                String temp = "";
+                for(BarcodeReadModel item2 : models){
+                    temp += item2.getPackageId() + " ";
+                }
+                temp += " point => " + item.getFitnessScore();
+                Log.v("FITNESS SCORE", temp);
+                temp = "";
             }
-            temp += " point => " + item.getFitnessScore();
-            Log.v("FITNESS SCORE", temp);
-            temp = "";
+            SelectRouteWithWhellSelection();
+            counter++;
         }
     }
 
-    public void FillRoutes(){
-        for (Route item : routes){
-            item.setBarcodeReadModels(GetShuffledModel());
-            /*String temp = "";
-            ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
-            for(BarcodeReadModel item2 : models){
-                temp += item2.getPackageId() + " ";
-            }
-            Log.v("ROUTES", temp);
-            temp = "";
-            */
+    // (Proportional Roulette Whell Selection
+
+    private Route SelectRouteWithWhellSelection(){
+        double sum = 0;
+        ArrayList<Double> points = new ArrayList<>();
+        for(Route item : routes){
+            sum += item.getFitnessScore();
+            points.add(item.getFitnessScore());
         }
+
+        for(int i = 0; i < points.size(); i++) {
+            //double probability = Math.abs(1 - points.get(i)/sum);
+            double probability = points.get(i)/sum;
+            points.set(i, probability);
+            Log.v("PROBABILITIES", " " + probability);
+        }
+
+        Random random = new Random();
+        int choose = random.nextInt((int) Math.floor(sum));
+        return null;
+    }
+
+
+    public void FillRoutes(){
+        for (Route item : routes) item.setBarcodeReadModels(GetShuffledModel());
 
     }
 
     private ArrayList<BarcodeReadModel> GetShuffledModel(){
         ArrayList<BarcodeReadModel> shuffle = new ArrayList<>();
-        for(BarcodeReadModel item : getBarcodeData().GetData()){
-            shuffle.add(item);
-        }
+
+        for(BarcodeReadModel item : getBarcodeData().GetData()) shuffle.add(item);
+
         Collections.shuffle(shuffle);
         return shuffle;
     }
@@ -95,7 +117,7 @@ public class GeneticAlgorithm {
                 temp += distances[previous.getPackageId()][next.getPackageId()];
             }
         }
-        return temp;
+        return 1000/temp;
     }
 
 
