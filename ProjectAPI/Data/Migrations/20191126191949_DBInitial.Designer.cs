@@ -10,14 +10,14 @@ using ProjectAPI.Data;
 namespace ProjectAPI.Data.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20191019085825_CreateDB")]
-    partial class CreateDB
+    [Migration("20191126191949_DBInitial")]
+    partial class DBInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
+                .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
