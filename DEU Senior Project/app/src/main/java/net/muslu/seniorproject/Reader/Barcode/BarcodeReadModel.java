@@ -22,8 +22,17 @@ public class BarcodeReadModel extends Application implements Serializable {
     protected long barcode;
 
     protected CargoPackage cargoPackage;
-    protected LatLng latLng;
     protected int packageId;
+    protected double latitude;
+    protected double longitude;
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitutde() {
+        return longitude;
+    }
 
     public CargoPackage getCargoPackage() {
         return cargoPackage;
@@ -38,11 +47,12 @@ public class BarcodeReadModel extends Application implements Serializable {
     }
 
     public String getLatLng() {
-        return latLng.latitude + "," + latLng.longitude;
+        return latitude + "," + this.longitude;
     }
 
-    protected void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
+    protected void setLatLng(double latitude, double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getBarcodeImgApiURL() {
@@ -63,10 +73,17 @@ public class BarcodeReadModel extends Application implements Serializable {
            latlng = geocoder.getFromLocationName(getCustomer().getAddress(), 1);
            double longitude = latlng.get(0).getLongitude();
            double latitude = latlng.get(0).getLatitude();
-           setLatLng(new LatLng(latitude, longitude));
+           setLatLng(latitude, longitude);
            Log.v("GECODER", "LONG LAT RESULT : (" + latitude + "," + longitude + ")");
        }
        catch (Exception e) { e.printStackTrace();}
+    }
+
+    public BarcodeReadModel(long barcode, double latitude, double longitude) {
+        setBarcode(barcode);
+        setCargoPackage(null);
+        setLatLng(latitude, longitude);
+        setPackageId(-1);
     }
 
     public long getBarcode() {

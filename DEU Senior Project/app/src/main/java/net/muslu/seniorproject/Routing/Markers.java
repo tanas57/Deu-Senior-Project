@@ -32,25 +32,8 @@ public class Markers {
         int count = 0;
         List<Address> addresses = null;
         for (int i=0;i<markers.size();i++) {
-
-            try {
-                if(addresses!=null){
-                    addresses = geocoder.getFromLocationName(markers.get(i).getCustomer().getAddress(), 1);
-                }
-
-                while (addresses == null) {
-                    addresses = geocoder.getFromLocationName(markers.get(i).getCustomer().getAddress(), 1);
-                    count++;
-                    System.out.println("Count: "+count);
-                    i=0;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            double longitude = addresses.get(0).getLongitude();
-            double latitude = addresses.get(0).getLatitude();
-            LatLng pos = new LatLng(latitude, longitude);
-            markerList.add((LatLng) pos);
+            LatLng pos = new LatLng(markers.get(i).getLatitude(), markers.get(i).getLongitutde());
+            markerList.add(pos);
             if (i == 0)
                 mMap.addMarker(new MarkerOptions().position(pos).title("Başlangıç Adresi"));
             else if (i == addList.size() - 1)

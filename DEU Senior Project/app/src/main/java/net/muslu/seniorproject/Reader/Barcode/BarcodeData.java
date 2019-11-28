@@ -67,5 +67,9 @@ public class BarcodeData implements Serializable {
 
     public ArrayList<BarcodeReadModel> GetData(){ return this.data; }
 
+    public void setData(ArrayList<BarcodeReadModel> data) {
+        this.data = data;
+    }
+
     public int GetSize() { return this.data.size(); }
 }

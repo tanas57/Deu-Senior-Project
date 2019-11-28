@@ -209,7 +209,7 @@ public class JsonDirectionMatrix {
             geneticAlgoritmData.setDistances(distances);
             geneticAlgoritmData.setDurations(durations);
             geneticAlgoritmData.setBarcodeData(getBarcodeData());
-            new GeneticAlgorithm(geneticAlgoritmData);
+            new GeneticAlgorithm(context, geneticAlgoritmData);
         }
     }
 
