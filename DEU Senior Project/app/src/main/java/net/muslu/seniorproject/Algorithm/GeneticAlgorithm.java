@@ -20,12 +20,12 @@ import java.util.Random;
 
 public class GeneticAlgorithm {
 
-    private List<Route> routes;
+    private List<Chromosome> population;
     private BarcodeData barcodeData;
     private int[][] distances;
     private int[][] durations;
 
-    private static final int MAX_ITERATION = 500;
+    private static final int MAX_ITERATION = 3;
     private LatLng cargoman;
 
     private Context context;
@@ -38,9 +38,9 @@ public class GeneticAlgorithm {
         setDistances(geneticAlgoritmData.getDistances());
         setDurations(geneticAlgoritmData.getDurations());
 
-        routes = new ArrayList<>();
+        population = new ArrayList<>();
         for (int i = 0; i< getBarcodeData().GetSize() * 2; i++){
-            routes.add(new Route());
+            population.add(new Chromosome());
         }
 
         cargoman = new LatLng(38.371881, 27.194662);
@@ -51,16 +51,16 @@ public class GeneticAlgorithm {
 
     private double standartDeviation(){
         double sum = 0;
-        for(Route route : routes){
+        for(Chromosome route : getPopulation()){
             sum += route.getFitnessScore();
         }
 
         double variation = 0, sd = 0;
 
-        for(Route route : routes){
+        for(Chromosome route : population){
             variation +=  Math.pow(route.getFitnessScore() - sum, 2);
         }
-        sd = Math.sqrt(variation / routes.size() - 1);
+        sd = Math.sqrt(variation / population.size() - 1);
         Log.v("STANDART DEV.", "SUM " + sum + " VARIATION " + variation + " SD " + sd);
         return sd;
     }
@@ -70,7 +70,7 @@ public class GeneticAlgorithm {
         int counter = 1;
 
         while(counter <= MAX_ITERATION){
-            for(Route item : routes){
+            for(Chromosome item : getPopulation()){
                 item.setFitnessScore(FitnessFunction(item));
                 ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
                 String temp = "";
@@ -80,25 +80,25 @@ public class GeneticAlgorithm {
                 temp += " point => " + item.getFitnessScore() + " METRES " + item.getMetres();
                 Log.v("FITNESS SCORE", temp);
             }
-            Route mother = SelectRouteWithWhellSelection();
-            Route father = SelectRouteWithWhellSelection();
+            Chromosome mother = SelectRouteWithWhellSelection();
+            Chromosome father = SelectRouteWithWhellSelection();
             RouteDetail(mother);
             RouteDetail(father);
-            Route child = CrossOverMP(mother, father);
+            Chromosome child = CrossOverMP(mother, father);
             RouteDetail(child);
 
-            if(routes.size() > 0){
-                Route temp = routes.get(0);
+            if(population.size() > 0){
+                Chromosome temp = getPopulation().get(0);
                 double tempFitness = Double.MAX_VALUE;
-                for(Route route: routes){
+                for(Chromosome route: getPopulation()){
                     if(tempFitness > route.getFitnessScore()){
                         tempFitness = route.getFitnessScore();
                         temp = route;
                     }
                 }
-                for(int i = 0; i < routes.size(); i++){
-                    if(routes.get(i) == temp){
-                        routes.set(i, child);
+                for(int i = 0; i < getPopulation().size(); i++){
+                    if(getPopulation().get(i) == temp){
+                        getPopulation().set(i, child);
                         Log.v("KILLLING", "POPULATION CHANGED");
                         break;
                     }
@@ -110,7 +110,7 @@ public class GeneticAlgorithm {
         }
     }
 
-    private void RouteDetail(Route route){
+    private void RouteDetail(Chromosome route){
         String temp = "";
         for(BarcodeReadModel model : route.getBarcodeReadModels()){
             temp += model.getPackageId() + " ";
@@ -120,7 +120,7 @@ public class GeneticAlgorithm {
     }
 
     // Maximal Preservative Crossover (MPX) :
-    private Route CrossOverMP(Route parent1, Route parent2){
+    private Chromosome CrossOverMP(Chromosome parent1, Chromosome parent2){
 
         Random random = new Random();
         double ttt = parent1.getBarcodeReadModels().size() / 2;
@@ -156,7 +156,7 @@ public class GeneticAlgorithm {
             }
         }
 
-        Route child = new Route();
+        Chromosome child = new Chromosome();
         child.setBarcodeReadModels(points);
 
 
@@ -165,10 +165,10 @@ public class GeneticAlgorithm {
     }
     // (Proportional Roulette Whell Selection
 
-    private Route SelectRouteWithWhellSelection(){
+    private Chromosome SelectRouteWithWhellSelection(){
         double sum = 0;
         ArrayList<Double> points = new ArrayList<>();
-        for(Route item : routes){
+        for(Chromosome item : getPopulation()){
             sum += item.getFitnessScore();
             points.add(item.getFitnessScore());
         }
@@ -182,7 +182,7 @@ public class GeneticAlgorithm {
 
         double choose = (Math.random() % 101);
         double between = 0.0;
-        for (Route route : routes){
+        for (Chromosome route : getPopulation()){
             if(between <= choose && choose <= between + route.getFitnessScore()){
                 return route;
             }
@@ -192,7 +192,7 @@ public class GeneticAlgorithm {
     }
 
     public void FillRoutes(){
-        for (Route item : routes) item.setBarcodeReadModels(GetShuffledModel());
+        for (Chromosome item : getPopulation()) item.setBarcodeReadModels(GetShuffledModel());
 
     }
 
@@ -206,7 +206,7 @@ public class GeneticAlgorithm {
         return shuffle;
     }
 
-    private double FitnessFunction(Route item){
+    private double FitnessFunction(Chromosome item){
         double temp = 0;
         ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
         BarcodeReadModel previous = null, next = null;
@@ -234,14 +234,14 @@ public class GeneticAlgorithm {
         protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
 
-            Route route = null;
+            Chromosome route = null;
 
             double control = -1;
-            Log.v("POPULATION SIZE", "SIZE => " + routes.size());
+            Log.v("POPULATION SIZE", "SIZE => " + getPopulation().size());
 
             String tmpstr = "";
-            for(int i = 0; i < routes.size(); i++){
-                Route temp = routes.get(i);
+            for(int i = 0; i < getPopulation().size(); i++){
+                Chromosome temp = getPopulation().get(i);
                 if(temp.getFitnessScore() > control){
                     control = temp.getFitnessScore();
                     route = temp;
@@ -264,9 +264,9 @@ public class GeneticAlgorithm {
         }
     }
 
-    public List<Route> getRoutes() { return routes;  }
+    public List<Chromosome> getPopulation() { return population;  }
 
-    public void setRoutes(List<Route> routes) { this.routes = routes; }
+    public void setPopulation(List<Chromosome> routes) { this.population = routes; }
 
     public BarcodeData getBarcodeData() { return barcodeData; }
 

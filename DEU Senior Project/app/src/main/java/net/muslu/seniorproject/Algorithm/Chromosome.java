@@ -1,10 +1,9 @@
 package net.muslu.seniorproject.Algorithm;
 
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
-
 import java.util.ArrayList;
 
-public class Route {
+public class Chromosome {
 
     protected int metres;
 

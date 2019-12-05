@@ -44,12 +44,12 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private int packageCounter = 0;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
-    /*String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678919",
+    /*
+    String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678919",
                                         "12345678913", "12345678914", "12345678915", "12345678916",
-                                        "12345678917", "12345678918"};
+                                        "12345678917", "12345678918", "12345678920", "12345678921"};
 
-
-     */
+*/
 
     String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678915",  "12345678913", "12345678914"};
 
