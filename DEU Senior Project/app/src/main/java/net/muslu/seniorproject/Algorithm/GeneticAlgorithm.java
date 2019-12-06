@@ -4,14 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import net.muslu.seniorproject.Api.JSON.JsonDirectionMatrix;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.Routing.MapsActivity;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,7 +22,7 @@ public class GeneticAlgorithm {
     private int[][] distances;
     private int[][] durations;
 
-    private static final int MAX_ITERATION = 3;
+    private static final int MAX_ITERATION = 2555;
     private LatLng cargoman;
 
     private Context context;
@@ -70,6 +67,7 @@ public class GeneticAlgorithm {
         int counter = 1;
 
         while(counter <= MAX_ITERATION){
+
             for(Chromosome item : getPopulation()){
                 item.setFitnessScore(FitnessFunction(item));
                 ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
@@ -88,16 +86,16 @@ public class GeneticAlgorithm {
             RouteDetail(child);
 
             if(population.size() > 0){
-                Chromosome temp = getPopulation().get(0);
+                Chromosome temp = null;
                 double tempFitness = Double.MAX_VALUE;
                 for(Chromosome route: getPopulation()){
-                    if(tempFitness > route.getFitnessScore()){
+                    if(tempFitness >= route.getFitnessScore()){
                         tempFitness = route.getFitnessScore();
                         temp = route;
                     }
                 }
                 for(int i = 0; i < getPopulation().size(); i++){
-                    if(getPopulation().get(i) == temp){
+                    if(getPopulation().get(i) == temp && temp != null){
                         getPopulation().set(i, child);
                         Log.v("KILLLING", "POPULATION CHANGED");
                         break;
@@ -241,8 +239,9 @@ public class GeneticAlgorithm {
 
             String tmpstr = "";
             for(int i = 0; i < getPopulation().size(); i++){
+                Log.v("dön bakalım", " " + i);
                 Chromosome temp = getPopulation().get(i);
-                if(temp.getFitnessScore() > control){
+                if(temp.getFitnessScore() >= control){
                     control = temp.getFitnessScore();
                     route = temp;
                 }
@@ -251,10 +250,18 @@ public class GeneticAlgorithm {
                     tmpstr += item2.getPackageId() + " ";
                 }
                 tmpstr += " point => " + temp.getFitnessScore() + " METRES " + temp.getMetres();
-                Log.v("FITNESS WITH SELECTION", tmpstr);
+                Log.v("SELECTION OPTIONS", tmpstr);
                 tmpstr = "";
 
             }
+
+            for(BarcodeReadModel item2 : route.getBarcodeReadModels()){
+                tmpstr += item2.getPackageId() + " ";
+            }
+
+            tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
+            Log.v("SELECTION => ", tmpstr);
+
             Intent intent = new Intent(context, MapsActivity.class);
             BarcodeData barcodeData = new BarcodeData();
             barcodeData.setData(route.getBarcodeReadModels());
