@@ -81,7 +81,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BarcodeRead.this, "map is opening", Toast.LENGTH_LONG).show();
+                Toast.makeText(BarcodeRead.this, "Map is opening", Toast.LENGTH_LONG).show();
 
                 JsonDirectionMatrix jsonDirectionMatrix = new JsonDirectionMatrix(BarcodeRead.this, data);
                 jsonDirectionMatrix.Execute();

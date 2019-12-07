@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class GeneticAlgorithm {
 
@@ -93,6 +94,8 @@ public class GeneticAlgorithm {
             RouteDetail(father);
 
 
+
+            // Chromosome child = CrossOverMP(mother, father);
             Chromosome child = CrossOverMP(mother, father);
             RouteDetail(child);
 
@@ -191,7 +194,6 @@ public class GeneticAlgorithm {
         int startBit = random.nextInt(parent1.getBarcodeReadModels().size() - n);
         if(startBit == 0) startBit = 1;
         ArrayList<BarcodeReadModel> points = new ArrayList<>();
-
         points.add(parent1.getBarcodeReadModels().get(0)); // cargomen added firstly
 
         for(int i = 0; i < n; i++){
