@@ -124,6 +124,45 @@ public class GeneticAlgorithm {
         Log.v("ROUTE DETAIL", temp);
     }
 
+    /*
+    private Chromosome onePointMutatiton(){
+
+        double fitness = chromosome.getFitnessScore();
+        Chromosome newChild = chromosome;
+        ArrayList<BarcodeReadModel> models = new ArrayList<>();
+
+        for(BarcodeReadModel item: chromosome.getBarcodeReadModels()){
+            models.add(item);
+        }
+
+        int point1 = 0, point2 = 0;
+        Random random = new Random();
+
+        double newFitness = 0;
+
+        while(true){
+            point1 = random.nextInt(chromosome.getBarcodeReadModels().size());
+            point2 = random.nextInt(chromosome.getBarcodeReadModels().size());
+            if(point1 != 0 && point2 != 0 && point1 != point2) break;
+        }
+
+        BarcodeReadModel temp = chromosome.getBarcodeReadModels().get(point1);
+        models.set(point1, chromosome.getBarcodeReadModels().get(point2));
+        models.set(point2, temp);
+        newChild.setBarcodeReadModels(models);
+
+        RouteDetail(newChild);
+        newFitness = FitnessFunction(newChild);
+        newChild.setFitnessScore(newFitness);
+
+        Log.v("ONE POINT MUTATITON", "Eski değer : " + fitness + " Yeni değer : " + newFitness);
+
+        if(newFitness >= fitness) return newChild;
+
+        return chromosome;
+    }
+*/
+
     //Position Based Crossover (POS) :
     private ArrayList<Chromosome> CrossOverPOS(Chromosome parent1 , Chromosome parent2){
 
