@@ -10,6 +10,7 @@ import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.Routing.MapsActivity;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,8 @@ public class GeneticAlgorithm {
     private int[][] distances;
     private int[][] durations;
 
-    private static final int MAX_ITERATION = 2555;
+    private static final int MAX_ITERATION = 500;
+    private static final double MUTATION_RATE = 0.20; // between 0 and 1
     private LatLng cargoman;
 
     private Context context;
@@ -71,6 +73,8 @@ public class GeneticAlgorithm {
             for(Chromosome item : getPopulation()){
                 item.setFitnessScore(FitnessFunction(item));
                 ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
+
+
                 String temp = "";
                 for(BarcodeReadModel item2 : models){
                     temp += item2.getPackageId() + " ";
@@ -78,12 +82,29 @@ public class GeneticAlgorithm {
                 temp += " point => " + item.getFitnessScore() + " METRES " + item.getMetres();
                 Log.v("FITNESS SCORE", temp);
             }
-            Chromosome mother = SelectRouteWithWhellSelection();
-            Chromosome father = SelectRouteWithWhellSelection();
+            Chromosome mother = null, father = null;
+            while(true){
+                mother = SelectRouteWithWhellSelection();
+                father = SelectRouteWithWhellSelection();
+                if(mother != father) break;
+            }
+
             RouteDetail(mother);
             RouteDetail(father);
+
+
             Chromosome child = CrossOverMP(mother, father);
             RouteDetail(child);
+
+            /*
+            for(Chromosome route : getPopulation()){
+                if(route != mother && route != father)
+                    onePointMutatiton(route);
+            }
+
+
+             */
+
 
             if(population.size() > 0){
                 Chromosome temp = null;
@@ -103,6 +124,9 @@ public class GeneticAlgorithm {
                 }
             }
 
+            // onePointMutatiton();
+
+
             counter++;
             standartDeviation();
         }
@@ -117,6 +141,46 @@ public class GeneticAlgorithm {
         Log.v("ROUTE DETAIL", temp);
     }
 
+    // mutatiton
+
+    /*
+    private Chromosome onePointMutatiton(){
+
+        double fitness = chromosome.getFitnessScore();
+        Chromosome newChild = chromosome;
+        ArrayList<BarcodeReadModel> models = new ArrayList<>();
+
+        for(BarcodeReadModel item: chromosome.getBarcodeReadModels()){
+            models.add(item);
+        }
+
+        int point1 = 0, point2 = 0;
+        Random random = new Random();
+
+        double newFitness = 0;
+
+        while(true){
+            point1 = random.nextInt(chromosome.getBarcodeReadModels().size());
+            point2 = random.nextInt(chromosome.getBarcodeReadModels().size());
+            if(point1 != 0 && point2 != 0 && point1 != point2) break;
+        }
+
+        BarcodeReadModel temp = chromosome.getBarcodeReadModels().get(point1);
+        models.set(point1, chromosome.getBarcodeReadModels().get(point2));
+        models.set(point2, temp);
+        newChild.setBarcodeReadModels(models);
+
+        RouteDetail(newChild);
+        newFitness = FitnessFunction(newChild);
+        newChild.setFitnessScore(newFitness);
+
+        Log.v("ONE POINT MUTATITON", "Eski değer : " + fitness + " Yeni değer : " + newFitness);
+
+        if(newFitness >= fitness) return newChild;
+
+        return chromosome;
+    }
+*/
     // Maximal Preservative Crossover (MPX) :
     private Chromosome CrossOverMP(Chromosome parent1, Chromosome parent2){
 
@@ -161,6 +225,7 @@ public class GeneticAlgorithm {
         child.setFitnessScore(FitnessFunction(child));
         return child;
     }
+
     // (Proportional Roulette Whell Selection
 
     private Chromosome SelectRouteWithWhellSelection(){
@@ -218,7 +283,7 @@ public class GeneticAlgorithm {
         }
         //return temp;
         item.setMetres((int)temp);
-        return 1/(temp/1000); // convert metres to kilometers
+        return 1/(temp/1000 * item.getMetres() / 1000); // convert metres to kilometers
     }
 
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
@@ -239,7 +304,6 @@ public class GeneticAlgorithm {
 
             String tmpstr = "";
             for(int i = 0; i < getPopulation().size(); i++){
-                Log.v("dön bakalım", " " + i);
                 Chromosome temp = getPopulation().get(i);
                 if(temp.getFitnessScore() >= control){
                     control = temp.getFitnessScore();

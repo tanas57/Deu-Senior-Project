@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import net.muslu.seniorproject.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +43,7 @@ public class Route {
     }
 
     private String makeURL (ArrayList<LatLng> points, String mode, boolean optimize){
-        String api_key = "AIzaSyCrN6atEBUzLR6Ubv7J53IwWp5GJ5KzBxs";
+        String api_key = context.getString(R.string.google_maps_key);
         String directionMode="driving";
         String output = "json";
         // Building the url to the web service
@@ -72,8 +74,8 @@ public class Route {
         }
         String parameters = str_origin + "&" + str_dest + "&" + mode + urlString.toString();
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + api_key;
-        Log.e("URL:",url);
-        Log.e("Eklenen URL:",urlString.toString());
+        Log.v("URL:",url);
+        Log.v("Eklenen URL:",urlString.toString());
         return url;
     }
 

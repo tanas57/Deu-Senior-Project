@@ -50,7 +50,7 @@ public class JSONParser {
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
-        Log.d("JSON_RUTA", json);
+        //Log.v("JSON_RUTA", json);
         return json;
 
     }
