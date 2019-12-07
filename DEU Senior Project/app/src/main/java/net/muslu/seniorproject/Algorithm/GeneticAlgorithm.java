@@ -13,10 +13,12 @@ import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.Routing.MapsActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class GeneticAlgorithm {
 
@@ -25,7 +27,7 @@ public class GeneticAlgorithm {
     private int[][] distances;
     private int[][] durations;
 
-    private static final int MAX_ITERATION = 3;
+    private static final int MAX_ITERATION = 555;
     private LatLng cargoman;
 
     private Context context;
@@ -84,7 +86,10 @@ public class GeneticAlgorithm {
             Chromosome father = SelectRouteWithWhellSelection();
             RouteDetail(mother);
             RouteDetail(father);
-            Chromosome child = CrossOverMP(mother, father);
+            ArrayList<Chromosome> childs = CrossOverPOS(mother,father);
+            Chromosome child = childs.get(0);
+
+
             RouteDetail(child);
 
             if(population.size() > 0){
@@ -119,6 +124,99 @@ public class GeneticAlgorithm {
         Log.v("ROUTE DETAIL", temp);
     }
 
+    //Position Based Crossover (POS) :
+    private ArrayList<Chromosome> CrossOverPOS(Chromosome parent1 , Chromosome parent2){
+
+
+        Random random = new Random();
+        int forRandom = parent1.getBarcodeReadModels().size();
+        ArrayList<Integer> indexes = new ArrayList<>();
+        int index = -2;
+
+
+        while (indexes.size() < 3){
+            index=random.nextInt(forRandom);
+            if(index !=0) {
+                if(indexes.contains(index) == false) indexes.add(index);
+            }
+        }
+        ArrayList<BarcodeReadModel> firstChildPoints = new ArrayList<>();
+        ArrayList<BarcodeReadModel> secondChildPoints = new ArrayList<>();
+
+        while(firstChildPoints.size()<parent1.getBarcodeReadModels().size()){
+            firstChildPoints.add(null);
+            secondChildPoints.add(null);
+        }
+
+        firstChildPoints.set(0,parent1.getBarcodeReadModels().get(0));
+        secondChildPoints.set(0,parent2.getBarcodeReadModels().get(0));
+        for(int i = 0; i<indexes.size();i++){
+
+            firstChildPoints.set(indexes.get(i),parent2.getBarcodeReadModels().get(indexes.get(i)));
+            secondChildPoints.set(indexes.get(i),parent1.getBarcodeReadModels().get(indexes.get(i)));
+        }
+        int tempIndex = -2 ; int tempIndex2=-2;
+        for (int i = 0; i<parent1.getBarcodeReadModels().size();i++)
+       {
+           boolean flag = false;
+           boolean flag2 = false;
+            if(firstChildPoints.get(i)==null){
+              for (int j = 0; j<parent1.getBarcodeReadModels().size();j++){
+                  if(!firstChildPoints.contains(parent1.getBarcodeReadModels().get(j))){
+                        flag = true;
+                        tempIndex=j;
+                        break;
+                  }
+
+              }
+
+            }
+
+           if(secondChildPoints.get(i)==null){
+               for (int z = 0; z<parent2.getBarcodeReadModels().size();z++){
+                   if(!secondChildPoints.contains(parent2.getBarcodeReadModels().get(z))){
+                       flag2 = true;
+                       tempIndex2=z;
+                       break;
+                   }
+
+               }
+
+           }
+              if(flag){
+                    firstChildPoints.set(i,parent1.getBarcodeReadModels().get(tempIndex));
+                }
+                if(flag2){
+                    secondChildPoints.set(i,parent2.getBarcodeReadModels().get(tempIndex2));
+                }
+            }
+
+
+
+
+
+
+
+        ArrayList<Chromosome> myChilds = new ArrayList<>();
+        Chromosome ch1 = new Chromosome();
+        ch1.setBarcodeReadModels(firstChildPoints);
+        ch1.setFitnessScore(FitnessFunction(ch1));
+        myChilds.add(ch1);
+        Chromosome ch2 = new Chromosome();
+        ch2.setBarcodeReadModels(secondChildPoints);
+        ch2.setFitnessScore(FitnessFunction(ch2));
+        myChilds.add(ch2);
+
+
+
+        return myChilds;
+
+
+
+    }
+
+
+
     // Maximal Preservative Crossover (MPX) :
     private Chromosome CrossOverMP(Chromosome parent1, Chromosome parent2){
 
@@ -129,7 +227,6 @@ public class GeneticAlgorithm {
         int startBit = random.nextInt(parent1.getBarcodeReadModels().size() - n);
         if(startBit == 0) startBit = 1;
         ArrayList<BarcodeReadModel> points = new ArrayList<>();
-
         points.add(parent1.getBarcodeReadModels().get(0)); // cargomen added firstly
 
         for(int i = 0; i < n; i++){

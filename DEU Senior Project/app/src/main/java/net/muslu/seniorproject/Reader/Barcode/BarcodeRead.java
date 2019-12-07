@@ -51,7 +51,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
 
 */
 
-    String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678915",  "12345678913", "12345678914"};
+    String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678915",  "12345678913", "12345678914" };
 
     public BarcodeRead() {
         this.data = new BarcodeData();
@@ -81,7 +81,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(BarcodeRead.this, "map is opening", Toast.LENGTH_LONG).show();
+                Toast.makeText(BarcodeRead.this, "Map is opening", Toast.LENGTH_LONG).show();
 
                 JsonDirectionMatrix jsonDirectionMatrix = new JsonDirectionMatrix(BarcodeRead.this, data);
                 jsonDirectionMatrix.Execute();
