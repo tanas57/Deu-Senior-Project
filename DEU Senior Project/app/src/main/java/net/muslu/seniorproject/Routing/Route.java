@@ -163,8 +163,8 @@ public class Route {
                 LatLng dest= list.get(z+1);
                 Polyline line = mMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
-                        .width(20)
-                        .color(Color.rgb(36,155,198)).geodesic(true));
+                        .width(15)
+                        .color(Color.rgb(240,140,40)).geodesic(true));
             }
             /*if(withSteps)
             {
