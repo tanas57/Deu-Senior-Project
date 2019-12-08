@@ -73,8 +73,8 @@ public class Route {
         }
         String parameters = str_origin + "&" + str_dest + "&" + mode + urlString.toString();
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + api_key;
-        Log.v("URL:",url);
-        Log.v("Eklenen URL:",urlString.toString());
+        //Log.v("URL:",url);
+        Log.v("DIRECTION API URL:",url);
         return url;
     }
 

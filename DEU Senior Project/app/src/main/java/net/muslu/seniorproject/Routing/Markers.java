@@ -3,6 +3,7 @@ package net.muslu.seniorproject.Routing;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
+import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -29,9 +30,12 @@ public class Markers {
     public void createMarkers(GoogleMap map,Context c , ArrayList<BarcodeReadModel> markers) throws IOException {
         mMap = map;
         context=c;
-        Geocoder geocoder = new Geocoder(c, Locale.getDefault());
-        int count = 0;
-        List<Address> addresses = null;
+
+        String temp = "";
+        for(BarcodeReadModel item: markers) {
+            temp += item.getPackageId() + " ";
+        }
+        Log.v("MARKERS", temp);
         for (int i=0;i<markers.size();i++) {
             LatLng pos = new LatLng(markers.get(i).getLatitude(), markers.get(i).getLongitutde());
             markerList.add(pos);

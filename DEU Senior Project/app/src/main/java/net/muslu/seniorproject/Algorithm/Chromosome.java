@@ -2,6 +2,7 @@ package net.muslu.seniorproject.Algorithm;
 
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Chromosome {
 
@@ -35,3 +36,4 @@ public class Chromosome {
     private double fitnessScore;
 
 }
+

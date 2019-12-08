@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -41,18 +42,17 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private BarcodeData data;
     private RecyclerView rv;
     private CustomAdapter ad;
-    private int packageCounter = 0;
+    private int packageCounter = 1;
+    private LatLng cargoman;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
-    /*
         String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678919",
                                             "12345678913", "12345678914", "12345678915", "12345678916",
-                                            "12345678917", "123456789"};
+                                            "12345678917"};
 
-
-        */
-           String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678915",  "12345678913", "12345678914"};
-
+/*
+           String [] barcodes = new String[] { "12345678915",  "12345678913", "12345678910", "12345678911", "12345678912", "12345678914"};
+*/
     public BarcodeRead() {
         this.data = new BarcodeData();
     }
@@ -77,13 +77,16 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(false);
 
+        cargoman = new LatLng(38.371881, 27.194662);
         final ImageView button = findViewById(R.id.route);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(BarcodeRead.this, "Map is opening", Toast.LENGTH_LONG).show();
 
+
                 JsonDirectionMatrix jsonDirectionMatrix = new JsonDirectionMatrix(BarcodeRead.this, data);
+                jsonDirectionMatrix.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
                 jsonDirectionMatrix.Execute();
                 /*
                 Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);

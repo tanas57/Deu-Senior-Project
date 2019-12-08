@@ -83,7 +83,7 @@ public class BarcodeReadModel extends Application implements Serializable {
         setBarcode(barcode);
         setCargoPackage(null);
         setLatLng(latitude, longitude);
-        setPackageId(-1);
+        setPackageId(0);
     }
 
     public long getBarcode() {
