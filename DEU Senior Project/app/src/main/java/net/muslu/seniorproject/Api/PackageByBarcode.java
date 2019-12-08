@@ -2,11 +2,13 @@ package net.muslu.seniorproject.Api;
 
 import android.util.Log;
 
-public class AddressByBarcode extends AddressHelper implements IAddress {
+public class PackageByBarcode extends AddressHelper implements IAddress {
 
-    public AddressByBarcode(long barcode) {
+    protected ApiProcess apiProcess;
+
+    public PackageByBarcode(long barcode) {
         setBarcode(barcode);
-        setApiProcess(ApiProcess.GET_CUSTOMER_BY_BARCODE);
+        setApiProcess(ApiProcess.GET_PACKAGE_BY_BARCODE);
     }
 
     public String GetAddress(){
@@ -15,7 +17,7 @@ public class AddressByBarcode extends AddressHelper implements IAddress {
 
             return getResult();
         }
-        Log.d("Error_addressByBarcode", "there is an error; it may be empty variable");
+        Log.d("Error_PackageByBarcode", "there is an error; it may be empty variable");
         return "error";
     }
 

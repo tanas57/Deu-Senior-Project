@@ -1,5 +1,6 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
+import net.muslu.seniorproject.Models.CargoPackage;
 import net.muslu.seniorproject.Models.Customer;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ public class BarcodeData implements Serializable {
         return true;
     }
 
-    public boolean AddData(int barcode,int customerId,int customerPriority , String customerFullName, String customerAddress, String customerPhone){
+    public boolean AddData(int barcode, CargoPackage cargoPackage){
 
         boolean isAdded = false;
         for(int i = 0; i < GetSize(); i++){
@@ -40,13 +41,7 @@ public class BarcodeData implements Serializable {
             this.data
                     .add(new BarcodeReadModel(
                             barcode,
-                            new Customer(
-                                customerId,
-                                customerPriority,
-                                customerFullName,
-                                customerAddress,
-                                customerPhone
-                            )
+                            cargoPackage
                     ));
             return true;
         }
@@ -71,6 +66,10 @@ public class BarcodeData implements Serializable {
     }
 
     public ArrayList<BarcodeReadModel> GetData(){ return this.data; }
+
+    public void setData(ArrayList<BarcodeReadModel> data) {
+        this.data = data;
+    }
 
     public int GetSize() { return this.data.size(); }
 }

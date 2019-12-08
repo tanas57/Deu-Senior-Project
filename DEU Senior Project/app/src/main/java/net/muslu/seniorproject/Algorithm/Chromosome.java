@@ -1,10 +1,20 @@
 package net.muslu.seniorproject.Algorithm;
 
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
-
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Route {
+public class Chromosome {
+
+    protected int metres;
+
+    public int getMetres() {
+        return metres;
+    }
+
+    public void setMetres(int metres) {
+        this.metres = metres;
+    }
 
     public ArrayList<BarcodeReadModel> getBarcodeReadModels() {
         return barcodeReadModels;
@@ -26,3 +36,4 @@ public class Route {
     private double fitnessScore;
 
 }
+

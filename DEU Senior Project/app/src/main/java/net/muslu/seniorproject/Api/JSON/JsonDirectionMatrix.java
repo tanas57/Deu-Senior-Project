@@ -25,10 +25,16 @@ import java.util.List;
 // direction & duration matrix
 public class JsonDirectionMatrix {
 
+    GeneticAlgoritmData geneticAlgoritmData = new GeneticAlgoritmData();
     public class GeneticAlgoritmData {
-        private int[][] distances;
-        private int[][] durations;
-        private BarcodeData barcodeData;
+        protected int[][] distances;
+        protected int[][] durations;
+        protected BarcodeData barcodeData;
+        protected BarcodeReadModel cargoman;
+
+        public BarcodeReadModel getCargoman() {
+            return cargoman;
+        }
 
         public BarcodeData getBarcodeData() {
             return barcodeData;
@@ -63,6 +69,10 @@ public class JsonDirectionMatrix {
     private BarcodeData barcodeData;
     private Context context;
 
+    public void setCargoman(BarcodeReadModel cargoman) {
+        geneticAlgoritmData.cargoman = cargoman;
+    }
+
     public Context getContext() {
         return context;
     }
@@ -87,6 +97,9 @@ public class JsonDirectionMatrix {
     public String getRequestURL(){
         String origin = "origins=";
         String destination = "destinations=";
+
+        getBarcodeData().GetData().add(0, geneticAlgoritmData.getCargoman()); // add cargoman starting address
+
         for(int i = 0; i < getBarcodeData().GetSize(); i++){
             BarcodeReadModel temp = getBarcodeData().getDataByID(i);
             origin += temp.getLatLng();
@@ -186,7 +199,7 @@ public class JsonDirectionMatrix {
         @Override
         protected void onPostExecute(List<HashMap<String, String>> lists) {
 
-            GeneticAlgoritmData geneticAlgoritmData = new GeneticAlgoritmData();
+
             int barcodeSize =getBarcodeData().GetSize();
             int [][] distances = new int[barcodeSize][barcodeSize];
             int [][] durations = new int[barcodeSize][barcodeSize];
@@ -197,8 +210,6 @@ public class JsonDirectionMatrix {
                 int dur = Integer.parseInt(path.get("dur"));
                 distances[counter1][counter2] = dis;
                 durations[counter1][counter2] = dur;
-                Log.v("PARSE_RESULT => " , ("distance :" + dis + " duration : " + dur));
-
                 counter2++;
                 if(counter2 % barcodeSize == 0){
                     counter1++;
@@ -206,10 +217,21 @@ public class JsonDirectionMatrix {
                 }
             }
 
+            String temp = "";
+            for (int i = 0; i < barcodeSize; i++){
+                for (int j = 0; j < barcodeSize; j++){
+                    temp += distances[i][j] + " ";
+                }
+                Log.v("MATRIX", temp);
+                temp = "";
+            }
+
+            getBarcodeData().GetData().remove(0);
+
             geneticAlgoritmData.setDistances(distances);
             geneticAlgoritmData.setDurations(durations);
             geneticAlgoritmData.setBarcodeData(getBarcodeData());
-            new GeneticAlgorithm(geneticAlgoritmData).execute();
+            new GeneticAlgorithm(context, geneticAlgoritmData);
         }
     }
 

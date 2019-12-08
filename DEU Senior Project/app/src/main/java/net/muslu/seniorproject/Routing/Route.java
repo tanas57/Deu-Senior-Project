@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import net.muslu.seniorproject.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +43,7 @@ public class Route {
     }
 
     private String makeURL (ArrayList<LatLng> points, String mode, boolean optimize){
-        String api_key = "AIzaSyCrN6atEBUzLR6Ubv7J53IwWp5GJ5KzBxs";
+        String api_key = context.getString(R.string.google_maps_key);
         String directionMode="driving";
         String output = "json";
         // Building the url to the web service
@@ -58,7 +60,6 @@ public class Route {
 
         urlString.append("&waypoints=");
         if(optimize)
-            urlString.append("optimize:true|");
             urlString.append( points.get(1).latitude);
             urlString.append(',');
             urlString.append(points.get(1).longitude);
@@ -72,8 +73,8 @@ public class Route {
         }
         String parameters = str_origin + "&" + str_dest + "&" + mode + urlString.toString();
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + api_key;
-        Log.e("URL:",url);
-        Log.e("Eklenen URL:",urlString.toString());
+        //Log.v("URL:",url);
+        Log.v("DIRECTION API URL:",url);
         return url;
     }
 
@@ -162,8 +163,8 @@ public class Route {
                 LatLng dest= list.get(z+1);
                 Polyline line = mMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
-                        .width(10)
-                        .color(Color.BLUE).geodesic(true));
+                        .width(15)
+                        .color(Color.rgb(240,140,40)).geodesic(true));
             }
             /*if(withSteps)
             {
