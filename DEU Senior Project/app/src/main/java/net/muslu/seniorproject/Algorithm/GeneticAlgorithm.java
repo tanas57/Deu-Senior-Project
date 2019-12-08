@@ -36,7 +36,7 @@ public class GeneticAlgorithm {
     private static final int MAX_ITERATION = 500;
     private static final double MUTATION_RATE = 0.20; // between 0 and 1
     private static final double ELITIZIM_SIZE = 0.3;
-
+    private static final int POPULATIN_MULTIPYLER = 5;
     private Context context;
     // customer priority
     // package priority
@@ -49,7 +49,7 @@ public class GeneticAlgorithm {
         setCargoman(geneticAlgoritmData.getCargoman());
 
         population = new ArrayList<>();
-        for (int i = 0; i< getBarcodeData().GetSize() * 6; i++){
+        for (int i = 0; i< getBarcodeData().GetSize() * POPULATIN_MULTIPYLER; i++){
             population.add(new Chromosome());
         }
 
@@ -97,8 +97,6 @@ public class GeneticAlgorithm {
                 parents.add(population.get(i));
             }
 
-
-
             // cross-over
             int changeIndex = getPopulationSize() - 1;
             for(int i = 0; i < elitizim/2; i++){
@@ -118,10 +116,16 @@ public class GeneticAlgorithm {
                 RouteDetail(child1, "CHILD1");
                 RouteDetail(child2, "CHILD2");
 
+                if(child1 == child2){
+                    child1 = CrossOverMP(mother,father);
+                    child2 = CrossOverMP(mother,father);
+                }
+
                 nextGen.add(child1);
                 nextGen.add(child2);
             }
 
+            // MUTATION
             int nextcounter = 1;
             while(true){
                 nextGen.add(onePointMutatiton(population.get(elitizim + nextcounter)));
@@ -131,34 +135,6 @@ public class GeneticAlgorithm {
             }
 
             setPopulation(nextGen);
-            //Chromosome child = CrossOverMP(mother, father);
-
-
-/*
-            if(population.size() > 0){
-                Chromosome temp = getPopulation().get(0);
-                double tempFitness = Double.MAX_VALUE;
-                for(int a = 0; a<2; a++) {
-                    for (Chromosome route : getPopulation()) {
-                        if (tempFitness > route.getFitnessScore()) {
-                            tempFitness = route.getFitnessScore();
-                            temp = route;
-                        }
-                    }
-                    for (int i = 0; i < getPopulation().size(); i++) {
-                        if (getPopulation().get(i) == temp) {
-                            getPopulation().set(i, childs.get(a));
-                            Log.v("KILLLING", "POPULATION CHANGED");
-                            break;
-                        }
-                    }
-                }
-            }
-*/
-            // mutation
-
-
-
             counter++;
             //standartDeviation();
         }
