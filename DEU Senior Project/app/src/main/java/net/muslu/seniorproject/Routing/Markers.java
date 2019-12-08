@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 import java.io.IOException;
@@ -35,12 +36,12 @@ public class Markers {
             LatLng pos = new LatLng(markers.get(i).getLatitude(), markers.get(i).getLongitutde());
             markerList.add(pos);
             if (i == 0)
-                mMap.addMarker(new MarkerOptions().position(pos).title("Başlangıç Adresi"));
+                mMap.addMarker(new MarkerOptions().position(pos).title("Başlangıç Adresi").icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_home)));
             else if (i == addList.size() - 1)
-                mMap.addMarker(new MarkerOptions().position(pos).title("Bitiş Adresi"));
+                mMap.addMarker(new MarkerOptions().position(pos).title("Bitiş Adresi").icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_pck)));
             else
                 mMap.addMarker(new MarkerOptions().position(pos).title("" + i + ". Teslimat Adresi")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_pck)));
         }
 
         //Draw route

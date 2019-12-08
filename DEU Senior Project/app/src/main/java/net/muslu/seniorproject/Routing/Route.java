@@ -60,7 +60,6 @@ public class Route {
 
         urlString.append("&waypoints=");
         if(optimize)
-            urlString.append("optimize:true|");
             urlString.append( points.get(1).latitude);
             urlString.append(',');
             urlString.append(points.get(1).longitude);
@@ -164,8 +163,8 @@ public class Route {
                 LatLng dest= list.get(z+1);
                 Polyline line = mMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
-                        .width(10)
-                        .color(Color.BLUE).geodesic(true));
+                        .width(20)
+                        .color(Color.rgb(36,155,198)).geodesic(true));
             }
             /*if(withSteps)
             {
