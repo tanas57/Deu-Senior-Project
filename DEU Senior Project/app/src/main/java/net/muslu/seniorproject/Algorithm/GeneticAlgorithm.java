@@ -4,15 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import net.muslu.seniorproject.Api.JSON.JsonDirectionMatrix;
+import net.muslu.seniorproject.Api.JSON.DMBelowTenPoint;
+import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.Routing.MapsActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -33,24 +32,39 @@ public class GeneticAlgorithm {
         this.cargoman = cargoman;
     }
 
-    private static final int MAX_ITERATION = 500;
+    private int MAX_ITERATION = 100;
     private static final double MUTATION_RATE = 0.20; // between 0 and 1
     private static final double ELITIZIM_SIZE = 0.3;
-    private static final int POPULATIN_MULTIPYLER = 5;
+    private int POPULATION_MULTIPLIER = 1;
     private Context context;
     // customer priority
     // package priority
 
-    public GeneticAlgorithm(Context context, JsonDirectionMatrix.GeneticAlgoritmData geneticAlgoritmData) {
+    public GeneticAlgorithm(Context context, GeneticAlgorithmData geneticAlgorithmData) {
         this.context = context;
-        setBarcodeData(geneticAlgoritmData.getBarcodeData());
-        setDistances(geneticAlgoritmData.getDistances());
-        setDurations(geneticAlgoritmData.getDurations());
-        setCargoman(geneticAlgoritmData.getCargoman());
+        setBarcodeData(geneticAlgorithmData.getBarcodeData());
+        setDistances(geneticAlgorithmData.getDistances());
+        setDurations(geneticAlgorithmData.getDurations());
+        setCargoman(geneticAlgorithmData.getCargoman());
 
         population = new ArrayList<>();
-        for (int i = 0; i< getBarcodeData().GetSize() * POPULATIN_MULTIPYLER; i++){
+        int popSize = getBarcodeData().GetSize();
+        for (int i = 0; i< popSize * POPULATION_MULTIPLIER; i++){
             population.add(new Chromosome());
+        }
+
+        MAX_ITERATION = MAX_ITERATION*popSize;
+        if(popSize < 10){
+            POPULATION_MULTIPLIER = 5;
+        }
+        else if(popSize < 20){
+            POPULATION_MULTIPLIER = 4;
+        }
+        else if(popSize < 40){
+            POPULATION_MULTIPLIER = 3;
+        }
+        else if(popSize < 60){
+            POPULATION_MULTIPLIER = 2;
         }
 
         FillRoutes();
@@ -77,7 +91,6 @@ public class GeneticAlgorithm {
     public void Work(){
 
         int counter = 1;
-
         while(counter <= MAX_ITERATION){
             for(Chromosome item : getPopulation()){
                 item.setFitnessScore(FitnessFunction(item));
@@ -276,11 +289,7 @@ public class GeneticAlgorithm {
         ch2.setFitnessScore(FitnessFunction(ch2));
         myChilds.add(ch2);
 
-
-
         return myChilds;
-
-
 
     }
 
@@ -422,8 +431,16 @@ public class GeneticAlgorithm {
 
             }
 
-            for (BarcodeReadModel item : barcodeData.GetData()){
-                Log.v("CUSTOMER " + item.getPackageId(), item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
+            for(BarcodeReadModel item2 : route.getBarcodeReadModels()){
+                tmpstr += item2.getPackageId() + " ";
+            }
+
+            tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
+            Log.v("SELECTION => ", tmpstr);
+
+            for (BarcodeReadModel item : route.getBarcodeReadModels()){
+                if(item.getPackageId() == 0) continue;
+                Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
             }
 
             Intent intent = new Intent(context, MapsActivity.class);

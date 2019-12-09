@@ -27,7 +27,8 @@ public final class JsonProcess {
                     null,
                     null,
                     customer,
-                    null);
+                    null,
+                    pack.getInt("priority"));
 
             return new BarcodeReadModel(barcode, newPackage);
         } catch (JSONException e) {

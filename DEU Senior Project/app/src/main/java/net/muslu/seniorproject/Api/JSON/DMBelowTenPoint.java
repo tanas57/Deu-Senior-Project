@@ -22,55 +22,16 @@ import java.util.List;
 /**
  *  Created by MusluNET on 17.11.19
  */
-// direction & duration matrix
-public class JsonDirectionMatrix {
+// direction & duration matrix, below ten points
+public class DMBelowTenPoint {
 
-    GeneticAlgoritmData geneticAlgoritmData = new GeneticAlgoritmData();
-    public class GeneticAlgoritmData {
-        protected int[][] distances;
-        protected int[][] durations;
-        protected BarcodeData barcodeData;
-        protected BarcodeReadModel cargoman;
-
-        public BarcodeReadModel getCargoman() {
-            return cargoman;
-        }
-
-        public BarcodeData getBarcodeData() {
-            return barcodeData;
-        }
-
-        public void setBarcodeData(BarcodeData barcodeData) {
-            this.barcodeData = barcodeData;
-        }
-
-        public GeneticAlgoritmData() {
-            barcodeData = getBarcodeData();
-        }
-
-        public int[][] getDistances() {
-            return distances;
-        }
-
-        public void setDistances(int[][] distances) {
-            this.distances = distances;
-        }
-
-        public int[][] getDurations() {
-            return durations;
-        }
-
-        public void setDurations(int[][] durations) {
-            this.durations = durations;
-        }
-
-    }
+    GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
 
     private BarcodeData barcodeData;
     private Context context;
 
     public void setCargoman(BarcodeReadModel cargoman) {
-        geneticAlgoritmData.cargoman = cargoman;
+        geneticAlgorithmData.cargoman = cargoman;
     }
 
     public Context getContext() {
@@ -85,20 +46,20 @@ public class JsonDirectionMatrix {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public JsonDirectionMatrix(Context context, BarcodeData barcodeData) {
+    public DMBelowTenPoint(Context context, BarcodeData barcodeData) {
         setContext(context);
         setBarcodeData(barcodeData);
     }
 
     public void Execute(){
         String url = getRequestURL();
-        new TaskRequestDirection().execute(url);
+        new TaskRequestDistance().execute(url);
     }
     public String getRequestURL(){
         String origin = "origins=";
         String destination = "destinations=";
 
-        getBarcodeData().GetData().add(0, geneticAlgoritmData.getCargoman()); // add cargoman starting address
+        getBarcodeData().GetData().add(0, geneticAlgorithmData.getCargoman()); // add cargoman starting address
 
         for(int i = 0; i < getBarcodeData().GetSize(); i++){
             BarcodeReadModel temp = getBarcodeData().getDataByID(i);
@@ -126,46 +87,12 @@ public class JsonDirectionMatrix {
         return url;
     }
 
-    public String requestDirectionMatrix(String reqUrl) throws IOException {
-        String responseString = "";
-        InputStream inputStream = null;
-        HttpURLConnection httpURLConnection = null;
-        try{
-            URL url = new URL(reqUrl);
-            httpURLConnection = (HttpURLConnection)url.openConnection();
-            httpURLConnection.connect();
-
-            inputStream = httpURLConnection.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-            StringBuffer stringBuffer = new StringBuffer();
-            String line = "";
-            while((line = bufferedReader.readLine())!= null){
-                stringBuffer.append(line);
-            }
-
-            responseString = stringBuffer.toString();
-            bufferedReader.close();
-            inputStreamReader.close();
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }finally {
-            if(inputStream != null){
-                inputStream.close();
-            }
-            httpURLConnection.disconnect();
-        }
-        Log.v("Distance Api Response", responseString);
-        return responseString;
-    }
-    public class TaskRequestDirection extends AsyncTask<String, Void, String> {
+    public class TaskRequestDistance extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
             String responseString = "";
             try{
-                responseString = requestDirectionMatrix(strings[0]);
+                responseString = DistanceMatrixFunctions.requestDistanceMatrix(strings[0]);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -228,10 +155,10 @@ public class JsonDirectionMatrix {
 
             getBarcodeData().GetData().remove(0);
 
-            geneticAlgoritmData.setDistances(distances);
-            geneticAlgoritmData.setDurations(durations);
-            geneticAlgoritmData.setBarcodeData(getBarcodeData());
-            new GeneticAlgorithm(context, geneticAlgoritmData);
+            geneticAlgorithmData.setDistances(distances);
+            geneticAlgorithmData.setDurations(durations);
+            geneticAlgorithmData.setBarcodeData(getBarcodeData());
+            new GeneticAlgorithm(context, geneticAlgorithmData);
         }
     }
 
