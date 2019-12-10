@@ -45,7 +45,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private LatLng cargoman;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
-        String [] barcodes = new String[24];
+        String [] barcodes = new String[10];
 
     public BarcodeRead() {
         this.data = new BarcodeData();
@@ -61,7 +61,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         contentFrame.addView(mScannerView);
 
         Random rnd = new Random();
-        for(int i = 10; i < 34; i++ ){
+        for(int i = 10; i < barcodes.length + 10; i++ ){
             String temp2 = "123456789" + i;
             barcodes[i-10] = temp2;
         }

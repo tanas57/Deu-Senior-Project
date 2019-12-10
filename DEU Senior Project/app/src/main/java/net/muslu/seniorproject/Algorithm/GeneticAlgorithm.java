@@ -94,13 +94,14 @@ public class GeneticAlgorithm {
         while(counter <= MAX_ITERATION){
             for(Chromosome item : getPopulation()){
                 item.setFitnessScore(FitnessFunction(item));
-                RouteDetail(item, "POPULATION " + item.getClass().getName());
+                //RouteDetail(item, "POPULATION " + item.getClass().getName());
             }
 
 
             int elitizim = (int) Math.ceil(getPopulationSize() * ELITIZIM_SIZE);
 
             sortPopulation();
+
             ArrayList<Chromosome> nextGen = new ArrayList<>();
 
             ArrayList<Chromosome> parents = new ArrayList<>();
@@ -119,15 +120,15 @@ public class GeneticAlgorithm {
                     father = SelectRouteWithWhellSelection(parents);
                     if(mother != father && mother != null && father != null) break;
                 }
-                RouteDetail(mother, "MOTHER");
-                RouteDetail(father, "FATHER");
+                //RouteDetail(mother, "MOTHER");
+                //RouteDetail(father, "FATHER");
 
                 ArrayList<Chromosome> childs = CrossOverPOS(mother,father);
                 Chromosome child1 = childs.get(0);
                 Chromosome child2 = childs.get(1);
 
-                RouteDetail(child1, "CHILD1");
-                RouteDetail(child2, "CHILD2");
+                //RouteDetail(child1, "CHILD1");
+                //RouteDetail(child2, "CHILD2");
 
                 if(child1 == child2){
                     child1 = CrossOverMP(mother,father);
@@ -155,6 +156,7 @@ public class GeneticAlgorithm {
 
     private void sortPopulation() {
 
+        /*
         int size = getPopulationSize();
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size - i - 1; j++)
@@ -164,6 +166,12 @@ public class GeneticAlgorithm {
                     population.set(j, population.get(j + 1));
                     population.set(j + 1, temp);
                 }
+
+         */
+        int n = population.size();
+
+        QuickSort ob = new QuickSort();
+        ob.sort(population, 0, n-1);
     }
 
     private void RouteDetail(Chromosome route, String info){
@@ -205,11 +213,11 @@ public class GeneticAlgorithm {
         models.set(point2, temp);
         newChild.setBarcodeReadModels(models);
 
-        RouteDetail(newChild, "NEWCHILD");
+        //RouteDetail(newChild, "NEWCHILD");
         newFitness = FitnessFunction(newChild);
         newChild.setFitnessScore(newFitness);
 
-        Log.v("ONE POINT MUTATITON", "Eski değer : " + fitness + " Yeni değer : " + newFitness);
+        //Log.v("ONE POINT MUTATITON", "Eski değer : " + fitness + " Yeni değer : " + newFitness);
 
         if(newFitness >= fitness) return newChild;
 
@@ -381,21 +389,23 @@ public class GeneticAlgorithm {
     }
 
     private double FitnessFunction(Chromosome item){
-        double temp = 0;
+        double temp = 0; int metres = 0, tempMetres;
         ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
         BarcodeReadModel previous = null, next = null;
         for(int i = 1; i < models.size(); i++){
             if(i < models.size() - 1){
                 previous = models.get(i);
                 next = models.get(i+1);
-                //temp += distances[previous.getPackageId()][next.getPackageId()] / durations[previous.getPackageId()][next.getPackageId()];
+                tempMetres = distances[previous.getPackageId()][next.getPackageId()];
+                metres += tempMetres;
+                //temp += (tempMetres / 1000) * (durations[previous.getPackageId()][next.getPackageId()] / 60);
                 temp += distances[previous.getPackageId()][next.getPackageId()];
             }
         }
         //return temp;
-        item.setMetres((int)temp);
-        //return 1/(temp/1000);
-        return 1/(temp/1000 * item.getMetres() / 1000); // convert metres to kilometers
+        item.setMetres((int)metres);
+        //return 1/temp;
+        return 1/(temp/1000); // convert metres to kilometers
     }
 
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
