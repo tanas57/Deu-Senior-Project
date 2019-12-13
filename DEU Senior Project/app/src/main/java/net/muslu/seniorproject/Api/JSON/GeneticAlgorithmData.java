@@ -13,6 +13,10 @@ public class GeneticAlgorithmData {
         return cargoman;
     }
 
+    public void setCargoman(BarcodeReadModel cargoman) {
+        this.cargoman = cargoman;
+    }
+
     public BarcodeData getBarcodeData() {
         return barcodeData;
     }

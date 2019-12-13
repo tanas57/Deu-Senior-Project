@@ -222,14 +222,15 @@ public class DMGreaterTenPoint {
                 counter1++;
             }
 
-            String temp = "";
+            String temp = "", temp2 = "";
             for (int i = 0; i < barcodeSize; i++){
                 temp += distances[i] + " ";
-
+                temp2 += durations[i] + " ";
             }
-            Log.v("MATRIX", temp);
+            //Log.v("MATRIX DISTANCE", temp);
             temp = "";
-
+            Log.v("MATRIX DURATION", temp2);
+            temp = "";
 
             pointData.setDistance(distances);
             pointData.setDuration(durations);
