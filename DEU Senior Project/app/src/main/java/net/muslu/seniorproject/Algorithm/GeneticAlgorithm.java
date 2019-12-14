@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.core.app.NavUtils;
+
 import net.muslu.seniorproject.Api.JSON.DMBelowTenPoint;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -33,7 +36,7 @@ public class GeneticAlgorithm {
         this.cargoman = cargoman;
     }
 
-    private int MAX_ITERATION = 125;
+    private int MAX_ITERATION = 100;
     private static final double MUTATION_RATE = 0.15; // between 0 and 1
     private static final double ELITIZIM_SIZE = 0.25;
     private int POPULATION_MULTIPLIER = 1;
@@ -61,7 +64,7 @@ public class GeneticAlgorithm {
             POPULATION_MULTIPLIER = 5;
         }
         else if(popSize < 20){
-            POPULATION_MULTIPLIER = 4;
+            POPULATION_MULTIPLIER = 1;
         }
         else if(popSize < 40){
             POPULATION_MULTIPLIER = 3;
@@ -102,10 +105,9 @@ public class GeneticAlgorithm {
         int counter = 1;
         int iteratePercent = (int) Math.ceil(MAX_ITERATION * 0.25); // for choosing which crossover method applied
         while (counter <= MAX_ITERATION) {
-            //Log.v("ITERATION : " + counter, "STARTS");
+
             for (Chromosome item : getPopulation()) {
                 item.setFitnessScore(FitnessFunction(item));
-                //RouteDetail(item, "POPULATION " + item.getClass().getName());
             }
 
             int elitizim = (int) Math.ceil(getPopulationSize() * ELITIZIM_SIZE);
@@ -116,70 +118,43 @@ public class GeneticAlgorithm {
 
             ArrayList<Chromosome> parents = new ArrayList<>();
 
-            for (int i = 0; i < elitizim; i++) {
-                nextGen.add(population.get(i));
-                parents.add(population.get(i));
+            if(counter == 1000){
+                Log.v("1000"," 10000");
             }
+
+            for (int i = 0; i < elitizim; i++) {
+                Chromosome mutatedElit = PointMutationOverOne(population.get(i));
+                nextGen.add(mutatedElit);
+                parents.add(mutatedElit);
+            }
+
 
             // cross-over
             int changeIndex = getPopulationSize() - 1;
             for (int i = 0; i < elitizim / 2; i++) {
+
                 Chromosome mother = null, father = null;
+
                 while (true) {
                     mother = SelectRouteWithWhellSelection(parents);
                     father = SelectRouteWithWhellSelection(parents);
-                    if (mother != father && mother != null && father != null) break;
-                }
-                //RouteDetail(mother, "MOTHER");
-                //RouteDetail(father, "FATHER");
-
-                //RouteDetail(child1, "CHILD1");
-                //RouteDetail(child2, "CHILD2");
-                /*Chromosome child1, child2;
-
-                if (counter < iteratePercent || counter < iteratePercent*3) {
-                    child1 = CrossOverMP(mother, father);
-                    child2 = CrossOverMP(mother, father);
-                }else {
-                    ArrayList<Chromosome> childs = CrossOverPOS(mother, father);
-                    child1 = childs.get(0);
-                    child2 = childs.get(1);
+                    if(mother != father && mother != null && father != null) break;
                 }
 
-                nextGen.add(child1);
-                nextGen.add(child2);
+                RouteDetail(mother, "MOTHER");
+                RouteDetail(father, "FATHER");
 
                 Chromosome child1 = null, child2 = null;
-
                 while (child1 == child2){
                     child1 = CrossOverMP(mother, father);
                     child2 = CrossOverMP(mother, father);
                 }
-*/
-                RouteDetail(mother, "MOTHER");
-                RouteDetail(father, "FATHER");
 
-                /*
-                ArrayList<Chromosome> childs = CrossOverPOS(mother,father);
-                Chromosome child1 = childs.get(0);
-                Chromosome child2 = childs.get(1);
-
-                //RouteDetail(child1, "CHILD1");
-                //RouteDetail(child2, "CHILD2");
-
-                if(child1 == child2){
-                    child1 = CrossOverMP(mother,father);
-                    child2 = CrossOverMP(mother,father);
-                }
-
-                 */
-                Chromosome child1 = null, child2 = null;
-                child1 = CrossOverMP(mother,father);
-                child2 = CrossOverMP(mother,father);
-                nextGen.add(child1);
-                nextGen.add(child2);
                 RouteDetail(child1, "CHILD1");
                 RouteDetail(child2, "CHILD2");
+
+                nextGen.add(child1);
+                nextGen.add(child2);;
             }
 
             // MUTATION
@@ -204,18 +179,6 @@ public class GeneticAlgorithm {
 
     private void sortPopulation() {
 
-        /*
-        int size = getPopulationSize();
-        for (int i = 0; i < size; i++)
-            for (int j = 0; j < size - i - 1; j++)
-                if (population.get(j).getFitnessScore() < population.get(j + 1).getFitnessScore()) {
-                    // swap arr[j+1] and arr[i]
-                    Chromosome temp = population.get(j);
-                    population.set(j, population.get(j + 1));
-                    population.set(j + 1, temp);
-                }
-
-         */
         int n = population.size();
 
         QuickSort ob = new QuickSort();
@@ -233,7 +196,6 @@ public class GeneticAlgorithm {
         temp += " Fitness : " + route.getFitnessScore()+ " Metres : " + route.getMetres();
         Log.v(info+ " ROUTE DETAIL", temp);
     }
-
 
     private Chromosome onePointMutatiton(Chromosome chromosome){
 
@@ -291,6 +253,7 @@ public class GeneticAlgorithm {
             this.stopindex = stopindex;
         }
     }
+
     private Chromosome PointMutationOverOne(Chromosome chromosome){
         int mutateGen = (int)Math.round(MUTATION_RATE * chromosome.getBarcodeReadModels().size());
 
@@ -298,6 +261,7 @@ public class GeneticAlgorithm {
 
         ArrayList<Integer> changeArr = new ArrayList<>();
         Random rd = new Random();
+
         while(true){
             int choosenGen = rd.nextInt(chromosome.getBarcodeReadModels().size());
 
@@ -348,11 +312,13 @@ public class GeneticAlgorithm {
 
         if(fitness.size() > 0){
             PointSortItem item = fitness.get(0);
-            BarcodeReadModel temp = models.get(item.startindex);
-            models.set(item.startindex, models.get(item.stopindex));
-            models.set(item.stopindex, temp);
-            chromosome.setBarcodeReadModels(models);
-            RouteDetail(chromosome, "MUTATED");
+            if(item.getFitness() >= currentFitness){
+                BarcodeReadModel temp = models.get(item.startindex);
+                models.set(item.startindex, models.get(item.stopindex));
+                models.set(item.stopindex, temp);
+                chromosome.setBarcodeReadModels(models);
+                RouteDetail(chromosome, "MUTATED");
+            }
         }
 
 
@@ -443,12 +409,16 @@ public class GeneticAlgorithm {
     private Chromosome CrossOverMP(Chromosome parent1, Chromosome parent2){
 
         Random random = new Random();
-        double ttt = parent1.getBarcodeReadModels().size() / 2;
-        int n = random.nextInt((int)Math.round(ttt));
+        int ttt = (int)Math.round(parent1.getBarcodeReadModels().size() / 2);
+
+        int n = random.nextInt(ttt);
+
         if(n == 0) n = 1;
         int startBit = random.nextInt(parent1.getBarcodeReadModels().size() - n);
         if(startBit == 0) startBit = 1;
-        ArrayList<BarcodeReadModel> points = new ArrayList<>();
+
+        ArrayList<BarcodeReadModel> points = new ArrayList<>(); // child1
+
         points.add(parent1.getBarcodeReadModels().get(0)); // cargomen added firstly
 
         for(int i = 0; i < n; i++){
@@ -477,8 +447,6 @@ public class GeneticAlgorithm {
 
         Chromosome child = new Chromosome();
         child.setBarcodeReadModels(points);
-
-
         child.setFitnessScore(FitnessFunction(child));
         return child;
     }
@@ -537,14 +505,14 @@ public class GeneticAlgorithm {
                 tempMetres = distances[previous.getPackageId()][next.getPackageId()];
                 metres += tempMetres;
                 //temp += (distances[previous.getPackageId()][next.getPackageId()] / 1000) / (durations[previous.getPackageId()][next.getPackageId()] / 60);
-                temp += (durations[previous.getPackageId()][next.getPackageId()] / 60);
-                //temp += distances[previous.getPackageId()][next.getPackageId()];
+                //temp += (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                temp += distances[previous.getPackageId()][next.getPackageId()];
             }
         }
 
         item.setMetres(metres);
-        return 1/temp;
-        //return 1/(temp/1000); // convert metres to kilometers
+        //return 1/temp;
+        return 1/(temp/1000); // convert metres to kilometers
     }
 
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
