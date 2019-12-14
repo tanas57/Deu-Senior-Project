@@ -37,7 +37,7 @@ public class GeneticAlgorithm {
     }
 
     private int MAX_ITERATION = 100;
-    private static final double MUTATION_RATE = 0.15; // between 0 and 1
+    private static final double MUTATION_RATE = 0.2; // between 0 and 1
     private static final double ELITIZIM_SIZE = 0.25;
     private int POPULATION_MULTIPLIER = 1;
     private Context context;
@@ -64,7 +64,7 @@ public class GeneticAlgorithm {
             POPULATION_MULTIPLIER = 5;
         }
         else if(popSize < 20){
-            POPULATION_MULTIPLIER = 1;
+            POPULATION_MULTIPLIER = 4;
         }
         else if(popSize < 40){
             POPULATION_MULTIPLIER = 3;
@@ -123,7 +123,11 @@ public class GeneticAlgorithm {
             }
 
             for (int i = 0; i < elitizim; i++) {
-                Chromosome mutatedElit = PointMutationOverOne(population.get(i));
+                Chromosome mutatedElit = null;
+                if(i < elitizim*MUTATION_RATE)
+                    mutatedElit = population.get(i);
+                else
+                    mutatedElit = PointMutationOverOne(population.get(i));
                 nextGen.add(mutatedElit);
                 parents.add(mutatedElit);
             }
@@ -276,8 +280,6 @@ public class GeneticAlgorithm {
         }
         ArrayList<BarcodeReadModel> models = chromosome.getBarcodeReadModels();
 
-        double currentFitness = chromosome.getFitnessScore();
-
         ArrayList<PointSortItem> fitness = new ArrayList<>();
 
         for (int i = 0; i < mutateGen/2; i++){
@@ -297,7 +299,6 @@ public class GeneticAlgorithm {
 
         }
 
-
         int size = fitness.size();
         for (int i = 0; i < size; i++)
             for (int j = 0; j < size - i - 1; j++)
@@ -308,21 +309,12 @@ public class GeneticAlgorithm {
                     fitness.set(j + 1, temp);
                 }
 
-
-
         if(fitness.size() > 0){
             PointSortItem item = fitness.get(0);
-            if(item.getFitness() >= currentFitness){
-                BarcodeReadModel temp = models.get(item.startindex);
-                models.set(item.startindex, models.get(item.stopindex));
-                models.set(item.stopindex, temp);
-                chromosome.setBarcodeReadModels(models);
-                RouteDetail(chromosome, "MUTATED");
-            }
+            BarcodeReadModel temp = models.get(item.startindex);
+            models.set(item.startindex, models.get(item.stopindex));
+            models.set(item.stopindex, temp);
         }
-
-
-
 
         chromosome.setBarcodeReadModels(models);
         chromosome.setFitnessScore(FitnessFunction(chromosome));
@@ -563,12 +555,14 @@ public class GeneticAlgorithm {
                 Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
             }
 
-
+            /*
             Intent intent = new Intent(context, MapsActivity.class);
             BarcodeData barcodeData = new BarcodeData();
             barcodeData.setData(route.getBarcodeReadModels());
             intent.putExtra("data", barcodeData);
             context.startActivity(intent);
+
+             */
 
         }
     }
