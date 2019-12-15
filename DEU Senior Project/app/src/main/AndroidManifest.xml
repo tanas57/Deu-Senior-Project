@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activities.DeliveryActivity" android:theme="@style/ThemeCurrent" ></activity>
         <activity
             android:name=".Activities.PacketsActivity"
             android:theme="@style/ThemeCurrent" />
@@ -32,10 +33,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-
-        <activity android:name=".Reader.Barcode.CameraActivity">
-
-        </activity>
+        <activity android:name=".Reader.Barcode.CameraActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
