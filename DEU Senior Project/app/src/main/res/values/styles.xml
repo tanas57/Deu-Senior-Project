@@ -47,6 +47,9 @@
     <style name="Font_family_light" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+    <style name="Font_family_thin" parent="AppTheme">
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
 
     <style name="Font_family_regular" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-regular</item>

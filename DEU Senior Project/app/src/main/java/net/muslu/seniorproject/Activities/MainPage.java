@@ -45,7 +45,7 @@ public class MainPage extends AppCompatActivity {
         route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"progress ekrandan kaldırıldı", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Progress ekrandan kaldırıldı..", Toast.LENGTH_LONG).show();
 
                 route.startAnimation(shake);
 
