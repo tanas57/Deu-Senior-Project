@@ -3,26 +3,15 @@
     <item
         android:id="@+id/nav_homePage"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/home_page">
+        android:title="@string/home_page"/>
 
-    </item>
-    <item
-        android:id="@+id/nav_camera"
-        android:icon="@drawable/ic_camera_alt_black_24dp"
-        android:title="@string/scan_Qr"
-        ></item>
     <item
         android:id="@+id/nav_package_list"
         android:icon="@drawable/ic_list_black_24dp"
-        android:title="@string/cargo_packages"
-
-        ></item>
+        android:title="@string/cargo_packages"/>
     <item
         android:id="@+id/nav_route"
         android:icon="@drawable/ic_local_shipping_black_24dp"
-        android:title="@string/calculate_route"
-
-        >
-    </item>
+        android:title="@string/calculate_route"/>
 
 </menu>

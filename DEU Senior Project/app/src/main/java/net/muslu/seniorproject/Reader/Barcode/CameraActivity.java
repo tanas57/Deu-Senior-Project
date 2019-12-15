@@ -20,7 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.google.zxing.Result;
+
+import net.muslu.seniorproject.Activities.PacketsActivity;
 import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.Api.AddressHelper;
@@ -56,6 +59,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private LatLng cargoman;
 
+    String [] barcodes = new String[10];
+
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
@@ -71,10 +76,23 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             else return;
         }
 
+        for(int i = 10; i < barcodes.length + 10; i++ ){
+            String temp2 = "123456789" + i;
+            barcodes[i-10] = temp2;
+        }
+        for(int i = 0; i<barcodes.length;i++){
+            AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
+            String apiUrl = addressByBarcode.GetAddress();
+
+            new Background().execute(apiUrl, barcodes[i]);
+        }
+
         setContentView(R.layout.activity_camera);
         contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
 
         zXingScannerView = new ZXingScannerView(this);
         contentFrame.addView(zXingScannerView);
@@ -101,11 +119,10 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         case R.id.nav_homePage:
                             onBackPressed();
                             break;
-                        case R.id.nav_camera:
-
-                            break;
                         case R.id.nav_package_list:
-
+                            Intent packets = new Intent(getApplicationContext(), PacketsActivity.class);
+                            packets.putExtra("data", dataTransfer);
+                            startActivity(packets);
                             break;
                         case R.id.nav_route:
 
@@ -153,7 +170,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                 }
                             })  ;
                             AlertDialog myDiaolog = mBuilder.create();
-                            myDiaolog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                            myDiaolog.getWindow().setBackgroundDrawableResource(R.drawable.alert_bg);
                             myDiaolog.show();
 
                             zXingScannerView.setLaserEnabled(false);

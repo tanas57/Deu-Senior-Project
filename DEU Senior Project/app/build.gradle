@@ -34,4 +34,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'jp.wasabeef:blurry:3.0.0'
+    implementation 'com.github.gcacace:signature-pad:1.2.1'
+
 }
