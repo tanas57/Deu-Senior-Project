@@ -3,44 +3,76 @@ package net.muslu.seniorproject.Reader.Barcode;
 import android.Manifest;
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-
-
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.Result;
-
 import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.Api.AddressHelper;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
+import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.Api.PackageByBarcode;
+import net.muslu.seniorproject.DataTransfer;
+import net.muslu.seniorproject.MainActivity;
 import net.muslu.seniorproject.R;
-import net.muslu.seniorproject.TempData;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import jp.wasabeef.blurry.Blurry;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class CameraActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler  {
+
     AlgorithmType returnedType;
-    String []selectRoute ;
+    String [] selectRoute ;
     private ZXingScannerView zXingScannerView;
     String[] perms = {Manifest.permission.CAMERA};
+
+    ViewGroup contentFrame;
+
+    DataTransfer dataTransfer;
+    BarcodeData barcodeData;
+    int packageid;
+
+    private LatLng cargoman;
+
     public void onCreate(Bundle state) {
         super.onCreate(state);
+
+        if(getIntent() != null){
+
+            Bundle bundle = getIntent().getExtras();
+            if(bundle != null){
+                dataTransfer = (DataTransfer)getIntent().getSerializableExtra("data");
+                barcodeData = dataTransfer.getBarcodeData();
+                packageid = dataTransfer.getPackageid();
+                cargoman = new LatLng(dataTransfer.getCargomanLatitude(), dataTransfer.getCargomanLongitude());
+            }
+            else return;
+        }
+
         setContentView(R.layout.activity_camera);
-        ViewGroup contentFrame = (ViewGroup) findViewById(R.id.camera_content_frame);
+        contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
@@ -59,6 +91,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
         }
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener=
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -66,7 +99,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                     switch (menuItem.getItemId()){
                         case R.id.nav_homePage:
-
+                            onBackPressed();
                             break;
                         case R.id.nav_camera:
 
@@ -75,6 +108,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                             break;
                         case R.id.nav_route:
+
+                            Blurry.with(getApplicationContext()).sampling(50).radius(10).onto(contentFrame);
+
                             zXingScannerView.setLaserEnabled(false);
                             selectRoute= getResources().getStringArray(R.array.route_selection);
                             final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this,R.style.MyAlertDialog);
@@ -111,9 +147,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             mBuilder.setPositiveButton("TAMAM", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                  
-                                    //zXingScannerView.startCamera();
-
+                                    zXingScannerView.startCamera();
+                                    zXingScannerView.setLaserEnabled(true);
+                                    Blurry.delete(contentFrame);
                                 }
                             })  ;
                             AlertDialog myDiaolog = mBuilder.create();
@@ -126,6 +162,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             myDiaolog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                                 @Override
                                 public void onCancel(DialogInterface dialog) {
+                                    Blurry.delete(contentFrame);
                                     zXingScannerView.startCamera();
                                 }
                             });
@@ -137,6 +174,21 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                 }
             };
 
+    @Override
+    public void onBackPressed() {
+
+
+        Log.v("BACK PRESSED", "yaarak çıktı");
+        dataTransfer.setBarcodeData(barcodeData);
+        dataTransfer.setPackageid(packageid);
+
+        Intent intent = new Intent();
+        intent.putExtra("data", (DataTransfer) dataTransfer);
+        setResult(RESULT_OK, intent);
+        Log.v("BACK PRESSED", "SET EDİLDİ");
+        finish();
+        Log.v("BACK PRESSED", "FİNİSH");
+    }
 
     @Override
     public void onResume() {
@@ -165,7 +217,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
         String apiUrl = addressByBarcode.GetAddress();
 
-        // new BarcodeRead.Background().execute(apiUrl, rawResult.getText());
+        new Background().execute(apiUrl, rawResult.getText());
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -175,4 +227,57 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             }
         }, 333);
     }
+
+    protected class Background extends AsyncTask<String, String ,String> {
+        protected long barcode;
+        protected String doInBackground(String... params) {
+
+            String apiUrl = params[0];
+            barcode = Long.parseLong(params[1]);
+            Log.d("url", apiUrl);
+            HttpURLConnection connection = null;
+            BufferedReader bufferedReader = null;
+
+            try {
+                URL url = new URL(apiUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String result = "", temp;
+                while ((temp = bufferedReader.readLine()) != null) {
+                    result += temp;
+                }
+                return result;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return "error";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.w("GET JSON RESULT", s);
+            if(!s.contains("error")){
+                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode);
+                if(newPackage != null){
+                    if(barcodeData.AddData(newPackage)){
+                        newPackage.setPackageId(packageid);
+                        packageid++;
+                        //ad.notifyItemInserted(data.GetSize());
+                        Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
+                        //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Barkod tam anlaşılamadı", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 }

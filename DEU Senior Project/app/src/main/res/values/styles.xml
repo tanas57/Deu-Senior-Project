@@ -13,6 +13,7 @@
         <item name="android:colorControlNormal">@color/cameraBorderColor</item>
         <item name="textColorAlertDialogListItem">#BBDEFB</item>
         <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="android:textSize">17dp</item>
 
     </style>
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.Toolbar;
 
 import net.muslu.seniorproject.CustomAdapter;
+import net.muslu.seniorproject.DataTransfer;
 import net.muslu.seniorproject.ProjectData;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -26,13 +27,14 @@ public class PacketsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_packets);
 
-        getSupportActionBar().setTitle("Geri Bildirim");
+        getSupportActionBar().setTitle(getString(R.string.cargo_packages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
         if(intent.getExtras() != null){
-            setData((BarcodeData) intent.getExtras().getSerializable("data"));
+            DataTransfer dataTransfer = (DataTransfer) intent.getExtras().getSerializable("data");
+            setData(dataTransfer.getBarcodeData());
             rv = findViewById(R.id.rv);
             ad = new CustomAdapter(PacketsActivity.this, getData().GetData());
             rv.setAdapter(ad);

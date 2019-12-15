@@ -6,23 +6,22 @@ import androidx.cardview.widget.CardView;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.LatLng;
-
-import net.muslu.seniorproject.ProjectData;
+import net.muslu.seniorproject.DataTransfer;
 import net.muslu.seniorproject.R;
-import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
+import net.muslu.seniorproject.Reader.Barcode.CameraActivity;
 
-public class MainPage extends AppCompatActivity implements ProjectData {
+public class MainPage extends AppCompatActivity {
 
-    protected BarcodeData barcodeData;
+    protected DataTransfer dataTransfer;
     protected int packageId = 1;
-    private LatLng cargoman;
+    public static final int REQUEST_CODE = 100;
+
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
     @Override
@@ -30,14 +29,16 @@ public class MainPage extends AppCompatActivity implements ProjectData {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        barcodeData = new BarcodeData();
+        dataTransfer = new DataTransfer();
+        packageId = dataTransfer.getPackageid();
 
         final Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_shake2);
-        final CardView progress, route, packets;
+        final CardView progress, route, packets, add_package;
 
         progress = findViewById(R.id.home_progress);
         route = findViewById(R.id.home_route);
         packets = findViewById(R.id.home_packets);
+        add_package = findViewById(R.id.home_add_package);
 
 
         route.setClickable(true);
@@ -62,23 +63,42 @@ public class MainPage extends AppCompatActivity implements ProjectData {
                 packets.startAnimation(shake);
                 Toast.makeText(getApplicationContext(), "Paketler açılıyor..", Toast.LENGTH_SHORT).show();
                 Intent packetsIntent = new Intent(getApplicationContext(), PacketsActivity.class);
-                packetsIntent.putExtra("data", getBarcodeData());
+                packetsIntent.putExtra("data", dataTransfer);
                 startActivity(packetsIntent);
 
+            }
+        });
+
+        add_package.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_package.startAnimation(shake);
+                Intent camera = new Intent(getApplicationContext(), CameraActivity.class);
+                camera.putExtra("data", dataTransfer);
+                startActivityForResult(camera, REQUEST_CODE);
             }
         });
 
     }
 
     @Override
-    public BarcodeData getBarcodes() {
-        return getBarcodeData();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        Log.v("RESULTT ACTIVITY", "GELDİK");
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            // Make sure the request was successful-
+            Log.v("RESULTT REQUEST", "GOOOOOOOOOOOOOOOOD");
+
+            dataTransfer = (DataTransfer) data.getSerializableExtra("data");
+
+            if(dataTransfer != null) {
+                Log.v("ON BACK", "GERİ GELDİM VAR MI DATA");
+
+                Log.v("BARKOD SIZE => ", " " + dataTransfer.getBarcodeData().GetSize());
+            }
+        }
     }
 
-    public BarcodeData getBarcodeData() {
-        return barcodeData;
-    }
-    public void setBarcodeData(BarcodeData barcodeData) {
-        this.barcodeData = barcodeData;
-    }
 }
