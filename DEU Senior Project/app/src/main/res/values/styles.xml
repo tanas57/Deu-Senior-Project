@@ -7,6 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="MyAlertDialog" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">#FFECB3</item>
+        <item name="colorAccent">@color/cameraBorderColor</item>
+        <item name="android:colorControlNormal">@color/cameraBorderColor</item>
+        <item name="textColorAlertDialogListItem">#BBDEFB</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+
+    </style>
 
     <style name="MainpageTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
