@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.google.zxing.Result;
 
 import net.muslu.seniorproject.Activities.PacketsActivity;
@@ -90,6 +91,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
 
         zXingScannerView = new ZXingScannerView(this);
         contentFrame.addView(zXingScannerView);
