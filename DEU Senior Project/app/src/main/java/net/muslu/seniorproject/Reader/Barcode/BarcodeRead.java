@@ -21,6 +21,7 @@ import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import pub.devrel.easypermissions.EasyPermissions;
 
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.Api.JSON.DMBelowTenPoint;
 import net.muslu.seniorproject.Api.JSON.DMGreaterTenPoint;
@@ -48,7 +49,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private LatLng cargoman;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
-    String [] barcodes = new String[24];
+    String [] barcodes = new String[10];
 
     public BarcodeRead() {
         this.data = new BarcodeData();
@@ -106,6 +107,8 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
                 geneticAlgorithmData.setDistances(distances);
                 geneticAlgorithmData.setDurations(durations);
                 geneticAlgorithmData.setBarcodeData(data);
+                geneticAlgorithmData.setAlgorithmType(AlgorithmType.ONLY_DURATION);
+
                 new GeneticAlgorithm(BarcodeRead.this, geneticAlgorithmData);
 
             }

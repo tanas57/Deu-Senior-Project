@@ -1,5 +1,6 @@
 package net.muslu.seniorproject.Api.JSON;
 
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
@@ -8,6 +9,15 @@ public class GeneticAlgorithmData {
     protected int[][] durations;
     protected BarcodeData barcodeData;
     protected BarcodeReadModel cargoman;
+    protected AlgorithmType algorithmType;
+
+    public AlgorithmType getAlgorithmType() {
+        return algorithmType;
+    }
+
+    public void setAlgorithmType(AlgorithmType algorithmType) {
+        this.algorithmType = algorithmType;
+    }
 
     public BarcodeReadModel getCargoman() {
         return cargoman;

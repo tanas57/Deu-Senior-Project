@@ -7,6 +7,8 @@ import android.util.Log;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
+import net.muslu.seniorproject.Routing.MapsActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,6 +22,7 @@ public class GeneticAlgorithm {
     private int[][] distances;
     private int[][] durations;
     private BarcodeReadModel cargoman;
+    private AlgorithmType algorithmType;
 
     public BarcodeReadModel getCargoman() {
         return cargoman;
@@ -46,6 +49,7 @@ public class GeneticAlgorithm {
         setDistances(geneticAlgorithmData.getDistances());
         setDurations(geneticAlgorithmData.getDurations());
         setCargoman(geneticAlgorithmData.getCargoman());
+        setAlgorithmType(geneticAlgorithmData.getAlgorithmType());
 
         population = new ArrayList<>();
 
@@ -77,22 +81,6 @@ public class GeneticAlgorithm {
     }
 
     private int getPopulationSize(){ return population.size(); }
-
-    private double standartDeviation(){
-        double sum = 0;
-        for(Chromosome route : getPopulation()){
-            sum += route.getFitnessScore();
-        }
-
-        double variation = 0, sd = 0;
-
-        for(Chromosome route : population){
-            variation +=  Math.pow(route.getFitnessScore() - sum, 2);
-        }
-        sd = Math.sqrt(variation / population.size() - 1);
-        Log.v("STANDART DEV.", "SUM " + sum + " VARIATION " + variation + " SD " + sd);
-        return sd;
-    }
 
     public void Work() {
 
@@ -173,7 +161,6 @@ public class GeneticAlgorithm {
 
             setPopulation(nextGen);
             counter++;
-            //standartDeviation();
             //Log.v("ITERATION : " + counter, "ENDS");
         }
     }
@@ -575,16 +562,44 @@ public class GeneticAlgorithm {
                 previous = models.get(i);
                 next = models.get(i+1);
                 tempMetres = distances[previous.getPackageId()][next.getPackageId()];
+
+                switch (algorithmType){
+                    case ONLY_DISTANCE:
+                        temp += distances[previous.getPackageId()][next.getPackageId()];
+                        break;
+                    case ONLY_DURATION:
+                        temp += (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                        break;
+                    case BOTH_DISTANCE_DURATION:
+                        temp += (distances[previous.getPackageId()][next.getPackageId()] / 1000) * (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                        break;
+                    case DISTANCE_PRIORITY:
+                        temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority();
+                        break;
+                    case ALL_OF_THEM:
+                        temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
+                                (durations[previous.getPackageId()][next.getPackageId()] / 60)) / next.getCargoPackage().getPriority();
+                        break;
+                }
+
                 metres += tempMetres;
-                //temp += (distances[previous.getPackageId()][next.getPackageId()] / 1000) / (durations[previous.getPackageId()][next.getPackageId()] / 60);
-                //temp += (durations[previous.getPackageId()][next.getPackageId()] / 60);
-                temp += distances[previous.getPackageId()][next.getPackageId()];
             }
         }
 
         item.setMetres(metres);
-        //return 1/temp;
-        return 1/(temp/1000); // convert metres to kilometers
+        switch (algorithmType){
+            case ONLY_DISTANCE:
+                return 1/(temp/1000); // convert metres to kilometers
+            case ONLY_DURATION:
+                return 1/temp;
+            case BOTH_DISTANCE_DURATION:
+                return 1/temp;
+            case DISTANCE_PRIORITY:
+                return 1/(temp/1000);
+            case ALL_OF_THEM:
+                return 1/temp;
+        }
+        return 0;
     }
 
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
@@ -635,14 +650,11 @@ public class GeneticAlgorithm {
                 Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
             }
 
-            /*
             Intent intent = new Intent(context, MapsActivity.class);
             BarcodeData barcodeData = new BarcodeData();
             barcodeData.setData(route.getBarcodeReadModels());
             intent.putExtra("data", barcodeData);
             context.startActivity(intent);
-
-             */
 
         }
     }
@@ -663,4 +675,11 @@ public class GeneticAlgorithm {
 
     public void setDurations(int[][] durations) { this.durations = durations; }
 
+    public AlgorithmType getAlgorithmType() {
+        return algorithmType;
+    }
+
+    public void setAlgorithmType(AlgorithmType algorithmType) {
+        this.algorithmType = algorithmType;
+    }
 }
