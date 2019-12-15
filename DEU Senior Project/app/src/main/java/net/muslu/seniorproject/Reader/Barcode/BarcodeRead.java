@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
@@ -70,9 +69,12 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
             barcodes[i-10] = temp2;
         }
 
+        /*
         if(!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
         }
+
+         */
 
         rv = findViewById(R.id.rv);
         ad = new CustomAdapter(BarcodeRead.this, data.GetData());
@@ -128,12 +130,17 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     @Override
     public void onResume() {
         super.onResume();
+        /*
         if(!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
         }else {
             mScannerView.setResultHandler(this);
             mScannerView.startCamera();
         }
+
+         */
+        mScannerView.setResultHandler(this);
+        mScannerView.startCamera();
     }
 
     @Override
