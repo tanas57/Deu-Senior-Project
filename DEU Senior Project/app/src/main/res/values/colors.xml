@@ -3,4 +3,7 @@
     <color name="colorPrimary">#409BE6</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="cameraBorderColor">#63ADE7</color>
+    <color name="cameraLaserColor">#D50000</color>
+    <color name="navigationViewColor">#C5E9FF</color>
 </resources>

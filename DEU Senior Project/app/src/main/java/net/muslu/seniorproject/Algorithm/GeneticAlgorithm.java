@@ -118,7 +118,7 @@ public class GeneticAlgorithm {
 
             ArrayList<Chromosome> parents = new ArrayList<>();
 
-            if(counter == 1000){
+            if(counter == 100){
                 Log.v("1000"," 10000");
             }
 
