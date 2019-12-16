@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -19,8 +22,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.Result;
 
 import net.muslu.seniorproject.Activities.PacketsActivity;
@@ -80,6 +83,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             String temp2 = "123456789" + i;
             barcodes[i-10] = temp2;
         }
+        /*
         for(int i = 0; i<barcodes.length;i++){
             AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
             String apiUrl = addressByBarcode.GetAddress();
@@ -87,12 +91,12 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             new Background().execute(apiUrl, barcodes[i]);
         }
 
+         */
+
         setContentView(R.layout.activity_camera);
         contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
-        //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
 
         zXingScannerView = new ZXingScannerView(this);
         contentFrame.addView(zXingScannerView);
@@ -194,17 +198,13 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void onBackPressed() {
 
-
-        Log.v("BACK PRESSED", "yaarak çıktı");
         dataTransfer.setBarcodeData(barcodeData);
         dataTransfer.setPackageid(packageid);
 
         Intent intent = new Intent();
         intent.putExtra("data", (DataTransfer) dataTransfer);
         setResult(RESULT_OK, intent);
-        Log.v("BACK PRESSED", "SET EDİLDİ");
         finish();
-        Log.v("BACK PRESSED", "FİNİSH");
     }
 
     @Override
@@ -285,6 +285,16 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         //ad.notifyItemInserted(data.GetSize());
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
+
+                        Vibrator v = (Vibrator) getSystemService(getApplicationContext().VIBRATOR_SERVICE);
+                        // Vibrate for 500 milliseconds
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+                        } else {
+                            //deprecated in API 26
+                            v.vibrate(200);
+                        }
+
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();

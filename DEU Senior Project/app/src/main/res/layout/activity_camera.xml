@@ -15,7 +15,7 @@
         app:itemIconTint="@color/navigationViewColor"
         app:menu="@menu/bottom_navigation"
         app:itemTextColor="@color/navigationViewColor"
-        app:itemIconSize="35dp"
+        app:itemIconSize="40dp"
         app:labelVisibilityMode="labeled"
         />
 
