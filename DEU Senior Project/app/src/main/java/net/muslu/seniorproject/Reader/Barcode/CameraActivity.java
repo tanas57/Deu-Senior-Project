@@ -91,7 +91,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
+        bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(2);
         //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
 
         zXingScannerView = new ZXingScannerView(this);

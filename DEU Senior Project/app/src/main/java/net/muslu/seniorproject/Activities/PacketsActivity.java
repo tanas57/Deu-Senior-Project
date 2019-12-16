@@ -2,12 +2,18 @@ package net.muslu.seniorproject.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toolbar;
 
 import net.muslu.seniorproject.CustomAdapter;
@@ -41,8 +47,25 @@ public class PacketsActivity extends AppCompatActivity {
             rv.setLayoutManager(new LinearLayoutManager(this));
             rv.setHasFixedSize(false);
         }
-
+        /*ImageView makeCallImg = (ImageView) findViewById(R.id.makeCall);
+        makeCallImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makePhoneCall(v);
+            }
+        });
+        */
     }
+
+  /*  public void makePhoneCall(View view){
+        Intent callIntent =new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:05343879697"));
+        if (ActivityCompat.checkSelfPermission(PacketsActivity.this,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        startActivity(callIntent);
+    }*/
 
     @Override
     public void onBackPressed() {
