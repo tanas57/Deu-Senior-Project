@@ -21,8 +21,10 @@ public class CargoPackage implements Serializable {
     protected Branch packageOutBranch;
     protected Customer customer;
     protected ArrayList<PackageStatus> packageStatuses;
+    protected int priority;
 
-    public CargoPackage(int id, long barcode, double packageWeigth, double packageDesi, Branch packageInBranch, Branch packageOutBranch, Customer customer, ArrayList<PackageStatus> packageStatuses) {
+
+    public CargoPackage(int id, long barcode, double packageWeigth, double packageDesi, Branch packageInBranch, Branch packageOutBranch, Customer customer, ArrayList<PackageStatus> packageStatuses, int priority) {
         setId(id);
         setBarcode(barcode);
         setPackageWeigth(packageWeigth);
@@ -31,6 +33,15 @@ public class CargoPackage implements Serializable {
         setPackageOutBranch(packageOutBranch);
         setCustomer(customer);
         setPackageStatuses(packageStatuses);
+        setPriority(priority);
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public int getId() {

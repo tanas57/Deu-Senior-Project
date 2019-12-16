@@ -1,7 +1,6 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
 import android.Manifest;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
@@ -20,22 +19,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.zxing.Result;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import pub.devrel.easypermissions.EasyPermissions;
 
-import net.muslu.seniorproject.Api.JSON.JsonDirectionMatrix;
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
+import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
+import net.muslu.seniorproject.Api.JSON.DMBelowTenPoint;
+import net.muslu.seniorproject.Api.JSON.DMGreaterTenPoint;
+import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.Api.PackageByBarcode;
 import net.muslu.seniorproject.CustomAdapter;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Api.AddressHelper;
-import net.muslu.seniorproject.Api.AddressByBarcode;
-import net.muslu.seniorproject.Routing.MapsActivity;
+import net.muslu.seniorproject.TempData;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Random;
 
 public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
@@ -46,13 +48,8 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     private LatLng cargoman;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
-        String [] barcodes = new String[] { "12345678910", "12345678911", "12345678912", "12345678919",
-                                            "12345678913", "12345678914", "12345678915", "12345678916",
-                                            "12345678917"};
+    String [] barcodes = new String[24];
 
-/*
-           String [] barcodes = new String[] { "12345678915",  "12345678913", "12345678910", "12345678911", "12345678912", "12345678914"};
-*/
     public BarcodeRead() {
         this.data = new BarcodeData();
     }
@@ -66,10 +63,18 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         mScannerView = new ZXingScannerView(this);
         contentFrame.addView(mScannerView);
 
+        Random rnd = new Random();
+        for(int i = 10; i < barcodes.length + 10; i++ ){
+            String temp2 = "123456789" + i;
+            barcodes[i-10] = temp2;
+        }
 
+        /*
         if(!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
         }
+
+         */
 
         rv = findViewById(R.id.rv);
         ad = new CustomAdapter(BarcodeRead.this, data.GetData());
@@ -84,15 +89,29 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
             public void onClick(View v) {
                 Toast.makeText(BarcodeRead.this, "Map is opening", Toast.LENGTH_LONG).show();
 
+                int size = data.GetSize() + 1;
+                TempData tempData = new TempData(size);
+                int [][] distances = tempData.getData().get(0);
+                int [][] durations = tempData.getData().get(1);
+                if(data.GetData().size() > 9){
+                    //DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(BarcodeRead.this, data);
+                    //dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
+                    //dmGreaterTenPoint.Execute();
+                }else{
 
-                JsonDirectionMatrix jsonDirectionMatrix = new JsonDirectionMatrix(BarcodeRead.this, data);
-                jsonDirectionMatrix.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
-                jsonDirectionMatrix.Execute();
-                /*
-                Intent map = new Intent(getApplicationContext(), net.muslu.seniorproject.Routing.MapsActivity.class);
-                map.putExtra("data", data);
-                startActivity(map);
-                */
+                    //DMBelowTenPoint dmBelowTenPoint = new DMBelowTenPoint(BarcodeRead.this, data);
+                    //dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
+                    //dmBelowTenPoint.Execute();
+                }
+
+                GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
+                geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
+                geneticAlgorithmData.setDistances(distances);
+                geneticAlgorithmData.setDurations(durations);
+                geneticAlgorithmData.setBarcodeData(data);
+                geneticAlgorithmData.setAlgorithmType(AlgorithmType.ONLY_DURATION);
+
+                new GeneticAlgorithm(BarcodeRead.this, geneticAlgorithmData);
 
             }
         });
@@ -111,12 +130,17 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
     @Override
     public void onResume() {
         super.onResume();
+        /*
         if(!EasyPermissions.hasPermissions(this, perms)) {
             EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
         }else {
             mScannerView.setResultHandler(this);
             mScannerView.startCamera();
         }
+
+         */
+        mScannerView.setResultHandler(this);
+        mScannerView.startCamera();
     }
 
     @Override

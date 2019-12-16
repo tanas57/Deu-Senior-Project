@@ -29,8 +29,7 @@ namespace ProjectAPI.Controllers
             return _context.Packages
                 .Include(x => x.PackageInBranch)
                 .Include(y => y.PackageOutBranch)
-                .Include(c => c.Customer)
-                .Include(s => s.PackageStatus);
+                .Include(c => c.Customer);
         }
 
         // GET: api/Packages/5

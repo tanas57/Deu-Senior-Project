@@ -16,6 +16,6 @@ namespace ProjectAPI.Models
         public Branch PackageOutBranch { get; set; }
         public Branch PackageInBranch { get; set; }
         public Customer Customer { get; set; }
-        public ICollection<PackageStatus> PackageStatus { get; set; } // that will be removed
+        public int Priority { get; set; } // 1 2 3
     }
 }

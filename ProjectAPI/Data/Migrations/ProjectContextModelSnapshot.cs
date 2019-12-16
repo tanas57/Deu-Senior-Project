@@ -71,6 +71,8 @@ namespace ProjectAPI.Data.Migrations
 
                     b.Property<float>("PackageWeigth");
 
+                    b.Property<int>("Priority");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -121,7 +123,7 @@ namespace ProjectAPI.Data.Migrations
             modelBuilder.Entity("ProjectAPI.Models.PackageStatus", b =>
                 {
                     b.HasOne("ProjectAPI.Models.Package", "PackageId")
-                        .WithMany("PackageStatus")
+                        .WithMany()
                         .HasForeignKey("PackageIdId");
 
                     b.HasOne("ProjectAPI.Models.Branch", "StatusBranch")

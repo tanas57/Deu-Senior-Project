@@ -10,8 +10,8 @@ using ProjectAPI.Data;
 namespace ProjectAPI.Data.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20191126191949_DBInitial")]
-    partial class DBInitial
+    [Migration("20191208200305_InitialDB")]
+    partial class InitialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,6 +73,8 @@ namespace ProjectAPI.Data.Migrations
 
                     b.Property<float>("PackageWeigth");
 
+                    b.Property<int>("Priority");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -123,7 +125,7 @@ namespace ProjectAPI.Data.Migrations
             modelBuilder.Entity("ProjectAPI.Models.PackageStatus", b =>
                 {
                     b.HasOne("ProjectAPI.Models.Package", "PackageId")
-                        .WithMany("PackageStatus")
+                        .WithMany()
                         .HasForeignKey("PackageIdId");
 
                     b.HasOne("ProjectAPI.Models.Branch", "StatusBranch")

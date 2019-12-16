@@ -3,4 +3,34 @@
     <string name="title_activity_maps">Map</string>
     <string name="google_key">AIzaSyCrN6atEBUzLR6Ubv7J53IwWp5GJ5KzBxs</string>
     <string name="google_direction_matrix_api_url">https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial</string>
+    <string name="home_route_text">Rotam</string>
+    <string name="home_addpacket_text">Paket Ekle</string>
+    <string name="home_packet_text">Paketlerim</string>
+    <string name="home_customer_text">Müşteriler</string>
+    <string name="home_statistic_text">İstatistik</string>
+    <string name="home_page">Anasayfa</string>
+    <string name="scan_Qr">Qr Kod Tara</string>
+    <string name="cargo_packages">Paketlerim</string>
+    <string name="calculate_route">Rota Bul</string>
+    <string name="cargo_delivery">Paket Teslim Bilgileri</string>
+    <string-array name="route_selection">
+        <item>
+            En kısa mesafe
+        </item>
+        <item>
+            En kısa süre
+        </item>
+        <item>
+            En kısa mesafe ve süre
+        </item>
+        <item>
+            En kısa mesafe ve müşteri önceliği
+        </item>
+        <item>
+            En kısa süre ve müşteri önceliği
+        </item>
+        <item>
+            En kısa mesafe,süre ve müşteri önceliği
+        </item>
+    </string-array>
 </resources>
