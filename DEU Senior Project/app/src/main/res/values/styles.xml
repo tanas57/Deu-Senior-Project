@@ -27,7 +27,7 @@
     <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/mainPrimary</item>
+        <item name="colorPrimaryDark">@color/login_theme</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
