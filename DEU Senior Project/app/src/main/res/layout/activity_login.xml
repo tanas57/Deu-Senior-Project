@@ -111,7 +111,7 @@
                 android:layout_marginLeft="@dimen/margin_right_16"
                 android:layout_marginRight="@dimen/margin_right_16"
                 android:background="@drawable/red_style"
-                android:text="Login"
+                android:text="Giriş Yap"
                 android:textColor="@color/curated_light"
                 android:textSize="@dimen/text_20" />
 
