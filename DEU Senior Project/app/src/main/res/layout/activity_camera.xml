@@ -12,10 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:textAlignment="center"
         app:itemIconTint="@color/navigationViewColor"
         app:menu="@menu/bottom_navigation"
         app:itemTextColor="@color/navigationViewColor"
-        app:itemIconSize="40dp"
+        app:itemIconSize="45dp"
         app:labelVisibilityMode="labeled"
         />
 

@@ -61,7 +61,7 @@
                 android:drawableLeft="@drawable/ic_person"
                 android:drawableTint="@color/curated_light"
                 android:drawablePadding="@dimen/padding_16"
-                android:hint="User Name"
+                android:hint="Kullanıcı Adı"
                 android:layout_marginTop="@dimen/margin_top_8"
                 android:layout_marginBottom="@dimen/margin_top_8"
                 android:layout_marginLeft="@dimen/margin_right_16"
@@ -72,7 +72,7 @@
                 android:padding="@dimen/padding_16"
                 android:textColor="@color/curated_light"
                 android:textColorHint="@color/curated_light"
-                android:textSize="@dimen/text_20"
+                android:textSize="@dimen/text_18"
                 android:textCursorDrawable="@drawable/color_cursor"
                 />
 
@@ -86,7 +86,7 @@
                 android:drawableTint="@color/curated_light"
                 android:drawablePadding="@dimen/padding_16"
                 android:background="@drawable/edit_style"
-                android:hint="Password"
+                android:hint="Şifreniz"
                 android:layout_marginTop="@dimen/margin_top_8"
                 android:layout_marginBottom="@dimen/margin_top_8"
                 android:layout_marginLeft="@dimen/margin_right_16"
@@ -96,7 +96,7 @@
                 android:padding="@dimen/padding_16"
                 android:textColor="@color/curated_light"
                 android:textColorHint="@color/curated_light"
-                android:textSize="@dimen/text_20"
+                android:textSize="@dimen/text_18"
                 android:textCursorDrawable="@drawable/color_cursor"
                 />
 

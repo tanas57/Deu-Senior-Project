@@ -48,9 +48,19 @@
     <style name="Font_family_light" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
+    <style name="Font_family_thin" parent="AppTheme">
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
 
     <style name="Font_family_regular" parent="AppTheme">
         <item name="android:fontFamily">sans-serif-regular</item>
+    </style>
+
+    <style name="ThemeCurrent2" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/mainPrimary</item>
+        <item name="colorPrimaryDark">@color/mainPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 </resources>
