@@ -65,7 +65,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private LatLng cargoman;
 
-    String [] barcodes = new String[48];
+    String [] barcodes = new String[10];
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -194,8 +194,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                                     new GeneticAlgorithm(CameraActivity.this, geneticAlgorithmData);
 
+/*
 
-                                     /*
 
                                     if(dataTransfer.getBarcodeData().GetData().size() > 9){
                                         DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, dataTransfer.getBarcodeData(), returnedType);
@@ -207,8 +207,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                         //dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
                                         //dmBelowTenPoint.Execute();
                                     }
-*/
 
+*/
                                 }
                             })  ;
                             AlertDialog myDiaolog = mBuilder.create();
