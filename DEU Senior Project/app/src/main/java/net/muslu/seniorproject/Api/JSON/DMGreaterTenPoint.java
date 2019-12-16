@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -24,6 +25,15 @@ public class DMGreaterTenPoint {
     private BarcodeData barcodeData;
     private Context context;
     private ArrayList<PointData> points;
+    private AlgorithmType algorithmType;
+
+    public AlgorithmType getAlgorithmType() {
+        return algorithmType;
+    }
+
+    public void setAlgorithmType(AlgorithmType algorithmType) {
+        this.algorithmType = algorithmType;
+    }
 
     private class PointData{
         private int index;
@@ -89,6 +99,7 @@ public class DMGreaterTenPoint {
             this.response = response;
         }
     }
+
     public void setCargoman(BarcodeReadModel cargoman) {
         geneticAlgorithmData.cargoman = cargoman;
     }
@@ -105,9 +116,10 @@ public class DMGreaterTenPoint {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public DMGreaterTenPoint(Context context, BarcodeData barcodeData) {
+    public DMGreaterTenPoint(Context context, BarcodeData barcodeData, AlgorithmType algorithmType) {
         setContext(context);
         setBarcodeData(barcodeData);
+        setAlgorithmType(algorithmType);
         points = new ArrayList<>();
     }
 
@@ -203,7 +215,6 @@ public class DMGreaterTenPoint {
         @Override
         protected void onPostExecute(List<HashMap<String, String>> lists) {
 
-
             int barcodeSize = getBarcodeData().GetSize();
             int [] distances = new int[barcodeSize];
             int [] durations = new int[barcodeSize];
@@ -250,6 +261,7 @@ public class DMGreaterTenPoint {
                     }
                 }
 
+                geneticAlgorithmData.setAlgorithmType(getAlgorithmType());
                 geneticAlgorithmData.setDistances(distancesMx);
                 geneticAlgorithmData.setDurations(durationMx);
                 geneticAlgorithmData.setBarcodeData(getBarcodeData());

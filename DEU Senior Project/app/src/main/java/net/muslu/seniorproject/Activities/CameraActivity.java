@@ -1,4 +1,4 @@
-package net.muslu.seniorproject.Reader.Barcode;
+package net.muslu.seniorproject.Activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -26,16 +26,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.Result;
 
-import net.muslu.seniorproject.Activities.PacketsActivity;
 import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.Api.AddressHelper;
+import net.muslu.seniorproject.Api.JSON.DMGreaterTenPoint;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.Api.PackageByBarcode;
 import net.muslu.seniorproject.DataTransfer;
-import net.muslu.seniorproject.MainActivity;
 import net.muslu.seniorproject.R;
+import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
+import net.muslu.seniorproject.Reader.Barcode.BarcodeRead;
+import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
+import net.muslu.seniorproject.TempData;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -62,7 +65,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private LatLng cargoman;
 
-    String [] barcodes = new String[10];
+    String [] barcodes = new String[48];
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -83,15 +86,13 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             String temp2 = "123456789" + i;
             barcodes[i-10] = temp2;
         }
-        /*
+
         for(int i = 0; i<barcodes.length;i++){
             AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
             String apiUrl = addressByBarcode.GetAddress();
 
             new Background().execute(apiUrl, barcodes[i]);
         }
-
-         */
 
         setContentView(R.layout.activity_camera);
         contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
@@ -176,6 +177,38 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     zXingScannerView.startCamera();
                                     zXingScannerView.setLaserEnabled(true);
                                     Blurry.delete(contentFrame);
+
+
+                                    int size = dataTransfer.getBarcodeData().GetSize() + 1;
+
+                                    TempData tempData = new TempData(size);
+                                    int [][] distances = tempData.getData().get(0);
+                                    int [][] durations = tempData.getData().get(1);
+
+                                    GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
+                                    geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                    geneticAlgorithmData.setDistances(distances);
+                                    geneticAlgorithmData.setDurations(durations);
+                                    geneticAlgorithmData.setBarcodeData(dataTransfer.getBarcodeData());
+                                    geneticAlgorithmData.setAlgorithmType(returnedType);
+
+                                    new GeneticAlgorithm(CameraActivity.this, geneticAlgorithmData);
+
+
+                                     /*
+
+                                    if(dataTransfer.getBarcodeData().GetData().size() > 9){
+                                        DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, dataTransfer.getBarcodeData(), returnedType);
+                                        dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                        dmGreaterTenPoint.Execute();
+                                    }else{
+
+                                        //DMBelowTenPoint dmBelowTenPoint = new DMBelowTenPoint(BarcodeRead.this, data);
+                                        //dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
+                                        //dmBelowTenPoint.Execute();
+                                    }
+*/
+
                                 }
                             })  ;
                             AlertDialog myDiaolog = mBuilder.create();
@@ -282,7 +315,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         protected void onPostExecute(String s) {
             Log.w("GET JSON RESULT", s);
             if(!s.contains("error")){
-                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode);
+                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode, CameraActivity.this);
                 if(newPackage != null){
                     if(barcodeData.AddData(newPackage)){
                         newPackage.setPackageId(packageid);
@@ -292,6 +325,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
 
+                        /*
+
                         Vibrator v = (Vibrator) getSystemService(getApplicationContext().VIBRATOR_SERVICE);
                         // Vibrate for 500 milliseconds
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -300,6 +335,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             //deprecated in API 26
                             v.vibrate(200);
                         }
+
+                         */
 
                     }
                     else{

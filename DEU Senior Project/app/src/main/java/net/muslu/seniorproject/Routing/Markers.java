@@ -44,7 +44,7 @@ public class Markers {
             else if (i == addList.size() - 1)
                 mMap.addMarker(new MarkerOptions().position(pos).title("Bitiş Adresi").icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_pck)));
             else
-                mMap.addMarker(new MarkerOptions().position(pos).title("" + i + ". Teslimat Adresi")
+                mMap.addMarker(new MarkerOptions().position(pos).title("" + i + ". Adresi : " + markers.get(i).getCustomer().getFullName() + " " + markers.get(i).getCargoPackage().getPriority())
                         .icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_pck)));
         }
 
