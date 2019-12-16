@@ -55,7 +55,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     String[] perms = {Manifest.permission.CAMERA};
 
     ViewGroup contentFrame;
-
+    BottomNavigationView bottomNav;
     DataTransfer dataTransfer;
     BarcodeData barcodeData;
     int packageid;
@@ -95,9 +95,12 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
         setContentView(R.layout.activity_camera);
         contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
-        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-        bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(2);
+
+        if(packageid != 1){
+            bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(packageid - 1);
+        }
         //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
 
         zXingScannerView = new ZXingScannerView(this);
@@ -284,6 +287,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                     if(barcodeData.AddData(newPackage)){
                         newPackage.setPackageId(packageid);
                         packageid++;
+                        bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(packageid - 1);
                         //ad.notifyItemInserted(data.GetSize());
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();

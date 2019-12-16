@@ -69,6 +69,7 @@
                 android:inputType="text"
                 android:maxLength="30"
                 android:maxLines="1"
+                android:focusable="false"
                 android:padding="@dimen/padding_16"
                 android:textColor="@color/curated_light"
                 android:textColorHint="@color/curated_light"
@@ -78,6 +79,7 @@
 
 
             <EditText
+                android:focusable="true"
                 android:id="@+id/reg_password_et"
                 style="@style/Font_family_light"
                 android:layout_width="match_parent"
