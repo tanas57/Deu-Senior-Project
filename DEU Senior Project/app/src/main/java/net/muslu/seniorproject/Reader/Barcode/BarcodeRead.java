@@ -105,7 +105,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
                 }
 
                 GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
-                geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
+                geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
                 geneticAlgorithmData.setDistances(distances);
                 geneticAlgorithmData.setDurations(durations);
                 geneticAlgorithmData.setBarcodeData(data);
@@ -202,7 +202,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         protected void onPostExecute(String s) {
             Log.w("GET JSON RESULT", s);
             if(!s.contains("error")){
-                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode);
+                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode, getApplicationContext());
                 if(newPackage != null){
                     if(data.AddData(newPackage)){
                         newPackage.setPackageId(packageCounter);

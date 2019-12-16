@@ -574,7 +574,12 @@ public class GeneticAlgorithm {
                         temp += (distances[previous.getPackageId()][next.getPackageId()] / 1000) * (durations[previous.getPackageId()][next.getPackageId()] / 60);
                         break;
                     case DISTANCE_PRIORITY:
-                        temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority();
+                        if(next.getCargoPackage().getPriority() == 1)
+                            temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority();
+                        else if(next.getCargoPackage().getPriority() == 2)
+                        temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority() * 10;
+                        else if(next.getCargoPackage().getPriority() == 3)
+                            temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority() * 20;
                         break;
                     case ALL_OF_THEM:
                         temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *

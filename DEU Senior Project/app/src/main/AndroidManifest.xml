@@ -40,7 +40,7 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".Reader.Barcode.CameraActivity"
+        <activity android:name=".Activities.CameraActivity"
             android:theme="@style/ThemeCurrent2"
             >
 

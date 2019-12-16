@@ -14,6 +14,7 @@
     <color name="gray">#656565</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="blackTransparent">#AB000000</color>
     <color name="login_theme">#85905C</color>
 
 

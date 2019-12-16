@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProjectAPI.Data.Migrations
 {
-    public partial class InitialDB : Migration
+    public partial class Migrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,7 +49,7 @@ namespace ProjectAPI.Data.Migrations
                     PackageOutBranchId = table.Column<int>(nullable: true),
                     PackageInBranchId = table.Column<int>(nullable: true),
                     CustomerId = table.Column<int>(nullable: true),
-                    Priority = table.Column<int>(nullable: false, defaultValue:1)
+                    Priority = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

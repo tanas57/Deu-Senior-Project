@@ -10,8 +10,8 @@ using ProjectAPI.Data;
 namespace ProjectAPI.Data.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20191208200305_InitialDB")]
-    partial class InitialDB
+    [Migration("20191216125720_Migrations")]
+    partial class Migrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

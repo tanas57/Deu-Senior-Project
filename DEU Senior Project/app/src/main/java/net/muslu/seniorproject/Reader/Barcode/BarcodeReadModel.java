@@ -1,6 +1,7 @@
 package net.muslu.seniorproject.Reader.Barcode;
 
 import android.app.Application;
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
@@ -63,12 +64,12 @@ public class BarcodeReadModel extends Application implements Serializable {
         this.barcodeImgApiURL = API_URL + getBarcode() + ".jpg?IsTextDrawn=1&TextSize=22&resolution=2";
     }
 
-    public BarcodeReadModel(long barcode, CargoPackage cargoPackage) {
+    public BarcodeReadModel(long barcode, CargoPackage cargoPackage, Context context) {
        setBarcode(barcode);
        setCargoPackage(cargoPackage);
 
        try {
-           Geocoder geocoder = new Geocoder(BarcodeReadModel.this, Locale.getDefault());
+           Geocoder geocoder = new Geocoder(context, Locale.getDefault());
            List<Address> latlng = null;
            latlng = geocoder.getFromLocationName(getCustomer().getAddress(), 1);
            double longitude = latlng.get(0).getLongitude();
@@ -79,7 +80,7 @@ public class BarcodeReadModel extends Application implements Serializable {
        catch (Exception e) { e.printStackTrace();}
     }
 
-    public BarcodeReadModel(long barcode, double latitude, double longitude) {
+    public BarcodeReadModel(long barcode, double latitude, double longitude, Context context) {
         setBarcode(barcode);
         setCargoPackage(null);
         setLatLng(latitude, longitude);

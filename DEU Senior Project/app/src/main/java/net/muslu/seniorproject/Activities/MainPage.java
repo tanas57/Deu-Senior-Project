@@ -14,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 import net.muslu.seniorproject.DataTransfer;
 import net.muslu.seniorproject.R;
-import net.muslu.seniorproject.Reader.Barcode.CameraActivity;
 
 public class MainPage extends AppCompatActivity {
 
