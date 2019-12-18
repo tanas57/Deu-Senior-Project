@@ -124,7 +124,7 @@ public class PacketsActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         dataTransfer.setBarcodeData(data);
-        if(packageid < 0) packageid = 0;
+        if(packageid < 1) packageid = 1;
 
         dataTransfer.setPackageid(packageid);
 
