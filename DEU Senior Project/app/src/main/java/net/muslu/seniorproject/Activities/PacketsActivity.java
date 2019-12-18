@@ -34,6 +34,8 @@ public class PacketsActivity extends AppCompatActivity {
     private BarcodeData data;
     private RecyclerView rv;
     private CustomAdapter ad;
+    private DataTransfer dataTransfer;
+    private int packageid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,10 @@ public class PacketsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         if (intent.getExtras() != null) {
-            DataTransfer dataTransfer = (DataTransfer) intent.getExtras().getSerializable("data");
+            dataTransfer = (DataTransfer) intent.getExtras().getSerializable("data");
             setData(dataTransfer.getBarcodeData());
+            packageid = dataTransfer.getPackageid();
+
             rv = findViewById(R.id.rv);
             ad = new CustomAdapter(PacketsActivity.this, getData().GetData(), new CustomAdapter.ClickListener() {
 
@@ -116,8 +120,14 @@ public class PacketsActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
+        dataTransfer.setBarcodeData(data);
+        dataTransfer.setPackageid(packageid);
+
+        Intent intent = new Intent();
+        intent.putExtra("data", (DataTransfer) dataTransfer);
+        setResult(RESULT_OK, intent);
+        finish();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
