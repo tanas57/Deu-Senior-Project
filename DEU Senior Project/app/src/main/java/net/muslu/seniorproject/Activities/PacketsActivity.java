@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -81,8 +82,9 @@ public class PacketsActivity extends AppCompatActivity {
 
                                 Toast.makeText(view.getContext(), model.getCustomer().getFullName() + " müşterisinin " + model.getBarcode() + " numaralı paketi kaldırıldı." , Toast.LENGTH_SHORT).show();
                                 data.GetData().remove(pos);
+                                packageid--;
                                 rv.setAdapter(ad);
-
+                                Log.v("PACKAGE DELETED", model.getCustomer().getFullName() + " PACKAGE DELETED");
                             }
                         });
                         builder.show();
@@ -122,12 +124,15 @@ public class PacketsActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         dataTransfer.setBarcodeData(data);
+        if(packageid < 0) packageid = 0;
+
         dataTransfer.setPackageid(packageid);
 
         Intent intent = new Intent();
         intent.putExtra("data", (DataTransfer) dataTransfer);
         setResult(RESULT_OK, intent);
         finish();
+        Log.v("DATA TRANSFER", "DATA RETURNS FROM PACKETS ACTIVITY");
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

@@ -92,18 +92,14 @@ public class MainPage extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
-        Log.v("RESULTT ACTIVITY", "GELDİK");
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             // Make sure the request was successful-
-            Log.v("RESULTT REQUEST", "GOOOOOOOOOOOOOOOOD");
 
             dataTransfer = (DataTransfer) data.getSerializableExtra("data");
 
             if(dataTransfer != null) {
-                Log.v("ON BACK", "GERİ GELDİM VAR MI DATA");
-
                 Log.v("BARKOD SIZE => ", " " + dataTransfer.getBarcodeData().GetSize());
             }
         }
