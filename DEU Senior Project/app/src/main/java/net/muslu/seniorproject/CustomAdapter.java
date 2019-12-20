@@ -23,9 +23,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     private static WeakReference<ClickListener> listenerRef;
 
     public interface ClickListener {
-
         void onPositionClicked(View view, BarcodeReadModel model, int pos);
-
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -33,7 +31,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         TextView customerName;
         TextView customerAddress;
         ImageView packageBarcode, phone, remove;
-
 
         public MyViewHolder(View itemView, ClickListener listener) {
             super(itemView);

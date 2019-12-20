@@ -13,7 +13,10 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import net.muslu.seniorproject.Activities.MainPage;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
+import net.muslu.seniorproject.Functions;
+import net.muslu.seniorproject.MainActivity;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
@@ -719,11 +722,7 @@ public class GeneticAlgorithm {
                 Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
             }
 
-            Intent intent = new Intent(context, MapsActivity.class);
-            BarcodeData barcodeData = new BarcodeData();
-            barcodeData.setData(route.getBarcodeReadModels());
-            intent.putExtra("data", barcodeData);
-            context.startActivity(intent);
+            Functions.addRoute(route);
 
         }
     }

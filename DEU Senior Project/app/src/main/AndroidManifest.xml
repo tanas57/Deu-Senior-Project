@@ -7,55 +7,54 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
-        android:networkSecurityConfig="@xml/security_config"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.DeliveryActivity" android:theme="@style/ThemeCurrent" ></activity>
+        <activity android:name=".Activities.RouteActivity" android:theme="@style/ThemeCurrent"></activity>
+        <activity
+            android:name=".Activities.DeliveryActivity"
+            android:theme="@style/ThemeCurrent" />
         <activity
             android:name=".Activities.PacketsActivity"
             android:theme="@style/ThemeCurrent" />
         <activity
             android:name=".Activities.MainPage"
-            android:theme="@style/MainpageTheme">
-
-        </activity>
+            android:theme="@style/MainpageTheme"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Activities.LoginActivity"
-                  android:theme="@style/LoginTheme">
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/LoginTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name=".Activities.CameraActivity"
-            android:theme="@style/ThemeCurrent2"
-            >
-
-        </activity>
+        <activity
+            android:name=".Activities.CameraActivity"
+            android:theme="@style/ThemeCurrent2"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity android:name=".Reader.Barcode.BarcodeRead" />
-        <activity android:name=".Routing.MapsActivity" />
+        <activity android:name=".Routing.MapsActivity"  />
         <activity android:name=".MainActivity" />
     </application>
 

@@ -196,6 +196,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                                     new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
 
+                                    Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                                    startActivity(intent);
+
 /*
 
 

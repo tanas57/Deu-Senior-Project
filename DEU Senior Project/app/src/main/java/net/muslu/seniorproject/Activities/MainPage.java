@@ -17,25 +17,29 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.DataTransfer;
+import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
+import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
+import net.muslu.seniorproject.Routing.MapsActivity;
 import net.muslu.seniorproject.Routing.RoutingListAdapter;
+
+import java.util.ArrayList;
 
 public class MainPage extends AppCompatActivity {
 
     protected DataTransfer dataTransfer;
     protected int packageId = 1;
     public static final int REQUEST_CODE = 100;
-    private Dialog dialog;
-    private int selected = -1;
+
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-
-        dialog = new Dialog(this);
 
         dataTransfer = new DataTransfer();
         packageId = dataTransfer.getPackageid();
@@ -55,32 +59,8 @@ public class MainPage extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Progress ekrandan kaldırıldı..", Toast.LENGTH_LONG).show();
 
                 route.startAnimation(shake);
-                dialog.setContentView(R.layout.route_popup_layout);
-
-                RecyclerView rout = dialog.findViewById(R.id.routes);
-                Button button = dialog.findViewById(R.id.select_route);
-
-
-                RoutingListAdapter routingListAdapter = new RoutingListAdapter(getApplicationContext(), dataTransfer.getRoutes(), new RoutingListAdapter.ClickListener() {
-                    @Override
-                    public void onPositionClicked(View view, int pos) {
-                        selected = pos;
-                    }
-                });
-
-                rout.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                rout.setAdapter(routingListAdapter);
-
-                // button select route
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-
-                dialog.show();
-
+                Intent intent = new Intent(getApplicationContext(), RouteActivity.class);
+                startActivity(intent);
 
             }
         });
