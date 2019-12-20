@@ -168,6 +168,7 @@ public class Route {
             JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
             String encodedString = overviewPolylines.getString("points");
             List<LatLng> list = decodePoly(encodedString);
+            ArrayList<Polyline> drawedLine = new ArrayList<Polyline>();
 
             for(int z = 0; z<list.size()-1;z++){
                 LatLng src= list.get(z);
@@ -176,6 +177,7 @@ public class Route {
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
                         .width(15)
                         .color(Color.rgb(240,140,40)).geodesic(true));
+                drawedLine.add(line);
             }
 
         }
