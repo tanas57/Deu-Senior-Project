@@ -14,6 +14,10 @@
     <string name="calculate_route">Rota Bul</string>
     <string name="cargo_delivery">Paket Teslim Bilgileri</string>
     <string name="waiting_route_draw">Rota hazırlanıyor, Lütfen bekleyin...</string>
+    <string name="packet_delete_title">Paket Silme</string>
+    <string name="packet_delete_desc">paketi sistemden kaldırılacak, onaylıyor musunuz?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
     <string-array name="route_selection">
         <item>
             En kısa mesafe

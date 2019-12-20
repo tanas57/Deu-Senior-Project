@@ -56,7 +56,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     String [] selectRoute ;
     private ZXingScannerView zXingScannerView;
     String[] perms = {Manifest.permission.CAMERA};
-
+    private static final int REQUEST_CODE = 100;
     ViewGroup contentFrame;
     BottomNavigationView bottomNav;
     DataTransfer dataTransfer;
@@ -65,7 +65,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private LatLng cargoman;
 
-    String [] barcodes = new String[48];
+    String [] barcodes = new String[10];
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -122,6 +122,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener=
             new BottomNavigationView.OnNavigationItemSelectedListener() {
+
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
@@ -130,9 +131,10 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             onBackPressed();
                             break;
                         case R.id.nav_package_list:
-                            Intent packets = new Intent(getApplicationContext(), PacketsActivity.class);
-                            packets.putExtra("data", dataTransfer);
-                            startActivity(packets);
+                            setValues();
+                            Intent packetsIntent = new Intent(getApplicationContext(), PacketsActivity.class);
+                            packetsIntent.putExtra("data", dataTransfer);
+                            startActivityForResult(packetsIntent, REQUEST_CODE);
                             break;
                         case R.id.nav_route:
 
@@ -194,8 +196,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                                     new GeneticAlgorithm(CameraActivity.this, geneticAlgorithmData);
 
+/*
 
-                                     /*
 
                                     if(dataTransfer.getBarcodeData().GetData().size() > 9){
                                         DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, dataTransfer.getBarcodeData(), returnedType);
@@ -207,8 +209,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                         //dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
                                         //dmBelowTenPoint.Execute();
                                     }
-*/
 
+*/
                                 }
                             })  ;
                             AlertDialog myDiaolog = mBuilder.create();
@@ -234,10 +236,36 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             };
 
     @Override
-    public void onBackPressed() {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            // Make sure the request was successful-
+
+            dataTransfer = (DataTransfer) data.getSerializableExtra("data");
+
+            if(dataTransfer != null) {
+                Log.v("BARKOD SIZE => ", " " + dataTransfer.getBarcodeData().GetSize());
+                packageid = dataTransfer.getPackageid();
+                barcodeData = dataTransfer.getBarcodeData();
+
+                Log.v("BADGE PACKET SIZE => ", " " + packageid);
+                bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(packageid - 1);
+
+            }
+        }
+    }
+
+    private void setValues(){
         dataTransfer.setBarcodeData(barcodeData);
         dataTransfer.setPackageid(packageid);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        setValues();
 
         Intent intent = new Intent();
         intent.putExtra("data", (DataTransfer) dataTransfer);

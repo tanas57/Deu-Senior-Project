@@ -77,7 +77,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
          */
 
         rv = findViewById(R.id.rv);
-        ad = new CustomAdapter(BarcodeRead.this, data.GetData());
+        //ad = new CustomAdapter(BarcodeRead.this, data.GetData());
         rv.setAdapter(ad);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(false);
