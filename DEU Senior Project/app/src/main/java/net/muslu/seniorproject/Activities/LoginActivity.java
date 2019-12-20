@@ -11,7 +11,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import net.muslu.seniorproject.CheckInternet;
+import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -20,8 +20,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        StrictMode.ThreadPolicy policy = new
-                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
 
@@ -42,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
                 AlertDialog alert = builder.create();
 
 
-                if (CheckInternet.isConnected(getApplicationContext())) {
+                if (Functions.isConnected(getApplicationContext())) {
                     Intent myIntent = new Intent(LoginActivity.this,MainPage.class);
                     startActivity(myIntent);
                 } else {
