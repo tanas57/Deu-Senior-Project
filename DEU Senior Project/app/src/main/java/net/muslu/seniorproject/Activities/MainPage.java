@@ -2,8 +2,11 @@ package net.muslu.seniorproject.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,22 +14,28 @@ import android.view.View;
 import android.view.ViewManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 import net.muslu.seniorproject.DataTransfer;
 import net.muslu.seniorproject.R;
+import net.muslu.seniorproject.Routing.RoutingListAdapter;
 
 public class MainPage extends AppCompatActivity {
 
     protected DataTransfer dataTransfer;
     protected int packageId = 1;
     public static final int REQUEST_CODE = 100;
-
+    private Dialog dialog;
+    private int selected = -1;
     String[] perms = {Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+
+        dialog = new Dialog(this);
 
         dataTransfer = new DataTransfer();
         packageId = dataTransfer.getPackageid();
@@ -39,7 +48,6 @@ public class MainPage extends AppCompatActivity {
         packets = findViewById(R.id.home_packets);
         add_package = findViewById(R.id.home_add_package);
 
-
         route.setClickable(true);
         route.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,9 +55,31 @@ public class MainPage extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Progress ekrandan kaldırıldı..", Toast.LENGTH_LONG).show();
 
                 route.startAnimation(shake);
+                dialog.setContentView(R.layout.route_popup_layout);
 
-                if(progress.getParent() != null)
-                    ((ViewManager)progress.getParent()).removeView(progress);
+                RecyclerView rout = dialog.findViewById(R.id.routes);
+                Button button = dialog.findViewById(R.id.select_route);
+
+
+                RoutingListAdapter routingListAdapter = new RoutingListAdapter(getApplicationContext(), dataTransfer.getRoutes(), new RoutingListAdapter.ClickListener() {
+                    @Override
+                    public void onPositionClicked(View view, int pos) {
+                        selected = pos;
+                    }
+                });
+
+                rout.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                rout.setAdapter(routingListAdapter);
+
+                // button select route
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+
+                dialog.show();
 
 
             }

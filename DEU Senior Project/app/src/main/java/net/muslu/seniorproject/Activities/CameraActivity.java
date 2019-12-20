@@ -194,7 +194,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     geneticAlgorithmData.setBarcodeData(dataTransfer.getBarcodeData());
                                     geneticAlgorithmData.setAlgorithmType(returnedType);
 
-                                    new GeneticAlgorithm(CameraActivity.this, geneticAlgorithmData);
+                                    new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
 
 /*
 

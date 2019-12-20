@@ -16,6 +16,6 @@
     <color name="black">#000000</color>
     <color name="blackTransparent">#AB000000</color>
     <color name="login_theme">#85905C</color>
-
+    <color name="route_button">#46D146</color>
 
 </resources>

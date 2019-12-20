@@ -1,14 +1,23 @@
 package net.muslu.seniorproject.Algorithm;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
+import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.Routing.MapsActivity;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,8 +49,59 @@ public class GeneticAlgorithm {
     // customer priority
     // package priority
 
+    public static final String CHANNEL_ID = "channel";
+    private NotificationManagerCompat notificationManager;
+
     long startTime = System.currentTimeMillis();
     long endTime;
+
+    public void sendNotification() {
+        final int progressMax = 100;
+
+        final NotificationCompat.Builder notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_person)
+                .setContentTitle("Download")
+                .setContentText("Download in progress")
+                .setPriority(Notification.PRIORITY_LOW)
+                .setOngoing(true)
+                .setOnlyAlertOnce(true)
+                .setProgress(progressMax, 0, true);
+
+        notificationManager.notify(2, notification.build());
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SystemClock.sleep(2000);
+                for (int progress = 0; progress <= progressMax; progress += 20) {
+                    /*notification.setProgress(progressMax, progress, false);
+                    notificationManager.notify(2, notification.build());*/
+                    SystemClock.sleep(1000);
+                }
+                notification.setContentText("Download finished")
+                        .setProgress(0, 0, false)
+                        .setOngoing(false);
+                notificationManager.notify(2, notification.build());
+            }
+        }).start();
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Channel",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("This is Channel 2");
+
+            NotificationManager manager = context.getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+    }
 
     public GeneticAlgorithm(Context context, GeneticAlgorithmData geneticAlgorithmData) {
         this.context = context;
@@ -52,6 +112,8 @@ public class GeneticAlgorithm {
         setAlgorithmType(geneticAlgorithmData.getAlgorithmType());
 
         population = new ArrayList<>();
+
+        notificationManager = NotificationManagerCompat.from(this.context);
 
         int popSize = getBarcodeData().GetSize();
 
@@ -611,6 +673,8 @@ public class GeneticAlgorithm {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
             Work();
+            createNotificationChannel();
+            sendNotification();
             return null;
         }
 

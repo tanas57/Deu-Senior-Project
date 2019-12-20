@@ -18,6 +18,7 @@
     <string name="packet_delete_desc">paketi sistemden kaldırılacak, onaylıyor musunuz?</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
+    <string name="route_select">Rotayı seç</string>
     <string-array name="route_selection">
         <item>
             En kısa mesafe

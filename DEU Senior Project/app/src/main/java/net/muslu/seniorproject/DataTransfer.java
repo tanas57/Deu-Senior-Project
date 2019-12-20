@@ -2,9 +2,11 @@ package net.muslu.seniorproject;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class DataTransfer implements Serializable {
     private int packageid;
@@ -12,9 +14,11 @@ public class DataTransfer implements Serializable {
     private int[][] duration;
     private int[][] distance;
     private double cargomanLatitude;
+    private ArrayList<Chromosome> routes;
 
     public DataTransfer(){
         barcodeData = new BarcodeData();
+        routes = new ArrayList<>();
         packageid = 1;
         cargomanLatitude = 38.371881;
         cargomanLongitude = 27.194662;
@@ -71,4 +75,15 @@ public class DataTransfer implements Serializable {
     public void setBarcodeData(BarcodeData barcodeData) {
         this.barcodeData = barcodeData;
     }
+
+    public ArrayList<Chromosome> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(ArrayList<Chromosome> routes) {
+        this.routes = routes;
+    }
+
+    public void addRoute(Chromosome chromosome) { routes.add(chromosome); }
+
 }

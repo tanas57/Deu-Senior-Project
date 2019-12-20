@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:scaleX="1.2"
+            android:scaleY="1.2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_weight="0.1"/>
+
+        <TextView
+            android:id="@+id/route_name"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:text="Rota 1"
+            android:textSize="17dp"
+            android:layout_weight="0.9"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/ic_location_on"/>
+
+            <TextView
+                android:id="@+id/route_num"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="15dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="10 adet"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/ic_swap_calls"/>
+
+            <TextView
+                android:id="@+id/route_distance"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="15dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="6 km"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/ic_access_time"/>
+
+            <TextView
+                android:id="@+id/route_time"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:textSize="15dp"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:text="6 km"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
