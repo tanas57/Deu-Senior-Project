@@ -17,15 +17,12 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import android.widget.Toast;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -182,8 +179,9 @@ public final class Functions {
             public void onSuccess(Location location) {
                 if(location!=null){
                     currentLocation=location;
-                    Toast.makeText(context,currentLocation.getLatitude()+" "+currentLocation.getLongitude(),Toast.LENGTH_LONG).show();
-
+                    //setCargoman_lat(location.getLatitude());
+                    //setCargoman_lng(location.getLongitude());
+                    Log.v("CARGOMAN LOCATION", currentLocation.getLatitude()+" "+currentLocation.getLongitude());
                 }
             }
         });
