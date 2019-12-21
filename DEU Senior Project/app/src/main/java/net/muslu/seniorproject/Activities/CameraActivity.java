@@ -53,7 +53,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private BarcodeData barcodeData;
     private LatLng cargoman;
 
-    private int psize = 22;
+    private int psize = 10;
     String [] barcodes = new String[psize];
 
     public void onCreate(Bundle state) {

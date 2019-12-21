@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import net.muslu.seniorproject.Algorithm.Chromosome;
@@ -56,7 +57,7 @@ public class RoutingListAdapter extends RecyclerView.Adapter<RoutingListAdapter.
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView count, distance, duration, name;
-
+        RadioButton ischecked;
 
         public MyViewHolder(View itemView, ClickListener listener) {
             super(itemView);
@@ -65,12 +66,14 @@ public class RoutingListAdapter extends RecyclerView.Adapter<RoutingListAdapter.
             this.distance = itemView.findViewById(R.id.route_distance);
             this.duration = itemView.findViewById(R.id.route_time);
             this.count = itemView.findViewById(R.id.route_num);
+            this.ischecked = itemView.findViewById(R.id.route_selected);
 
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            this.ischecked.setChecked(true);
             listenerRef.get().onPositionClicked(v, getAdapterPosition());
         }
 

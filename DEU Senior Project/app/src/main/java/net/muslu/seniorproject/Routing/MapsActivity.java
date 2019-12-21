@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -69,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .tilt(45)
                             .build();
 
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null);
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 555, null);
                     mMap.getUiSettings().setZoomControlsEnabled(true);
                 }
             }
@@ -122,7 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(38.3749,27.1872)) // will be cargoman coords
+                .target(new LatLng(Functions.getCargoman_lat(),Functions.getCargoman_lng())) // will be cargoman coords
                 .zoom(10)
                 .bearing(0)
                 .tilt(45)
@@ -143,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onEndTime() {
             }
-        }, 2500);
+        }, 1233);
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -156,6 +157,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
                 cont = false;
+
+                Toast.makeText(MapsActivity.this, marker.getId() + " "+ marker.getPosition() + " " + marker.getTitle(), Toast.LENGTH_SHORT).show();
+
+
                 return false;
             }
 
