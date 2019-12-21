@@ -19,6 +19,7 @@
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="route_select">Rotayı seç</string>
+    <string name="snipper_button_text">Paketi teslim et</string>
     <string-array name="route_selection">
         <item>
             En kısa mesafe

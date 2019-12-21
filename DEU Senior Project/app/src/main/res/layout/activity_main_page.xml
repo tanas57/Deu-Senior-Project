@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cargomanFullname"
                 android:layout_marginTop="7dp"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-thin"
                 android:text="Bugün taşınması gereken paket sayısı : 10"
                 android:textColor="#9EBCF3"
                 android:textSize="14dp" />

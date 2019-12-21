@@ -95,7 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         addList = data.GetData();
         try {
-            marker.createMarkers(mMap,this,addList);
+            marker.createMarkers(mMap,this,getMapsActivityContext(),addList);
             Route d = new Route();
             d.drawRoute(mMap,this,marker.markerList,true,true);
         } catch (IOException e) {
