@@ -83,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         CameraPosition googlePlex = CameraPosition.builder()
                 .target(new LatLng(38.3749,27.1872))
-                .zoom(50)
+                .zoom(3)
                 .bearing(0)
                 .tilt(45)
                 .build();
@@ -105,7 +105,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
         mMap.animateCamera(cameraUpdate);
         locationManager.removeUpdates(this);
     }
