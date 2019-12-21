@@ -42,9 +42,9 @@ public class RoutingListAdapter extends RecyclerView.Adapter<RoutingListAdapter.
         Chromosome chromosome = this.data.get(i);
 
         holder.name.setText("Rota " + (i+1) + " ");
-        holder.distance.setText(" " + chromosome.getMetres());
-        holder.duration.setText(" " + chromosome.getMetres());
-        holder.count.setText(chromosome.getBarcodeReadModels().size() + " adet");
+        holder.distance.setText(" " + String.format("%.2f", (double)chromosome.getMetres()/1000) + " km");
+        holder.duration.setText(" " + String.format("%.2f", (double)chromosome.getDurations()/60) + " dk");
+        holder.count.setText(chromosome.getBarcodeReadModels().size()-1 + " adet");
 
     }
 

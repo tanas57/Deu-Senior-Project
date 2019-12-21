@@ -7,6 +7,15 @@ import java.util.Comparator;
 public class Chromosome {
 
     protected int metres;
+    protected int durations;
+
+    public int getDurations() {
+        return durations;
+    }
+
+    public void setDurations(int durations) {
+        this.durations = durations;
+    }
 
     public int getMetres() {
         return metres;

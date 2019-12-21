@@ -238,9 +238,9 @@ public class DMGreaterTenPoint {
                 temp += distances[i] + " ";
                 temp2 += durations[i] + " ";
             }
-            //Log.v("MATRIX DISTANCE", temp);
+            Log.v("MATRIX DISTANCE", temp);
             temp = "";
-            Log.v("MATRIX DURATION", temp2);
+            //Log.v("MATRIX DURATION", temp2);
             temp = "";
 
             pointData.setDistance(distances);

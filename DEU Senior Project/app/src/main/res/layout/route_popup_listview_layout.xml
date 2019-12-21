@@ -43,7 +43,7 @@
 
     <LinearLayout
         android:padding="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -55,7 +55,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:src="@drawable/ic_location_on"/>
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="15dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.6"
                 android:gravity="center"
                 android:text="10 adet"/>
 
@@ -77,7 +77,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.3"
                 android:src="@drawable/ic_swap_calls"/>
 
             <TextView
@@ -85,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="15dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:text="6 km"/>
 
@@ -99,7 +99,7 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.3"
                 android:src="@drawable/ic_access_time"/>
 
             <TextView
@@ -107,7 +107,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="15dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.7"
                 android:gravity="center"
                 android:text="6 km"/>
 

@@ -5,20 +5,28 @@ import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 import java.util.ArrayList;
+
+import android.Manifest;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,13 +40,21 @@ public final class Functions {
     private static FusedLocationProviderClient fusedLocationProviderClient;
     private final static int REQUEST_CODE = 101;
 
-
     public static final String API_URL = "https://api.muslu.net";
     private static ArrayList<Chromosome> routes = new ArrayList<>();
     private static BarcodeData barcodeData = new BarcodeData();
     private static int packageid = 1;
     private static double cargoman_lat = 38.371881;
     private static double cargoman_lng = 27.194662;
+    public static final String CHANNEL_ID = "senior_channel";
+    private static NotificationManagerCompat notificationManager;
+
+    public static void takePermission(Context context, Activity activity){
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity,new String []{Manifest.permission.ACCESS_FINE_LOCATION},1);
+            return;
+        }
+    }
 
     public static int getPackageSize(){ return barcodeData.GetData().size(); }
 
@@ -91,8 +107,6 @@ public final class Functions {
     public static void addRoute(Chromosome chromosome) {
         routes.add(chromosome);
     }
-    public static final String CHANNEL_ID = "channel";
-    private static NotificationManagerCompat notificationManager;
 
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager)context
@@ -159,7 +173,7 @@ public final class Functions {
 
             NotificationChannel channel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Channel",
+                    CHANNEL_ID,
                     NotificationManager.IMPORTANCE_HIGH
             );
             channel.setDescription("This is Channel");

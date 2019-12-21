@@ -53,7 +53,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private BarcodeData barcodeData;
     private LatLng cargoman;
 
-    String [] barcodes = new String[10];
+    private int psize = 10;
+    String [] barcodes = new String[psize];
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -61,16 +62,18 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         barcodeData = Functions.getPackets();
         cargoman = new LatLng(Functions.getCargoman_lat(), Functions.getCargoman_lng());
 
-        for(int i = 10; i < barcodes.length + 10; i++ ){
-            String temp2 = "123456789" + i;
-            barcodes[i-10] = temp2;
-        }
+        if(Functions.getPackageSize() < psize) {
+            for (int i = 10; i < barcodes.length + 10; i++) {
+                String temp2 = "123456789" + i;
+                barcodes[i - 10] = temp2;
+            }
 
-        for(int i = 0; i<barcodes.length;i++){
-            AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
-            String apiUrl = addressByBarcode.GetAddress();
+            for (int i = 0; i < barcodes.length; i++) {
+                AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
+                String apiUrl = addressByBarcode.GetAddress();
 
-            new Background().execute(apiUrl, barcodes[i]);
+                new Background().execute(apiUrl, barcodes[i]);
+            }
         }
 
         setContentView(R.layout.activity_camera);
@@ -177,8 +180,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 /*
 
 
-                                    if(dataTransfer.getBarcodeData().GetData().size() > 9){
-                                        DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, dataTransfer.getBarcodeData(), returnedType);
+                                    if(Functions.getPackageSize() > 9){
+                                        DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, Functions.getPackets(), returnedType);
                                         dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
                                         dmGreaterTenPoint.Execute();
                                     }else{
@@ -187,16 +190,15 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                         //dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
                                         //dmBelowTenPoint.Execute();
                                     }
-
 */
+
                                 }
                             })  ;
                             AlertDialog myDiaolog = mBuilder.create();
                             myDiaolog.getWindow().setBackgroundDrawableResource(R.drawable.alert_bg);
                             myDiaolog.show();
 
-                            zXingScannerView.setLaserEnabled(false);
-                            zXingScannerView.stopCamera();
+
 
                             myDiaolog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                                 @Override
@@ -205,6 +207,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     zXingScannerView.startCamera();
                                 }
                             });
+
+                            zXingScannerView.setLaserEnabled(false);
+                            zXingScannerView.stopCamera();
 
                             break;
                     }

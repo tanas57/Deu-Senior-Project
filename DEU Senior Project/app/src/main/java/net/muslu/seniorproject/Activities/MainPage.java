@@ -44,6 +44,9 @@ public class MainPage extends AppCompatActivity {
         dataTransfer = new DataTransfer();
         packageId = dataTransfer.getPackageid();
 
+        Functions.takePermission(getApplicationContext(),this);
+
+
         final Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_shake2);
         final CardView progress, route, packets, add_package;
 
@@ -81,6 +84,7 @@ public class MainPage extends AppCompatActivity {
         add_package.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Functions.fetchLastLocation(getApplicationContext());
                 add_package.startAnimation(shake);
                 Intent camera = new Intent(getApplicationContext(), CameraActivity.class);
                 camera.putExtra("data", dataTransfer);

@@ -88,6 +88,9 @@ public class GeneticAlgorithm {
         int counter = 1;
         while (counter <= MAX_ITERATION) {
 
+            if(counter%100==0)
+                Log.v("COUNTER", counter + " ");
+
             for (Chromosome item : getPopulation()) {
                 item.setFitnessScore(FitnessFunction(item));
             }
@@ -161,8 +164,9 @@ public class GeneticAlgorithm {
             }
 
             setPopulation(nextGen);
-            if(counter%100==0){
-            Functions.sendNotification(MAX_ITERATION,counter,context);}
+            if(counter%100==0)
+                Functions.sendNotification(MAX_ITERATION,counter,context);
+
             counter++;
 
             //Log.v("ITERATION : " + counter, "ENDS");
@@ -558,7 +562,7 @@ public class GeneticAlgorithm {
     }
 
     private double FitnessFunction(Chromosome item){
-        double temp = 0; int metres = 0, tempMetres;
+        double temp = 0; int metres = 0, duration = 0, tempMetres;
         ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
         BarcodeReadModel previous = null, next = null;
         for(int i = 0; i < models.size(); i++){
@@ -566,7 +570,7 @@ public class GeneticAlgorithm {
                 previous = models.get(i);
                 next = models.get(i+1);
                 tempMetres = distances[previous.getPackageId()][next.getPackageId()];
-
+                duration += durations[previous.getPackageId()][next.getPackageId()];
                 switch (algorithmType){
                     case ONLY_DISTANCE:
                         temp += distances[previous.getPackageId()][next.getPackageId()];
@@ -594,8 +598,9 @@ public class GeneticAlgorithm {
                 metres += tempMetres;
             }
         }
-
+        item.setDurations(duration);
         item.setMetres(metres);
+
         switch (algorithmType){
             case ONLY_DISTANCE:
                 return 1/(temp/1000); // convert metres to kilometers
