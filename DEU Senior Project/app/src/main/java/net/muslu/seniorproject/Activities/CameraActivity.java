@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
@@ -16,16 +15,12 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.Result;
-
 import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.Api.AddressHelper;
@@ -33,36 +28,29 @@ import net.muslu.seniorproject.Api.JSON.DMGreaterTenPoint;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
 import net.muslu.seniorproject.Api.PackageByBarcode;
-import net.muslu.seniorproject.DataTransfer;
+import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
-import net.muslu.seniorproject.Reader.Barcode.BarcodeRead;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.TempData;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import jp.wasabeef.blurry.Blurry;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class CameraActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler  {
 
-    AlgorithmType returnedType;
-    String [] selectRoute ;
+    private AlgorithmType returnedType;
+    private String [] selectRoute ;
     private ZXingScannerView zXingScannerView;
-    String[] perms = {Manifest.permission.CAMERA};
-    private static final int REQUEST_CODE = 100;
-    ViewGroup contentFrame;
-    BottomNavigationView bottomNav;
-    DataTransfer dataTransfer;
-    BarcodeData barcodeData;
-    int packageid;
-
+    private String[] perms = {Manifest.permission.CAMERA};
+    private ViewGroup contentFrame;
+    private BottomNavigationView bottomNav;
+    private BarcodeData barcodeData;
     private LatLng cargoman;
 
     String [] barcodes = new String[10];
@@ -70,17 +58,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
-        if(getIntent() != null){
-
-            Bundle bundle = getIntent().getExtras();
-            if(bundle != null){
-                dataTransfer = (DataTransfer)getIntent().getSerializableExtra("data");
-                barcodeData = dataTransfer.getBarcodeData();
-                packageid = dataTransfer.getPackageid();
-                cargoman = new LatLng(dataTransfer.getCargomanLatitude(), dataTransfer.getCargomanLongitude());
-            }
-            else return;
-        }
+        barcodeData = Functions.getPackets();
+        cargoman = new LatLng(Functions.getCargoman_lat(), Functions.getCargoman_lng());
 
         for(int i = 10; i < barcodes.length + 10; i++ ){
             String temp2 = "123456789" + i;
@@ -95,14 +74,13 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         }
 
         setContentView(R.layout.activity_camera);
-        contentFrame = (ViewGroup) findViewById(R.id.fragment_container);
+        contentFrame = findViewById(R.id.fragment_container);
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        if(packageid != 1){
-            bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(packageid - 1);
+        if(Functions.getPackageid() > 1){
+            bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(Functions.getPackageid() - 1);
         }
-        //BadgeDrawable badge = bottomNavigationView.showBadge(menuItemId);
 
         zXingScannerView = new ZXingScannerView(this);
         contentFrame.addView(zXingScannerView);
@@ -131,10 +109,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             onBackPressed();
                             break;
                         case R.id.nav_package_list:
-                            setValues();
                             Intent packetsIntent = new Intent(getApplicationContext(), PacketsActivity.class);
-                            packetsIntent.putExtra("data", dataTransfer);
-                            startActivityForResult(packetsIntent, REQUEST_CODE);
+                            startActivity(packetsIntent);
                             break;
                         case R.id.nav_route:
 
@@ -180,8 +156,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     zXingScannerView.setLaserEnabled(true);
                                     Blurry.delete(contentFrame);
 
-
-                                    int size = dataTransfer.getBarcodeData().GetSize() + 1;
+                                    int size = Functions.getPackageSize() + 1;
 
                                     TempData tempData = new TempData(size);
                                     int [][] distances = tempData.getData().get(0);
@@ -191,7 +166,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
                                     geneticAlgorithmData.setDistances(distances);
                                     geneticAlgorithmData.setDurations(durations);
-                                    geneticAlgorithmData.setBarcodeData(dataTransfer.getBarcodeData());
+                                    geneticAlgorithmData.setBarcodeData(barcodeData);
                                     geneticAlgorithmData.setAlgorithmType(returnedType);
 
                                     new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
@@ -239,41 +214,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             };
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            // Make sure the request was successful-
-
-            dataTransfer = (DataTransfer) data.getSerializableExtra("data");
-
-            if(dataTransfer != null) {
-                Log.v("BARKOD SIZE => ", " " + dataTransfer.getBarcodeData().GetSize());
-                packageid = dataTransfer.getPackageid();
-                barcodeData = dataTransfer.getBarcodeData();
-
-                Log.v("BADGE PACKET SIZE => ", " " + packageid);
-                bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(packageid - 1);
-
-            }
-        }
-    }
-
-    private void setValues(){
-        dataTransfer.setBarcodeData(barcodeData);
-        dataTransfer.setPackageid(packageid);
-    }
-
-    @Override
     public void onBackPressed() {
-
-        setValues();
-
-        Intent intent = new Intent();
-        intent.putExtra("data", (DataTransfer) dataTransfer);
-        setResult(RESULT_OK, intent);
-        finish();
+        super.onBackPressed();
     }
 
     @Override
@@ -284,6 +226,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         }else {
             zXingScannerView.setResultHandler(this);
             zXingScannerView.startCamera();
+        }
+        if(Functions.getPackageid() > 1){
+            bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(Functions.getPackageid() - 1);
         }
     }
 
@@ -348,10 +293,11 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             if(!s.contains("error")){
                 BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode, CameraActivity.this);
                 if(newPackage != null){
-                    if(barcodeData.AddData(newPackage)){
-                        newPackage.setPackageId(packageid);
-                        packageid++;
-                        bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(packageid - 1);
+                    if(Functions.addPacket(newPackage)){
+                        newPackage.setPackageId(Functions.getPackageid());
+                        int id = Functions.getPackageid() + 1;
+                        Functions.setPackageid(id);
+                        bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(id - 1);
                         //ad.notifyItemInserted(data.GetSize());
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();

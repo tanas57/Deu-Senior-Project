@@ -40,6 +40,17 @@ public class BarcodeData implements Serializable {
         return false;
     }
 
+    public boolean removeData(int position){
+        try{
+            data.remove(position);
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public BarcodeReadModel getDataByID(int id){
         return data.get(id);
     }

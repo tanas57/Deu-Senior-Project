@@ -1,5 +1,7 @@
 package net.muslu.seniorproject.Api;
 
+import net.muslu.seniorproject.Functions;
+
 public class AddressHelper implements IAddress {
 
     protected long barcode;
@@ -31,7 +33,7 @@ public class AddressHelper implements IAddress {
     }
 
     public AddressHelper() {
-        setApi_address("http://api.muslu.net");
+        setApi_address(Functions.API_URL);
     }
 
     protected String api_address;

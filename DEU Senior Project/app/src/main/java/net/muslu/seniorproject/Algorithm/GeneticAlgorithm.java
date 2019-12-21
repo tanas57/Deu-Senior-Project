@@ -1,26 +1,12 @@
 package net.muslu.seniorproject.Algorithm;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.SystemClock;
 import android.util.Log;
-
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
-import net.muslu.seniorproject.Activities.MainPage;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Functions;
-import net.muslu.seniorproject.MainActivity;
-import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
-import net.muslu.seniorproject.Routing.MapsActivity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

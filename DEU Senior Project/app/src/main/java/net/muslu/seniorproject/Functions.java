@@ -1,6 +1,9 @@
 package net.muslu.seniorproject;
 
 import net.muslu.seniorproject.Algorithm.Chromosome;
+import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
+import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
+
 import java.util.ArrayList;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -9,19 +12,61 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.SystemClock;
 import android.util.Log;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public final class Functions {
 
+    public static final String API_URL = "https://api.muslu.net";
     private static ArrayList<Chromosome> routes = new ArrayList<>();
+    private static BarcodeData barcodeData = new BarcodeData();
+    private static int packageid = 1;
+    private static double cargoman_lat = 38.371881;
+    private static double cargoman_lng = 27.194662;
+
+    public static int getPackageSize(){ return barcodeData.GetData().size(); }
+
+    public static double getCargoman_lat() {
+        return cargoman_lat;
+    }
+
+    public static void setCargoman_lat(double cargoman_lat) {
+        Functions.cargoman_lat = cargoman_lat;
+    }
+
+    public static double getCargoman_lng() {
+        return cargoman_lng;
+    }
+
+    public static void setCargoman_lng(double cargoman_lng) {
+        Functions.cargoman_lng = cargoman_lng;
+    }
+
+    public static int getPackageid() {
+        return packageid;
+    }
+
+    public static void setPackageid(int packageid) {
+        Functions.packageid = packageid;
+    }
+
+    public static BarcodeData getPackets() {
+        return barcodeData;
+    }
+
+    public static void setPackets(ArrayList<BarcodeReadModel> packets) {
+        Functions.barcodeData.setData(packets);
+    }
+
+    public static boolean addPacket(BarcodeReadModel model){
+        return barcodeData.AddData(model);
+    }
+
+    public static boolean remPacket(int pos) { return barcodeData.removeData(pos); }
 
     public static ArrayList<Chromosome> getRoutes() {
         return routes;
