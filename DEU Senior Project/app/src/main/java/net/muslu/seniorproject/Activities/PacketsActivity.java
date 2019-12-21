@@ -56,12 +56,14 @@ public class PacketsActivity extends AppCompatActivity {
                     Toast.makeText(view.getContext(), "Müşteri aranıyor..", Toast.LENGTH_SHORT).show();
                     Uri uri = Uri.parse("tel:" + model.getCustomer().getPhone());
 
-                    Intent intent = new Intent(Intent.ACTION_CALL, uri);
                     if (ContextCompat.checkSelfPermission(getApplicationContext(),
                             Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         ActivityCompat.requestPermissions(PacketsActivity.this,
                                 new String[]{Manifest.permission.CALL_PHONE}, 1);
+                        return;
                     }
+
+                    Intent intent = new Intent(Intent.ACTION_CALL, uri);
                     startActivity(intent);
                 } else if (view.getId() == R.id.delete) {
 

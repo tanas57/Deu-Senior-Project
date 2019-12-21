@@ -19,6 +19,10 @@
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="route_select">Rotayı seç</string>
+    <string name="your_signature">İmzanız</string>
+    <string name="packet_saved">Paket durumu kaydedildi...</string>
+    <string name="clear_signature">İmzayı Temizle</string>
+    <string name="packet_status_save">Kaydet</string>
     <string-array name="route_selection">
         <item>
             En kısa mesafe
