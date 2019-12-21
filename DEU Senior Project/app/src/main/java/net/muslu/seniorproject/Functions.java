@@ -6,20 +6,31 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public final class Functions {
+    private static Location currentLocation;
+    private static FusedLocationProviderClient fusedLocationProviderClient;
+    private final static int REQUEST_CODE = 101;
+
 
     private static ArrayList<Chromosome> routes = new ArrayList<>();
 
@@ -93,21 +104,7 @@ public final class Functions {
             notificationManager.notify(2, notification.build());
         }
 
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-                int progress = count;
 
-                    notification.setProgress(progressMax, progress, false);
-                    notificationManager.notify(2, notification.build());
-                    SystemClock.sleep(350);
-
-                notification.setContentText("Rota hesaplama işlemi tamamlandı.")
-                        .setProgress(0, 0, false)
-                        .setOngoing(false);
-                notificationManager.notify(2, notification.build());
-            }
-        }).start();*/
     }
 
     public static void createNotificationChannel(Context context) {
@@ -125,6 +122,22 @@ public final class Functions {
             manager.createNotificationChannel(channel);
 
         }
+    }
+
+
+    public static void fetchLastLocation(final Context context) {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location!=null){
+                    currentLocation=location;
+                    Toast.makeText(context,currentLocation.getLatitude()+" "+currentLocation.getLongitude(),Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
     }
 
 }
