@@ -8,6 +8,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -23,15 +26,18 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
+
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
@@ -41,7 +47,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private BarcodeData data;
     private GoogleMap mMap;
 
+    private static final int DISPLAY_DATA = 1;
+    private boolean cont = true;
 
+    public void countdown(final ICallback callback, final int time)
+    {
+        final Handler handler = new Handler();
+        handler.postDelayed( new Runnable(){
+            @Override
+            public void run() {
+                callback.onEndTime();
+                handler.postDelayed(this, time);
+                if(cont){
+
+                    Functions.fetchLastLocation(getMapsActivityContext());
+
+                    CameraPosition googlePlex = CameraPosition.builder()
+                            .target(new LatLng(Functions.getCargoman_lat(),Functions.getCargoman_lng()))
+                            .zoom(20)
+                            .bearing(0)
+                            .tilt(45)
+                            .build();
+
+                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 1000, null);
+                    mMap.getUiSettings().setZoomControlsEnabled(true);
+                }
+            }
+        }, time);
+    }
+
+    public interface ICallback{
+        void onEndTime();
+    }
 
     public void setmMap(GoogleMap mMap) {
         this.mMap = mMap;
@@ -67,6 +104,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
 
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -84,13 +122,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(38.3749,27.1872))
-                .zoom(3)
+                .target(new LatLng(38.3749,27.1872)) // will be cargoman coords
+                .zoom(10)
                 .bearing(0)
                 .tilt(45)
                 .build();
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 5000, null);
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setMyLocationEnabled(true);
         addList = data.GetData();
@@ -101,6 +139,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } catch (IOException e) {
             e.printStackTrace();
         }
+        countdown(new ICallback() {
+            @Override
+            public void onEndTime() {
+            }
+        }, 2500);
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                cont = true;
+            }
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                cont = false;
+                return false;
+            }
+
+        });
 
     }
 
