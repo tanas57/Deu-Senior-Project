@@ -1,24 +1,7 @@
 package net.muslu.seniorproject;
 
 import net.muslu.seniorproject.Algorithm.Chromosome;
-
 import java.util.ArrayList;
-
-public class Functions {
-
-    private static ArrayList<Chromosome> routes = new ArrayList<>();
-
-    public static ArrayList<Chromosome> getRoutes() {
-        return routes;
-    }
-
-    public static void setRoutes(ArrayList<Chromosome> routes) {
-        Functions.routes = routes;
-    }
-
-    public static void addRoute(Chromosome chromosome) {
-        routes.add(chromosome);
-    }
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -37,6 +20,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public final class Functions {
+
+    private static ArrayList<Chromosome> routes = new ArrayList<>();
+
+    public static ArrayList<Chromosome> getRoutes() {
+        return routes;
+    }
+
+    public static void setRoutes(ArrayList<Chromosome> routes) {
+        Functions.routes = routes;
+    }
+
+    public static void addRoute(Chromosome chromosome) {
+        routes.add(chromosome);
+    }
+    public static final String CHANNEL_ID = "channel";
+    private static NotificationManagerCompat notificationManager;
 
     public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager)context
@@ -67,11 +66,6 @@ public final class Functions {
         return false;
 
     }
-
-    public static final String CHANNEL_ID = "channel";
-    private static NotificationManagerCompat notificationManager;
-
-
 
     public static void sendNotification(int maxIteration,  int count , Context context) {
 
@@ -132,6 +126,5 @@ public final class Functions {
 
         }
     }
-
 
 }
