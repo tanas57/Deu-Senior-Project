@@ -1,85 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:background="@drawable/main_user_bg"
-    tools:context=".Activities.MainPage">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_marginTop="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:background="@drawable/main_user_bg">
+    <!-- user profile -->
 
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="0.7"
+            <TextView
+                android:id="@+id/cargomanFullname"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:orientation="vertical">
+                android:paddingTop="10dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Muhammet Tayyip Muslu"
+                android:textColor="@color/curated_light"
+                android:textSize="20dp" />
 
-                <TextView
-                    android:id="@+id/cargomanFullname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Muhammet Tayyip Muslu"
-                    android:textColor="@color/curated_light"
-                    android:textSize="20dp" />
-
-                <TextView
-                    android:gravity="center"
-                    android:id="@+id/cargomanPacketsize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cargomanFullname"
-                    android:layout_marginTop="7dp"
-                    android:fontFamily="sans-serif-thin"
-                    android:text="Bugün taşınması gereken paket sayısı : 10"
-                    android:textColor="@color/curated_light_more"
-                    android:textSize="14dp" />
-
-            </LinearLayout>
-
-
-            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
-                android:layout_width="0dp"
-                android:layout_weight="0.3"
-                android:layout_height="80dp"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/barcode"
-                app:civ_border_color="#59B2FF"
-                app:civ_border_width="2dp" />
-
+            <TextView
+                android:gravity="center"
+                android:id="@+id/cargomanPacketsize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cargomanFullname"
+                android:layout_marginTop="7dp"
+                android:fontFamily="sans-serif-thin"
+                android:text="Bugün taşınması gereken paket sayısı : 10"
+                android:textColor="@color/curated_light_more"
+                android:textSize="14dp" />
 
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/home_progress"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="6dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/barcode"
+            app:civ_border_color="#59B2FF"
+            app:civ_border_width="2dp" />
 
 
-        <GridLayout
+    </LinearLayout>
+
+
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".Activities.MainPage">
+
+
+<GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -231,81 +222,7 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="12dp"
-                android:gravity="center"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/statistic" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-light"
-                        android:text="@string/home_statistic_text"
-                        android:textColor="#000"
-                        android:textSize="18dp" />
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/home_empty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_margin="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="6dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="15dp">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/statistic" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/home_statistic_text"
-                        android:fontFamily="sans-serif-light"
-                        android:textColor="#000"
-                        android:textSize="18dp" />
-
-                </LinearLayout>
-
-
-            </androidx.cardview.widget.CardView>
-
         </GridLayout>
 
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

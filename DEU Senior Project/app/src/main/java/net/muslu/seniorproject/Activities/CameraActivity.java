@@ -2,11 +2,11 @@ package net.muslu.seniorproject.Activities;
 
 import android.Manifest;
 import android.content.DialogInterface;
-
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.VibrationEffect;
@@ -40,7 +40,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import jp.wasabeef.blurry.Blurry;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import pub.devrel.easypermissions.EasyPermissions;
 
 public class CameraActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler  {
 
@@ -56,12 +55,19 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private int psize = 10;
     String [] barcodes = new String[psize];
 
+    private void cargomanLocation(){
+        if(Functions.takePermission(getApplicationContext(),this, Manifest.permission.ACCESS_FINE_LOCATION))
+            Functions.fetchLastLocation(getApplicationContext());
+
+        cargoman = new LatLng(Functions.getCargoman_lat(), Functions.getCargoman_lng());
+    }
+
     public void onCreate(Bundle state) {
         super.onCreate(state);
 
         barcodeData = Functions.getPackets();
-        Functions.fetchLastLocation(getApplicationContext());
-        cargoman = new LatLng(Functions.getCargoman_lat(), Functions.getCargoman_lng());
+
+        cargomanLocation(); // update cargoman location
 
         if(Functions.getPackageSize() < psize) {
             for (int i = 10; i < barcodes.length + 10; i++) {
@@ -86,6 +92,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             bottomNav.getOrCreateBadge(R.id.nav_package_list).setNumber(Functions.getPackageid() - 1);
         }
 
+        if(Functions.takePermission(getApplicationContext(),this, Manifest.permission.CAMERA))
+            Functions.fetchLastLocation(getApplicationContext());
+
         zXingScannerView = new ZXingScannerView(this);
         contentFrame.addView(zXingScannerView);
         zXingScannerView.setBorderColor(getResources().getColor(R.color.curated_light));
@@ -97,9 +106,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         zXingScannerView.setIsBorderCornerRounded(true);
         zXingScannerView.setBorderAlpha((float)50.0);
 
-        if(!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
-        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener=
@@ -125,7 +131,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             final AlertDialog.Builder mBuilder = new AlertDialog.Builder(CameraActivity.this,R.style.MyAlertDialog);
 
                             mBuilder.setTitle("Rota hesaplama türünü seçiniz: ");
-
+                            mBuilder.setCancelable(false);
                             mBuilder.setSingleChoiceItems(selectRoute, -1, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog,  int which) {
                                     //Log.v("İtem:",selectRoute[which]);
@@ -149,16 +155,24 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                             returnedType=AlgorithmType.ALL_OF_THEM;
                                             break;
                                     }
-
-
                                 }
                             });
+
+                            mBuilder.setNegativeButton("İPTAL", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
                             mBuilder.setPositiveButton("TAMAM", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     zXingScannerView.startCamera();
                                     zXingScannerView.setLaserEnabled(true);
                                     Blurry.delete(contentFrame);
+
+                                    cargomanLocation(); // update cargoman location
 
                                     int size = Functions.getPackageSize() + 1;
 
@@ -179,8 +193,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     startActivity(intent);
 
 /*
-
-
                                     if(Functions.getPackageSize() > 9){
                                         DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, Functions.getPackets(), returnedType);
                                         dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
@@ -199,8 +211,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             myDiaolog.getWindow().setBackgroundDrawableResource(R.drawable.alert_bg);
                             myDiaolog.show();
 
-
-
                             myDiaolog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                                 @Override
                                 public void onCancel(DialogInterface dialog) {
@@ -214,7 +224,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                             break;
                     }
-
                     return true;
                 }
             };
@@ -227,9 +236,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void onResume() {
         super.onResume();
-        if(!EasyPermissions.hasPermissions(this, perms)) {
-            EasyPermissions.requestPermissions(this, "Please grant the location permission", 1, perms);
-        }else {
+        if(Functions.takePermission(getApplicationContext(),this, Manifest.permission.CAMERA)){
             zXingScannerView.setResultHandler(this);
             zXingScannerView.startCamera();
         }
@@ -308,8 +315,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
 
-                        /*
-
                         Vibrator v = (Vibrator) getSystemService(getApplicationContext().VIBRATOR_SERVICE);
                         // Vibrate for 500 milliseconds
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -318,9 +323,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                             //deprecated in API 26
                             v.vibrate(200);
                         }
-
-                         */
-
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();
@@ -330,7 +332,5 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             else
                 Toast.makeText(getApplicationContext(), "Barkod tam anlaşılamadı", Toast.LENGTH_LONG).show();
         }
-
     }
-
 }

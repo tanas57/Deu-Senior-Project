@@ -72,6 +72,7 @@ public class RoutingListAdapter extends RecyclerView.Adapter<RoutingListAdapter.
             this.ischecked = itemView.findViewById(R.id.route_selected);
 
             itemView.setOnClickListener(this);
+            ischecked.setOnClickListener(this);
         }
 
         @Override

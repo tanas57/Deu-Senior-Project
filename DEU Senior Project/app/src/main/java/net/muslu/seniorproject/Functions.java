@@ -3,9 +3,7 @@ package net.muslu.seniorproject;
 import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
-
 import java.util.ArrayList;
-
 import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
@@ -18,15 +16,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.Log;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import android.widget.Toast;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +31,6 @@ import java.net.URL;
 public final class Functions {
     private static Location currentLocation;
     private static FusedLocationProviderClient fusedLocationProviderClient;
-    private final static int REQUEST_CODE = 101;
 
     public static final String API_URL = "https://api.muslu.net";
     private static ArrayList<Chromosome> routes = new ArrayList<>();
@@ -54,15 +46,16 @@ public final class Functions {
         return selectedRoute;
     }
 
-    public static void setSelectedRoute(int selectedRoute) {
-        Functions.selectedRoute = selectedRoute;
+    public static void setSelectedRoute(int pos) {
+        selectedRoute = pos;
     }
 
-    public static void takePermission(Context context, Activity activity){
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(activity,new String []{Manifest.permission.ACCESS_FINE_LOCATION},1);
-            return;
+    public static boolean takePermission(Context context, Activity activity, String per){
+        if(ContextCompat.checkSelfPermission(context, per)!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity,new String []{per},1);
+            return false;
         }
+        else return true;
     }
 
     public static int getPackageSize(){ return barcodeData.GetData().size(); }
@@ -144,11 +137,9 @@ public final class Functions {
             }
         }
         return false;
-
     }
 
     public static void sendNotification(int maxIteration,  int count , Context context) {
-
 
         final NotificationCompat.Builder notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_directions_black_24dp)
@@ -162,9 +153,6 @@ public final class Functions {
 
         notificationManager.notify(2, notification.build());
 
-
-
-
         if(maxIteration-1<=count) {
             notification.setContentText("Rota hesaplama işlemi tamamlandı.")
                      .setSmallIcon(R.drawable.ic_done_black_24dp)
@@ -172,8 +160,6 @@ public final class Functions {
                     .setOngoing(false);
             notificationManager.notify(2, notification.build());
         }
-
-
     }
 
     public static void createNotificationChannel(Context context) {
@@ -189,7 +175,6 @@ public final class Functions {
 
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
-
         }
     }
 
@@ -209,5 +194,4 @@ public final class Functions {
             }
         });
     }
-
 }

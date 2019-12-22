@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,9 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.github.gcacace.signaturepad.views.SignaturePad;
-
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
@@ -46,9 +43,8 @@ public class DeliveryActivity extends AppCompatActivity {
         final BarcodeReadModel model = Functions.getRoutes().get(0).getBarcodeReadModels().get(model_id);
 
         if(model != null){
-            final SignaturePad mSignaturePad = (SignaturePad) findViewById(R.id.delivery_signature);
+            final SignaturePad mSignaturePad = findViewById(R.id.delivery_signature);
 
-            CardView customer = findViewById(R.id.delivery_customer);
             TextView fullname, address;
             Button clear, save;
             ImageView call;
@@ -100,13 +96,11 @@ public class DeliveryActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         onBackPressed();
         return true;
-
     }
 }
