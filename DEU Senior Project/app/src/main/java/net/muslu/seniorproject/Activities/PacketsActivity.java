@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -37,62 +38,73 @@ public class PacketsActivity extends AppCompatActivity {
     private RecyclerView rv;
     private CustomAdapter ad;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_packets);
+
 
         getSupportActionBar().setTitle(getString(R.string.cargo_packages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         data = Functions.getPackets();
+        if(data.GetSize()>0) {
+            setContentView(R.layout.activity_packets);
+            rv = findViewById(R.id.rv);
+            ad = new CustomAdapter(PacketsActivity.this, data.GetData(), new CustomAdapter.ClickListener() {
 
-        rv = findViewById(R.id.rv);
-        ad = new CustomAdapter(PacketsActivity.this, data.GetData(), new CustomAdapter.ClickListener() {
+                @Override
+                public void onPositionClicked(final View view, final BarcodeReadModel model, final int pos) {
+                    if (view.getId() == R.id.makeCall) {
+                        Toast.makeText(view.getContext(), "Müşteri aranıyor..", Toast.LENGTH_SHORT).show();
+                        Uri uri = Uri.parse("tel:" + model.getCustomer().getPhone());
 
-            @Override
-            public void onPositionClicked(final View view, final BarcodeReadModel model, final int pos) {
-                if (view.getId() == R.id.makeCall) {
-                    Toast.makeText(view.getContext(), "Müşteri aranıyor..", Toast.LENGTH_SHORT).show();
-                    Uri uri = Uri.parse("tel:" + model.getCustomer().getPhone());
-
-                    if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                            Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(PacketsActivity.this,
-                                new String[]{Manifest.permission.CALL_PHONE}, 1);
-                        return;
-                    }
-
-                    Intent intent = new Intent(Intent.ACTION_CALL, uri);
-                    startActivity(intent);
-                } else if (view.getId() == R.id.delete) {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PacketsActivity.this);
-                    builder.setTitle(getString(R.string.packet_delete_title));
-                    builder.setMessage(model.getCustomer().getFullName() + " " + getString(R.string.packet_delete_desc));
-                    builder.setNegativeButton(getString(R.string.no), null);
-                    builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                            Toast.makeText(view.getContext(), model.getCustomer().getFullName() + " müşterisinin " + model.getBarcode() + " numaralı paketi kaldırıldı.", Toast.LENGTH_SHORT).show();
-                            Functions.remPacket(pos);
-                            Functions.setPackageid(Functions.getPackageid()-1);
-                            rv.setAdapter(ad);
-                            Log.v("PACKAGE DELETED", model.getCustomer().getFullName() + " PACKAGE DELETED");
+                        if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(PacketsActivity.this,
+                                    new String[]{Manifest.permission.CALL_PHONE}, 1);
+                            return;
                         }
-                    });
-                    builder.show();
+
+                        Intent intent = new Intent(Intent.ACTION_CALL, uri);
+                        startActivity(intent);
+                    } else if (view.getId() == R.id.delete) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(PacketsActivity.this);
+                        builder.setTitle(getString(R.string.packet_delete_title));
+                        builder.setMessage(model.getCustomer().getFullName() + " " + getString(R.string.packet_delete_desc));
+                        builder.setNegativeButton(getString(R.string.no), null);
+                        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                Toast.makeText(view.getContext(), model.getCustomer().getFullName() + " müşterisinin " + model.getBarcode() + " numaralı paketi kaldırıldı.", Toast.LENGTH_SHORT).show();
+                                Functions.remPacket(pos);
+                                Functions.setPackageid(Functions.getPackageid() - 1);
+                                rv.setAdapter(ad);
+                                Log.v("PACKAGE DELETED", model.getCustomer().getFullName() + " PACKAGE DELETED");
+                            }
+                        });
+                        builder.show();
 
 
-                } else {
-                    Toast.makeText(view.getContext(), "ROW PRESSED = ", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(view.getContext(), "ROW PRESSED = ", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
-        rv.setAdapter(ad);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        rv.setHasFixedSize(false);
+            });
+            rv.setAdapter(ad);
+            rv.setLayoutManager(new LinearLayoutManager(this));
+            rv.setHasFixedSize(false);
+        }
+        else{
+            setContentView(R.layout.warning_layout);
+            TextView emptyText = findViewById(R.id.empty_text);
+            emptyText.setText(getResources().getString(R.string.empty_packet_text));
+
+
+        }
+
 
         /*ImageView makeCallImg = (ImageView) findViewById(R.id.makeCall);
         makeCallImg.setOnClickListener(new View.OnClickListener() {
