@@ -46,23 +46,26 @@ public class Markers {
                 public View getInfoContents(final Marker marker) {
                     String[] toGetDeliverOrder = marker.getId().split("m");
                     int deliverOrder = Integer.valueOf(toGetDeliverOrder[1]);
-                    Chromosome ch = Functions.getRoutes().get(0);
-                    BarcodeReadModel model = Functions.getRoutes().get(0).getBarcodeReadModels().get(deliverOrder);
-                    View view = activity.getLayoutInflater().inflate(R.layout.snippet_view,null);
 
-                    TextView deliveryNumber = view.findViewById(R.id.mapMarker_deliveryNumber);
-                    TextView fullName = view.findViewById(R.id.mapMarker_custFullName);
-                    TextView custPriority = view.findViewById(R.id.mapMarker_custPriority);
-                    TextView addressDetail = view.findViewById(R.id.mapMarker_address);
-                    Button deliverButton = view.findViewById(R.id.mapMarker_deliveryButton);
+                    if(deliverOrder != 0){
+                        BarcodeReadModel model = Functions.getRoutes().get(0).getBarcodeReadModels().get(deliverOrder);
+                        View view = activity.getLayoutInflater().inflate(R.layout.snippet_view,null);
 
-                    deliveryNumber.setText(deliverOrder+". Teslimat Adresi");
-                    fullName.setText(model.getCustomer().getFullName()+" - ");
-                    custPriority.setText("Müşteri Önceliği: "+model.getCargoPackage().getPriority());
-                    addressDetail.setText(model.getCustomer().getAddress());
+                        TextView deliveryNumber = view.findViewById(R.id.mapMarker_deliveryNumber);
+                        TextView fullName = view.findViewById(R.id.mapMarker_custFullName);
+                        TextView custPriority = view.findViewById(R.id.mapMarker_custPriority);
+                        TextView addressDetail = view.findViewById(R.id.mapMarker_address);
+                        Button deliverButton = view.findViewById(R.id.mapMarker_deliveryButton);
+
+                        deliveryNumber.setText(deliverOrder+". Teslimat Adresi");
+                        fullName.setText(model.getCustomer().getFullName()+" - ");
+                        custPriority.setText("Müşteri Önceliği: "+model.getCargoPackage().getPriority());
+                        addressDetail.setText(model.getCustomer().getAddress());
+                        return view;
+                    }
+                    return null;
 
 
-                    return view;
                 }
             });
         }

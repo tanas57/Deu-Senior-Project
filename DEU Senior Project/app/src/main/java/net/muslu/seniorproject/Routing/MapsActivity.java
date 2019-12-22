@@ -2,6 +2,7 @@ package net.muslu.seniorproject.Routing;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import net.muslu.seniorproject.Activities.DeliveryActivity;
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -157,13 +159,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(Marker marker) {
                 cont = false;
-
-                Toast.makeText(MapsActivity.this, marker.getId() + " "+ marker.getPosition() + " " + marker.getTitle(), Toast.LENGTH_SHORT).show();
-
-
                 return false;
             }
 
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent(getMapsActivityContext(), DeliveryActivity.class);
+                String[] parse = marker.getId().split("m");
+                intent.putExtra("model_id", Integer.valueOf(parse[1]));
+                startActivity(intent);
+            }
         });
 
     }
