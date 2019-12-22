@@ -8,6 +8,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import net.muslu.seniorproject.Algorithm.Chromosome;
+import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class RoutingListAdapter extends RecyclerView.Adapter<RoutingListAdapter.
         holder.duration.setText(" " + String.format("%.2f", (double)chromosome.getDurations()/60) + " dk");
         holder.count.setText(chromosome.getBarcodeReadModels().size()-1 + " adet");
 
+        if(Functions.getSelectedRoute() == i) holder.ischecked.setChecked(true);
+        else holder.ischecked.setChecked(false);
     }
 
     @Override

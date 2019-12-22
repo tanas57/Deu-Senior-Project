@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.DataTransfer;
@@ -24,8 +26,7 @@ import java.util.ArrayList;
 
 public class RouteActivity extends AppCompatActivity {
 
-    private int selected = 0;
-
+    private RoutingListAdapter routingListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,16 +39,18 @@ public class RouteActivity extends AppCompatActivity {
 
         Log.v("RESPONSE CHROMOSOME", "FETCH CHROMOSOME");
         if (chromosomes != null && chromosomes.size() > 0) {
+            final RecyclerView rout = findViewById(R.id.routes);
             Log.v("RESPONSE CHROMOSOME", "NUMBER OF CHROMOSOME => " + chromosomes.size());
-            RoutingListAdapter routingListAdapter = new RoutingListAdapter(getApplicationContext(), Functions.getRoutes(), new RoutingListAdapter.ClickListener() {
+            routingListAdapter = new RoutingListAdapter(getApplicationContext(), Functions.getRoutes(), new RoutingListAdapter.ClickListener() {
                 @Override
                 public void onPositionClicked(View view, int pos) {
-                    selected = pos;
+                    Functions.setSelectedRoute(pos);
+                    rout.setAdapter(routingListAdapter);
                 }
             });
 
 
-            RecyclerView rout = findViewById(R.id.routes);
+
             Button button = findViewById(R.id.select_route);
 
             rout.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -60,7 +63,7 @@ public class RouteActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(getApplicationContext(), MapsActivity.class);
                     BarcodeData barcodeData = new BarcodeData();
-                    barcodeData.setData(chromosomes.get(selected).getBarcodeReadModels());
+                    barcodeData.setData(chromosomes.get(Functions.getSelectedRoute()).getBarcodeReadModels());
                     intent.putExtra("data", barcodeData);
                     startActivity(intent);
                 }

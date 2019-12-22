@@ -48,6 +48,15 @@ public final class Functions {
     private static double cargoman_lng = 27.194662;
     public static final String CHANNEL_ID = "senior_channel";
     private static NotificationManagerCompat notificationManager;
+    private static int selectedRoute = -1;
+
+    public static int getSelectedRoute() {
+        return selectedRoute;
+    }
+
+    public static void setSelectedRoute(int selectedRoute) {
+        Functions.selectedRoute = selectedRoute;
+    }
 
     public static void takePermission(Context context, Activity activity){
         if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){

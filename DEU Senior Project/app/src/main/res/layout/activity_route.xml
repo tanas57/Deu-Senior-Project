@@ -5,17 +5,12 @@
     android:layout_gravity="center"
     android:gravity="center">
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
-        <androidx.recyclerview.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.9"
             android:id="@+id/routes"/>
-        <Button
+    <Button
             android:layout_marginTop="5dp"
             android:background="@drawable/button_green_bg"
             android:textColor="@android:color/white"
@@ -27,10 +22,5 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.1"/>
-    </RadioGroup>
-
-
-
-
 
 </LinearLayout>
