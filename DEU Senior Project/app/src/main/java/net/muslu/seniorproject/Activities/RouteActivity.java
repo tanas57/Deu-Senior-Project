@@ -16,7 +16,6 @@ import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
-import net.muslu.seniorproject.Routing.MapsActivity;
 import net.muslu.seniorproject.Routing.RoutingListAdapter;
 import java.util.ArrayList;
 

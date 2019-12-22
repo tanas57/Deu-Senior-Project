@@ -577,18 +577,17 @@ public class GeneticAlgorithm {
                         temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                     case ONLY_DURATION:
-                        temp += (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                        temp += Integer.valueOf(durations[previous.getPackageId()][next.getPackageId()]) / 60.0;
                         break;
                     case BOTH_DISTANCE_DURATION:
-                        temp += (distances[previous.getPackageId()][next.getPackageId()] / 1000) * (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                        double dis = Integer.valueOf(distances[previous.getPackageId()][next.getPackageId()]);
+                        double dur = Integer.valueOf(durations[previous.getPackageId()][next.getPackageId()]);
+                        double result = round((((dis/1000.0)* dis) /(dur/60.0)*dur)/10000, 2);
+                        temp += round(result,2);
+                        //if(temp == Double.NaN) temp = 0;,
                         break;
                     case DISTANCE_PRIORITY:
-                        if(next.getCargoPackage().getPriority() == 1)
-                            temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority();
-                        else if(next.getCargoPackage().getPriority() == 2)
-                        temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority() * 10;
-                        else if(next.getCargoPackage().getPriority() == 3)
-                            temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority() * 20;
+                        temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                     case ALL_OF_THEM:
                         temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
@@ -617,12 +616,23 @@ public class GeneticAlgorithm {
         return 0;
     }
 
+    public double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
 
             Functions.createNotificationChannel(context, id);
+            Log.v("GENETIC TASK", "IS IN PROGRESS");
             Work();
+            Log.v("GENETIC TASK","END");
 
             return null;
         }

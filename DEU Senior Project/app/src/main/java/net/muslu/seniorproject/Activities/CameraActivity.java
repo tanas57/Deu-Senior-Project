@@ -52,7 +52,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private BarcodeData barcodeData;
     private LatLng cargoman;
 
-    private int psize = 10;
+    private int psize = 48;
     String [] barcodes = new String[psize];
 
     private void cargomanLocation(){
@@ -154,7 +154,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                         case 5:
                                             returnedType=AlgorithmType.ALL_OF_THEM;
                                             break;
-                                            default: returnedType=AlgorithmType.ONLY_DISTANCE;
+                                        default: returnedType=AlgorithmType.ONLY_DISTANCE;
                                     }
                                 }
                             });

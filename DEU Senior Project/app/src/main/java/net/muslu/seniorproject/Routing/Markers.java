@@ -1,8 +1,6 @@
 package net.muslu.seniorproject.Routing;
 
 import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,19 +12,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import net.muslu.seniorproject.Algorithm.Chromosome;
+import net.muslu.seniorproject.Activities.MapsActivity;
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class Markers {
 
-    ArrayList<LatLng> markerList = new ArrayList<LatLng>();
+    public ArrayList<LatLng> markerList = new ArrayList<LatLng>();
     private ArrayList<String> addList = new ArrayList<String>();
 
     GoogleMap mMap;
