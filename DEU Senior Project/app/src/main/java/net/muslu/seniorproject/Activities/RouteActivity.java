@@ -27,6 +27,7 @@ import java.util.ArrayList;
 public class RouteActivity extends AppCompatActivity {
 
     private RoutingListAdapter routingListAdapter;
+    private RecyclerView rout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,8 @@ public class RouteActivity extends AppCompatActivity {
 
         Log.v("RESPONSE CHROMOSOME", "FETCH CHROMOSOME");
         if (chromosomes != null && chromosomes.size() > 0) {
-            final RecyclerView rout = findViewById(R.id.routes);
             setContentView(R.layout.activity_route);
+            rout = findViewById(R.id.routes_rcy);
             Log.v("RESPONSE CHROMOSOME", "NUMBER OF CHROMOSOME => " + chromosomes.size());
             routingListAdapter = new RoutingListAdapter(getApplicationContext(), Functions.getRoutes(), new RoutingListAdapter.ClickListener() {
                 @Override
@@ -51,10 +52,9 @@ public class RouteActivity extends AppCompatActivity {
             });
 
 
-
             Button button = findViewById(R.id.select_route);
 
-            rout.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            rout.setLayoutManager(new LinearLayoutManager(this));
             rout.setAdapter(routingListAdapter);
 
             // button select route

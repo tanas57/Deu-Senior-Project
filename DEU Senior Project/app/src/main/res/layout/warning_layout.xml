@@ -3,19 +3,12 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-
-    >
+    android:gravity="center">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-       android:layout_marginLeft="10dp"
-        android:background="@drawable/ic_warning_black_24dp"
-
-        >
-
-    </ImageView>
+        android:background="@drawable/ic_warning_black_24dp"/>
 
     <TextView
         android:id="@+id/empty_text"
@@ -25,11 +18,6 @@
         android:textStyle="bold"
         android:textSize="20dp"
         android:fontFamily="sans-serif-light"
-        android:textColor="@color/curated_light"
-
-
-        >
-
-    </TextView>
+        android:textColor="@color/curated_light"/>
 
 </LinearLayout>
