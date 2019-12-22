@@ -13,9 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:textAlignment="center"
-        app:itemIconTint="@color/navigationViewColor"
+        app:itemIconTint="@color/curated_light"
         app:menu="@menu/bottom_navigation"
-        app:itemTextColor="@color/navigationViewColor"
+        app:itemTextColor="@color/curated_light"
         app:itemIconSize="45dp"
         app:labelVisibilityMode="labeled"
         />

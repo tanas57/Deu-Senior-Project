@@ -88,7 +88,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
         zXingScannerView = new ZXingScannerView(this);
         contentFrame.addView(zXingScannerView);
-        zXingScannerView.setBorderColor(getResources().getColor(R.color.cameraBorderColor));
+        zXingScannerView.setBorderColor(getResources().getColor(R.color.curated_light));
         zXingScannerView.setLaserColor(getResources().getColor(R.color.cameraLaserColor));
         zXingScannerView.setBorderCornerRadius(50);
         zXingScannerView.setAutoFocus(true);

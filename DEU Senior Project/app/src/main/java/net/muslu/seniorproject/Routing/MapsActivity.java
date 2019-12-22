@@ -69,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .target(new LatLng(Functions.getCargoman_lat(),Functions.getCargoman_lng()))
                             .zoom(20)
                             .bearing(0)
-                            .tilt(45)
+                            .tilt(20)
                             .build();
 
                     mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 555, null);

@@ -6,13 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
+
     </style>
     <style name="MyAlertDialog" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">#FFECB3</item>
-        <item name="colorAccent">@color/cameraBorderColor</item>
-        <item name="android:colorControlNormal">@color/cameraBorderColor</item>
-        <item name="textColorAlertDialogListItem">#BBDEFB</item>
-        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="colorAccent">@color/curated_light</item>
+        <item name="android:colorControlNormal">@color/curated_light</item>
+        <item name="textColorAlertDialogListItem">@color/curated_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">17dp</item>
         <item name="android:radius">10dp</item>
 
