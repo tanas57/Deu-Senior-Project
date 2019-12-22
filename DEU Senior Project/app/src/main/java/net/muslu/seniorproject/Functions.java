@@ -38,7 +38,7 @@ public final class Functions {
     private static int packageid = 1;
     private static double cargoman_lat = 38.371881;
     private static double cargoman_lng = 27.194662;
-    public static final String CHANNEL_ID = "senior_channel";
+    public static final String CHANNEL_ID = "Rota İşlem Bildirimleri";
     private static NotificationManagerCompat notificationManager;
     private static int selectedRoute = -1;
 
@@ -139,7 +139,7 @@ public final class Functions {
         return false;
     }
 
-    public static void sendNotification(int maxIteration,  int count , Context context) {
+    public static void sendNotification(int maxIteration,  int count , Context context, String name) {
 
         final NotificationCompat.Builder notification = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_directions_black_24dp)
@@ -151,18 +151,18 @@ public final class Functions {
                 .setProgress(maxIteration, count, false);
         notificationManager = NotificationManagerCompat.from(context);
 
-        notificationManager.notify(2, notification.build());
+        notificationManager.notify(Integer.valueOf(name), notification.build());
 
         if(maxIteration-1<=count) {
             notification.setContentText("Rota hesaplama işlemi tamamlandı.")
                      .setSmallIcon(R.drawable.ic_done_black_24dp)
                     .setProgress(0, 0, false)
                     .setOngoing(false);
-            notificationManager.notify(2, notification.build());
+            notificationManager.notify(Integer.valueOf(name), notification.build());
         }
     }
 
-    public static void createNotificationChannel(Context context) {
+    public static void createNotificationChannel(Context context, String name) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
 
@@ -175,6 +175,7 @@ public final class Functions {
 
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
+            Log.v("NOTIFICATION", "IS CREATED IN CHANNEL " + name);
         }
     }
 

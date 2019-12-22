@@ -154,6 +154,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                         case 5:
                                             returnedType=AlgorithmType.ALL_OF_THEM;
                                             break;
+                                            default: returnedType=AlgorithmType.ONLY_DISTANCE;
                                     }
                                 }
                             });
@@ -179,6 +180,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     TempData tempData = new TempData(size);
                                     int [][] distances = tempData.getData().get(0);
                                     int [][] durations = tempData.getData().get(1);
+
+                                    Log.v("GENETIC STARTS", "WITH CHOICE => " + returnedType);
 
                                     GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
                                     geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));

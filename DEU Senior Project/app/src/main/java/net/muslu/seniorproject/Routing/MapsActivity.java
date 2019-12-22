@@ -32,10 +32,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private BarcodeData data;
     private GoogleMap mMap;
     private boolean cont = true;
-
+    final Handler handler = new Handler();
     public void countdown(final ICallback callback, final int time)
     {
-        final Handler handler = new Handler();
         handler.postDelayed( new Runnable(){
             @Override
             public void run() {
@@ -87,6 +86,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        cont =false;
+    }
 
     @Override
     protected void onResume() {

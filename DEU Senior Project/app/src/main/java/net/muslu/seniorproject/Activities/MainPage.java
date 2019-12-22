@@ -23,6 +23,7 @@ public class MainPage extends AppCompatActivity {
         if(Functions.takePermission(getApplicationContext(),this, Manifest.permission.ACCESS_FINE_LOCATION))
             Functions.fetchLastLocation(getApplicationContext());
 
+
         final Animation shake = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_shake2);
         final CardView route, packets, add_package;
 

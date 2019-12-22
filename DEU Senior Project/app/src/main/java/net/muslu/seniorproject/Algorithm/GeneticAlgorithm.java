@@ -21,7 +21,7 @@ public class GeneticAlgorithm {
     private int[][] durations;
     private BarcodeReadModel cargoman;
     private AlgorithmType algorithmType;
-
+    private String id;
     public BarcodeReadModel getCargoman() {
         return cargoman;
     }
@@ -50,9 +50,10 @@ public class GeneticAlgorithm {
         setCargoman(geneticAlgorithmData.getCargoman());
         setAlgorithmType(geneticAlgorithmData.getAlgorithmType());
 
+        Random rd = new Random();
+        id = String.valueOf(rd.nextInt(1111));
+
         population = new ArrayList<>();
-
-
 
         int popSize = getBarcodeData().GetSize();
 
@@ -165,7 +166,7 @@ public class GeneticAlgorithm {
 
             setPopulation(nextGen);
             if(counter%100==0)
-                Functions.sendNotification(MAX_ITERATION,counter,context);
+                Functions.sendNotification(MAX_ITERATION,counter,context, id);
 
             counter++;
 
@@ -619,8 +620,9 @@ public class GeneticAlgorithm {
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
+
+            Functions.createNotificationChannel(context, id);
             Work();
-            Functions.createNotificationChannel(context);
 
             return null;
         }

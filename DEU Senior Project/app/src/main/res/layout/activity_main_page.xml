@@ -29,19 +29,18 @@
                 android:fontFamily="sans-serif-light"
                 android:text="Muhammet Tayyip Muslu"
                 android:textColor="@color/curated_light"
-                android:textSize="20dp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:gravity="center"
                 android:id="@+id/cargomanPacketsize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/cargomanFullname"
                 android:layout_marginTop="7dp"
                 android:fontFamily="sans-serif-thin"
                 android:text="Bugün taşınması gereken paket sayısı : 10"
                 android:textColor="@color/curated_light_more"
-                android:textSize="14dp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -51,7 +50,6 @@
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="80dp"
-            android:layout_alignParentRight="true"
             android:src="@drawable/barcode"
             app:civ_border_color="#59B2FF"
             app:civ_border_width="2dp" />
@@ -62,7 +60,7 @@
 
 
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
@@ -72,7 +70,7 @@ tools:context=".Activities.MainPage">
 
 <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:alignmentMode="alignMargins"
             android:columnCount="2"
@@ -108,10 +106,9 @@ tools:context=".Activities.MainPage">
                         android:text="@string/home_route_text"
                         android:fontFamily="sans-serif-light"
                         android:textColor="#000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
-
 
             </androidx.cardview.widget.CardView>
 
@@ -144,7 +141,7 @@ tools:context=".Activities.MainPage">
                         android:text="@string/home_packet_text"
                         android:fontFamily="sans-serif-light"
                         android:textColor="#000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -166,7 +163,7 @@ tools:context=".Activities.MainPage">
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="15dp">
+                    android:padding="15sp">
 
                     <ImageView
                         android:layout_width="80dp"
@@ -180,7 +177,7 @@ tools:context=".Activities.MainPage">
                         android:text="@string/home_addpacket_text"
                         android:fontFamily="sans-serif-light"
                         android:textColor="#000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -201,7 +198,7 @@ tools:context=".Activities.MainPage">
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="15dp">
+                    android:padding="15sp">
 
                     <ImageView
                         android:layout_width="80dp"
@@ -215,7 +212,7 @@ tools:context=".Activities.MainPage">
                         android:text="@string/home_customer_text"
                         android:fontFamily="sans-serif-light"
                         android:textColor="#000"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
