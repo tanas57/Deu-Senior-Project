@@ -41,7 +41,7 @@
                 android:paddingTop="10dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Muhammet Tayyip Muslu"
-                android:textColor="@android:color/white"
+                android:textColor="@color/curated_light"
                 android:textSize="20dp" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_marginTop="7dp"
                 android:fontFamily="sans-serif-thin"
                 android:text="Bugün taşınması gereken paket sayısı : 10"
-                android:textColor="#9EBCF3"
+                android:textColor="@color/curated_light"
                 android:textSize="14dp" />
 
         </RelativeLayout>

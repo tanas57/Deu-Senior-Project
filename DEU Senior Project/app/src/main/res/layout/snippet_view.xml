@@ -39,16 +39,16 @@
                             android:id="@+id/mapMarker_custFullName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-thin"
-                            android:textSize="11dp"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
                             android:textColor="@android:color/background_dark"
                             android:text="Customer full name here"/>
                         <TextView
                             android:id="@+id/mapMarker_custPriority"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-thin"
-                            android:textSize="11dp"
+                            android:fontFamily="sans-serif-light"
+                            android:textSize="12dp"
                             android:paddingLeft="5dp"
                             android:textColor="@android:color/background_dark"
                             android:text="Priorty here"/>
@@ -57,10 +57,10 @@
         <TextView
             android:id="@+id/mapMarker_address"
             android:layout_marginTop="10dp"
-            android:fontFamily="sans-serif-thin"
+            android:fontFamily="sans-serif-light"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="11dp"
+            android:textSize="12dp"
             android:textColor="@android:color/background_dark"
             android:text="Delivery address here"/>
 
