@@ -8,7 +8,7 @@
     <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.9"
+            android:layout_weight="0.8"
             android:id="@+id/routes"/>
     <Button
             android:layout_marginTop="5dp"

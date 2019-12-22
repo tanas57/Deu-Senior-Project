@@ -30,7 +30,7 @@ public class RouteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_route);
+
 
         getSupportActionBar().setTitle(getString(R.string.cargo_packages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -40,6 +40,7 @@ public class RouteActivity extends AppCompatActivity {
         Log.v("RESPONSE CHROMOSOME", "FETCH CHROMOSOME");
         if (chromosomes != null && chromosomes.size() > 0) {
             final RecyclerView rout = findViewById(R.id.routes);
+            setContentView(R.layout.activity_route);
             Log.v("RESPONSE CHROMOSOME", "NUMBER OF CHROMOSOME => " + chromosomes.size());
             routingListAdapter = new RoutingListAdapter(getApplicationContext(), Functions.getRoutes(), new RoutingListAdapter.ClickListener() {
                 @Override
@@ -68,6 +69,9 @@ public class RouteActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+        }
+        else{
+            setContentView(R.layout.warning_layout);
         }
     }
 
