@@ -80,6 +80,5 @@ public class RoutingListAdapter extends RecyclerView.Adapter<RoutingListAdapter.
             this.ischecked.setChecked(true);
             listenerRef.get().onPositionClicked(v, getAdapterPosition());
         }
-
     }
 }

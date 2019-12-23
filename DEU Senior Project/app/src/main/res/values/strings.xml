@@ -27,6 +27,7 @@
     <string name="empty_route_text">Henüz rota oluşturmadınız</string>
     <string name="empty_packet_text">Henüz paket eklemediniz</string>
     <string name="my_route">Navigasyon</string>
+    <string name="only_distance">Sadece Uzaklık</string>
     <string-array name="route_selection">
         <item>
             En kısa mesafe

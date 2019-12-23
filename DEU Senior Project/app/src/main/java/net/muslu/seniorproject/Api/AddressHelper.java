@@ -44,12 +44,10 @@ public class AddressHelper implements IAddress {
 
     protected void setApi_address(String api_address){ this.api_address = api_address;}
 
-
     @Override
     public String GetAddress() {
         return null;
     }
-
 
     public enum ApiProcess{
         GET_PACKAGES("/package/list"),

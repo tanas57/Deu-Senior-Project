@@ -61,9 +61,7 @@ public class Markers {
                         return view;
                     }
 
-
                     return null;
-
 
                 }
             });
@@ -84,8 +82,6 @@ public class Markers {
             else
                 mMap.addMarker(new MarkerOptions().position(pos).icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_pck)));
         }
-
-        //Draw route
 
     }
 }

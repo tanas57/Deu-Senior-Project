@@ -56,7 +56,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private boolean[] isChecked = new boolean[6];
     private ArrayList<AlgorithmType> algorithmTypes = new ArrayList<>();
-    private int psize = 22;
+    private int psize = 10;
     String [] barcodes = new String[psize];
 
     private void cargomanLocation(){

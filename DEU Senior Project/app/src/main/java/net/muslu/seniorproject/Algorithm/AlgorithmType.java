@@ -7,5 +7,4 @@ public enum AlgorithmType {
     DISTANCE_PRIORITY,
     DURATION_PRIORITY,
     ALL_OF_THEM,
-
 }

@@ -47,7 +47,6 @@ public class Route {
                     url.add(points.get(i)); // destinatons is going to be origin
                 }
             }
-
             return true;
         }
         return false;
@@ -179,10 +178,8 @@ public class Route {
                         .color(Color.rgb(240,140,40)).geodesic(true));
                 drawedLine.add(line);
             }
-
         }
         catch (JSONException e) {
         }
     }
-
 }
