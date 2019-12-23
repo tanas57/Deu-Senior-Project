@@ -40,7 +40,7 @@ public class DeliveryActivity extends AppCompatActivity {
 
         int model_id = intent.getExtras().getInt("model_id");
 
-        final BarcodeReadModel model = Functions.getRoutes().get(0).getBarcodeReadModels().get(model_id);
+        final BarcodeReadModel model = Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(model_id);
 
         if(model != null){
             final SignaturePad mSignaturePad = findViewById(R.id.delivery_signature);
