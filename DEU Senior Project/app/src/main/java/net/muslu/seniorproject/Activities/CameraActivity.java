@@ -173,7 +173,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                                     for(AlgorithmType type: algorithmTypes){
 
-                                        Log.v("GENETIC STARTS", "WITH CHOICE => " + returnedType);
+                                        Log.v("GENETIC STARTS", "WITH CHOICE => " + type);
 
                                         GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
                                         geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, 38.371881, 27.194662, getApplicationContext()));
