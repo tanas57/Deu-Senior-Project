@@ -41,8 +41,8 @@ public class MainPage extends AppCompatActivity {
 
         cargomanProfile = findViewById(R.id.profile_image);
 
-        pkgsize = findViewById(R.id.main_packet_size);
-        pkgsize.setText(" " + Functions.getPackageSize());
+        pkgsize = findViewById(R.id.cargomanPacketsize);
+        pkgsize.setText("Bugün taşınması gereken paket sayısı : " + Functions.getPackageSize());
 
         new DownloadImageTask(cargomanProfile)
                 .execute((Functions.API_URL + "/cargoman/image/" + Functions.getCargoman().getId()));
@@ -115,7 +115,7 @@ public class MainPage extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        pkgsize.setText(" " + Functions.getPackageSize());
+        pkgsize.setText("Bugün taşınması gereken paket sayısı : " + Functions.getPackageSize());
         super.onResume();
     }
 }
