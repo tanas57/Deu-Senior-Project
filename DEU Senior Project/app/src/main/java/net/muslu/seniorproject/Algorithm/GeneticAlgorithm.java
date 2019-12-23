@@ -35,12 +35,10 @@ public class GeneticAlgorithm {
     private static final double ELITIZIM_SIZE = 0.35;
     private int POPULATION_MULTIPLIER = 1;
     private Context context;
-    long startTime = System.currentTimeMillis();
-    long endTime;
+    private long startTime = System.currentTimeMillis();
+    private long endTime;
     // customer priority
     // package priority
-
-
 
     public GeneticAlgorithm(Context context, GeneticAlgorithmData geneticAlgorithmData) {
         this.context = context;
@@ -89,9 +87,6 @@ public class GeneticAlgorithm {
         int counter = 1;
         while (counter <= MAX_ITERATION) {
 
-            if(counter%100==0)
-                Log.v("COUNTER", counter + " ");
-
             for (Chromosome item : getPopulation()) {
                 item.setFitnessScore(FitnessFunction(item));
             }
@@ -103,10 +98,6 @@ public class GeneticAlgorithm {
             ArrayList<Chromosome> nextGen = new ArrayList<>();
 
             ArrayList<Chromosome> parents = new ArrayList<>();
-
-            if(counter % 500 == 0){
-                Log.v("GENERATION => ",counter + " ");
-            }
 
             for (int i = 0; i < elitizim; i++) {
                 Chromosome mutatedElit = null;
@@ -121,7 +112,6 @@ public class GeneticAlgorithm {
                 nextGen.add(mutatedElit);
                 parents.add(mutatedElit);
             }
-
 
             // cross-over
             int changeIndex = getPopulationSize() - 1;
@@ -164,13 +154,13 @@ public class GeneticAlgorithm {
                 nextcounter++;
             }
 
-            setPopulation(nextGen);
-            if(counter%100==0)
-                Functions.sendNotification(MAX_ITERATION,counter,context, id);
+            if(counter%100==0) {
+                Functions.sendNotification(MAX_ITERATION, counter, context, id);
+                Log.v("COUNTER", counter + " ");
+            }
 
             counter++;
-
-            //Log.v("ITERATION : " + counter, "ENDS");
+            setPopulation(nextGen);
         }
     }
 
@@ -180,8 +170,14 @@ public class GeneticAlgorithm {
 
         QuickSort ob = new QuickSort();
         ob.sort(population, 0, n-1);
-    }
 
+    }
+    // it will use if it is necessary..
+    /**
+     * This functions shows the package id's of selected chromosome
+     * @param route Which chromosome
+     * @param info a message letters ( max 25 characters ) it shows logcat message title.
+     */
     private void RouteDetail(Chromosome route, String info){
         String temp = "";
 
@@ -307,8 +303,6 @@ public class GeneticAlgorithm {
         newFitness = FitnessFunction(newChild);
         newChild.setFitnessScore(newFitness);
 
-        //Log.v("ONE POINT MUTATITON", "Eski değer : " + fitness + " Yeni değer : " + newFitness);
-
         if(newFitness >= fitness) return newChild;
 
         return chromosome;
@@ -404,13 +398,13 @@ public class GeneticAlgorithm {
         ArrayList<Integer> indexes = new ArrayList<>();
         int index = -2;
 
-
         while (indexes.size() < 3){
             index=random.nextInt(forRandom);
             if(index !=0) {
                 if(indexes.contains(index) == false) indexes.add(index);
             }
         }
+
         ArrayList<BarcodeReadModel> firstChildPoints = new ArrayList<>();
         ArrayList<BarcodeReadModel> secondChildPoints = new ArrayList<>();
 
@@ -425,8 +419,11 @@ public class GeneticAlgorithm {
 
             firstChildPoints.set(indexes.get(i),parent2.getBarcodeReadModels().get(indexes.get(i)));
             secondChildPoints.set(indexes.get(i),parent1.getBarcodeReadModels().get(indexes.get(i)));
+
         }
-        int tempIndex = -2 ; int tempIndex2=-2;
+
+        int tempIndex = -2 ; int tempIndex2 = -2;
+
         for (int i = 0; i<parent1.getBarcodeReadModels().size();i++) {
             boolean flag = false;
             boolean flag2 = false;
@@ -519,7 +516,6 @@ public class GeneticAlgorithm {
         return child;
     }
     // (Proportional Roulette Whell Selection
-
     private Chromosome SelectRouteWithWhellSelection(ArrayList<Chromosome> parents){
         double sum = 0;
         ArrayList<Double> points = new ArrayList<>();
@@ -579,20 +575,18 @@ public class GeneticAlgorithm {
                     case ONLY_DURATION:
                         temp += durations[previous.getPackageId()][next.getPackageId()] / 60.0;
                         break;
+                    case ALL_OF_THEM:
                     case BOTH_DISTANCE_DURATION:
                         double dis = distances[previous.getPackageId()][next.getPackageId()];
                         double dur = durations[previous.getPackageId()][next.getPackageId()];
                         double result = (((dis/1000.0)* dis) /(dur/60.0)*dur)/10000;
                         temp += result;
-                        //if(temp == Double.NaN) temp = 0;,
                         break;
                     case DISTANCE_PRIORITY:
                         temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
-                    case ALL_OF_THEM:
-                        //temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
-                                //(durations[previous.getPackageId()][next.getPackageId()] / 60)) / next.getCargoPackage().getPriority();
-                        temp += distances[previous.getPackageId()][next.getPackageId()];
+                    case DURATION_PRIORITY:
+                        temp += durations[previous.getPackageId()][next.getPackageId()] / 60.0;
                         break;
                 }
 
@@ -608,12 +602,13 @@ public class GeneticAlgorithm {
                 return 1/(temp/1000); // convert metres to kilometers
             case ONLY_DURATION:
                 return 1/temp;
+            case ALL_OF_THEM:
             case BOTH_DISTANCE_DURATION:
                 return 1/temp;
             case DISTANCE_PRIORITY:
                 return 1/(temp/1000);
-            case ALL_OF_THEM:
-                return 1/(temp/100);
+            case DURATION_PRIORITY:
+                return 1/temp;
         }
         return 0;
     }
@@ -665,7 +660,7 @@ public class GeneticAlgorithm {
 
             tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
             Log.v("SELECTION => ", tmpstr);
-
+            tmpstr = "";
 
             double avarage = 0;
 
@@ -675,49 +670,39 @@ public class GeneticAlgorithm {
             ArrayList<BarcodeReadModel> changelist = new ArrayList<>();
             double changeSum = 0;
 
-            if(algorithmType == AlgorithmType.DISTANCE_PRIORITY || algorithmType == AlgorithmType.DURATION_PRIORITY) {
+            if(algorithmType == AlgorithmType.DISTANCE_PRIORITY || algorithmType == AlgorithmType.DURATION_PRIORITY
+                    || algorithmType == AlgorithmType.ALL_OF_THEM) {
 
-                for (int i = 0; i < route.getBarcodeReadModels().size(); i++) {
+               // find 2 or 3
 
-                    BarcodeReadModel previous, next;
+                double originalFitness = route.getFitnessScore();
+                // check 3
+                for(int priority = 3; priority >= 2; priority-- ) {
+                    for (int i = 1; i < route.getBarcodeReadModels().size(); i++) {
+                        if (route.getBarcodeReadModels().get(i).getCargoPackage().getPriority() != 1) {
+                            if (i == 1 || i == route.getBarcodeReadModels().size()) continue;
 
-                    if (i < route.getBarcodeReadModels().size() - 1) {
+                            BarcodeReadModel temp = route.getBarcodeReadModels().get(i - 1);
+                            route.getBarcodeReadModels().set(i - 1, route.getBarcodeReadModels().get(i));
+                            route.getBarcodeReadModels().set(i, temp);
 
-                        previous = route.getBarcodeReadModels().get(i);
-                        next = route.getBarcodeReadModels().get(i + 1);
+                            route.setFitnessScore(FitnessFunction(route));
 
-                        if (algorithmType == AlgorithmType.DISTANCE_PRIORITY)
-                            changeSum = distances[previous.getPackageId()][next.getPackageId()];
-                        else if (algorithmType == AlgorithmType.DURATION_PRIORITY)
-                            changeSum = durations[previous.getPackageId()][next.getPackageId()];
+                            double divider = 0;
 
-                        if (changeSum < avarage) {
+                            if(priority == 2) divider = avarage / 10;
+                            else if(priority == 3) divider = avarage / 5;
 
-                            for (int a = 0; a < changelist.size(); a++) {
-                                for (int b = 0; b < changelist.size(); b++) {
+                            if (!((route.getFitnessScore() - originalFitness) < divider)) {
+                                temp = route.getBarcodeReadModels().get(i - 1);
+                                route.getBarcodeReadModels().set(i - 1, route.getBarcodeReadModels().get(i));
+                                route.getBarcodeReadModels().set(i, temp);
 
-                                    BarcodeReadModel item1 = changelist.get(a);
-                                    BarcodeReadModel item2 = changelist.get(b);
-
-                                    if (item2.getCargoPackage().getPriority() > item1.getCargoPackage().getPriority()) {
-                                        Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞİMİ YAPILDI : item1 => " + item1.getPackageId() + " | item2 =>" + item2.getPackageId());
-                                        int change1 = route.getBarcodeReadModels().indexOf(item1);
-                                        int change2 = route.getBarcodeReadModels().indexOf(item2);
-
-                                        route.getBarcodeReadModels().set(change1, item2);
-                                        route.getBarcodeReadModels().set(change2, item1);
-                                    }
-
-                                }
+                                route.setFitnessScore(FitnessFunction(route));
                             }
-
-
-                            Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞME LİSTESİ SIFIRLANDI");
-                            changelist = new ArrayList<>();
-                            changeSum = 0;
-                        } else {
-                            changelist.add(next);
-                            Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞİM LİSTESİNE EKLENDİ");
+                            else{
+                                Log.v("PRIORTIY", "DEĞİŞİKLİK YAPILDI");
+                            }
                         }
                     }
                 }
@@ -732,7 +717,6 @@ public class GeneticAlgorithm {
 
                 tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
                 Log.v("PRIORITY SELECTION => ", tmpstr);
-
 
             }
 
