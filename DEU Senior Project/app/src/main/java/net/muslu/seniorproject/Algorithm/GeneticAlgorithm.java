@@ -590,14 +590,16 @@ public class GeneticAlgorithm {
                         temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                     case ALL_OF_THEM:
-                        temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
-                                (durations[previous.getPackageId()][next.getPackageId()] / 60)) / next.getCargoPackage().getPriority();
+                        //temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
+                                //(durations[previous.getPackageId()][next.getPackageId()] / 60)) / next.getCargoPackage().getPriority();
+                        temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                 }
 
                 metres += tempMetres;
             }
         }
+
         item.setDurations(duration);
         item.setMetres(metres);
 
@@ -611,18 +613,9 @@ public class GeneticAlgorithm {
             case DISTANCE_PRIORITY:
                 return 1/(temp/1000);
             case ALL_OF_THEM:
-                return 1/temp;
+                return 1/(temp/100);
         }
         return 0;
-    }
-
-    public double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        long factor = (long) Math.pow(10, places);
-        value = value * factor;
-        long tmp = Math.round(value);
-        return (double) tmp / factor;
     }
 
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
@@ -673,14 +666,83 @@ public class GeneticAlgorithm {
             tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
             Log.v("SELECTION => ", tmpstr);
 
-            for (BarcodeReadModel item : route.getBarcodeReadModels()){
-                if(item.getPackageId() == 0) continue;
-                Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
+
+            double avarage = 0;
+
+            if(algorithmType == AlgorithmType.DISTANCE_PRIORITY ) avarage = route.getMetres() / route.getBarcodeReadModels().size();
+            else if(algorithmType == AlgorithmType.DURATION_PRIORITY) avarage = route.getDurations() / route.getBarcodeReadModels().size();
+
+            ArrayList<BarcodeReadModel> changelist = new ArrayList<>();
+            double changeSum = 0;
+
+            if(algorithmType == AlgorithmType.DISTANCE_PRIORITY || algorithmType == AlgorithmType.DURATION_PRIORITY) {
+
+                for (int i = 0; i < route.getBarcodeReadModels().size(); i++) {
+
+                    BarcodeReadModel previous, next;
+
+                    if (i < route.getBarcodeReadModels().size() - 1) {
+
+                        previous = route.getBarcodeReadModels().get(i);
+                        next = route.getBarcodeReadModels().get(i + 1);
+
+                        if (algorithmType == AlgorithmType.DISTANCE_PRIORITY)
+                            changeSum = distances[previous.getPackageId()][next.getPackageId()];
+                        else if (algorithmType == AlgorithmType.DURATION_PRIORITY)
+                            changeSum = durations[previous.getPackageId()][next.getPackageId()];
+
+                        if (changeSum < avarage) {
+
+                            for (int a = 0; a < changelist.size(); a++) {
+                                for (int b = 0; b < changelist.size(); b++) {
+
+                                    BarcodeReadModel item1 = changelist.get(a);
+                                    BarcodeReadModel item2 = changelist.get(b);
+
+                                    if (item2.getCargoPackage().getPriority() > item1.getCargoPackage().getPriority()) {
+                                        Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞİMİ YAPILDI : item1 => " + item1.getPackageId() + " | item2 =>" + item2.getPackageId());
+                                        int change1 = route.getBarcodeReadModels().indexOf(item1);
+                                        int change2 = route.getBarcodeReadModels().indexOf(item2);
+
+                                        route.getBarcodeReadModels().set(change1, item2);
+                                        route.getBarcodeReadModels().set(change2, item1);
+                                    }
+
+                                }
+                            }
+
+
+                            Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞME LİSTESİ SIFIRLANDI");
+                            changelist = new ArrayList<>();
+                            changeSum = 0;
+                        } else {
+                            changelist.add(next);
+                            Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞİM LİSTESİNE EKLENDİ");
+                        }
+                    }
+                }
+
+                route.setFitnessScore(FitnessFunction(route));
+
+                for (BarcodeReadModel item2 : route.getBarcodeReadModels()) {
+                    tmpstr += item2.getPackageId() + " ";
+                }
+                tmpstr += " point => " + route.getFitnessScore() + " METRES " + route.getMetres();
+                Log.v("PRIORITY FITNESS ", tmpstr);
+
+                tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
+                Log.v("PRIORITY SELECTION => ", tmpstr);
+
+
+            }
+
+            for (BarcodeReadModel item : route.getBarcodeReadModels()) {
+                if (item.getPackageId() == 0) continue;
+                Log.v("CUSTOMER " + item.getPackageId(), " priority : " + item.getCargoPackage().getPriority() + " " + item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
             }
 
             route.setAlgorithmType(algorithmType);
             Functions.addRoute(route);
-
         }
     }
 

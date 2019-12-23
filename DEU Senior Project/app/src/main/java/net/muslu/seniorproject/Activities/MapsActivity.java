@@ -10,14 +10,12 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,14 +23,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import net.muslu.seniorproject.Routing.Markers;
 import net.muslu.seniorproject.Routing.Route;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -77,7 +73,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         this.mMap = mMap;
     }
 
-    ArrayList<BarcodeReadModel> addList = new ArrayList<BarcodeReadModel>();
+    ArrayList<BarcodeReadModel> addList = new ArrayList<>();
     Markers marker = new Markers();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -140,7 +136,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        start = false;
+        pause = true;
     }
 
     @Override
@@ -185,7 +181,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                start = true;
                 pause = false;
             }
         });
@@ -193,7 +188,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                start = false;
                 pause = true;
                 return false;
             }

@@ -40,11 +40,12 @@ public class Markers {
                     return null;
                 }
                 public View getInfoContents(final Marker marker) {
+
                     String[] toGetDeliverOrder = marker.getId().split("m");
                     int deliverOrder = Integer.valueOf(toGetDeliverOrder[1]);
 
                     if(deliverOrder != 0){
-                        BarcodeReadModel model = Functions.getRoutes().get(0).getBarcodeReadModels().get(deliverOrder);
+                        BarcodeReadModel model = Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(deliverOrder);
                         View view = activity.getLayoutInflater().inflate(R.layout.snippet_view,null);
 
                         TextView deliveryNumber = view.findViewById(R.id.mapMarker_deliveryNumber);
@@ -59,6 +60,8 @@ public class Markers {
                         addressDetail.setText(model.getCustomer().getAddress());
                         return view;
                     }
+
+
                     return null;
 
 
