@@ -34,7 +34,7 @@
             android:layout_marginLeft="10dp"
             android:id="@+id/route_name"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center|left"
             android:text="Rota 1"
             android:fontFamily="sans-serif-thin"

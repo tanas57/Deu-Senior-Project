@@ -5,8 +5,8 @@ import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 public class GeneticAlgorithmData {
-    protected int[][] distances;
-    protected int[][] durations;
+    protected double[][] distances;
+    protected double[][] durations;
     protected BarcodeData barcodeData;
     protected BarcodeReadModel cargoman;
     protected AlgorithmType algorithmType;
@@ -39,19 +39,19 @@ public class GeneticAlgorithmData {
         barcodeData = getBarcodeData();
     }
 
-    public int[][] getDistances() {
+    public double[][] getDistances() {
         return distances;
     }
 
-    public void setDistances(int[][] distances) {
+    public void setDistances(double[][] distances) {
         this.distances = distances;
     }
 
-    public int[][] getDurations() {
+    public double[][] getDurations() {
         return durations;
     }
 
-    public void setDurations(int[][] durations) {
+    public void setDurations(double[][] durations) {
         this.durations = durations;
     }
 

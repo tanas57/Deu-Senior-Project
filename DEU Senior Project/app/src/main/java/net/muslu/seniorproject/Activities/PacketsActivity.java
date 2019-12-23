@@ -7,29 +7,21 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import net.muslu.seniorproject.CustomAdapter;
-import net.muslu.seniorproject.DataTransfer;
 import net.muslu.seniorproject.Functions;
-import net.muslu.seniorproject.ProjectData;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
-import net.muslu.seniorproject.Reader.Barcode.BarcodeRead;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 public class PacketsActivity extends AppCompatActivity {
@@ -38,11 +30,9 @@ public class PacketsActivity extends AppCompatActivity {
     private RecyclerView rv;
     private CustomAdapter ad;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         getSupportActionBar().setTitle(getString(R.string.cargo_packages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -87,7 +77,6 @@ public class PacketsActivity extends AppCompatActivity {
                         });
                         builder.show();
 
-
                     } else {
                         Toast.makeText(view.getContext(), "ROW PRESSED = ", Toast.LENGTH_SHORT).show();
                     }
@@ -101,35 +90,12 @@ public class PacketsActivity extends AppCompatActivity {
             setContentView(R.layout.warning_layout);
             TextView emptyText = findViewById(R.id.empty_text);
             emptyText.setText(getResources().getString(R.string.empty_packet_text));
-
-
         }
-
-
-        /*ImageView makeCallImg = (ImageView) findViewById(R.id.makeCall);
-        makeCallImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                makePhoneCall(v);
-            }
-        });
-        */
     }
-
-  /*  public void makePhoneCall(View view){
-        Intent callIntent =new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:05343879697"));
-        if (ActivityCompat.checkSelfPermission(PacketsActivity.this,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        startActivity(callIntent);
-    }*/
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Log.v("DATA TRANSFER", "DATA RETURNS FROM PACKETS ACTIVITY");
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

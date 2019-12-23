@@ -1,27 +1,21 @@
-package net.muslu.seniorproject.Routing;
+package net.muslu.seniorproject.Activities;
 
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
-
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,45 +23,37 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-
-import net.muslu.seniorproject.Activities.DeliveryActivity;
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
-
+import net.muslu.seniorproject.Routing.Markers;
+import net.muslu.seniorproject.Routing.Route;
 import java.io.IOException;
 import java.util.ArrayList;
 
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
-    private LocationManager locationManager;
-    private static final long MIN_TIME = 400;
-    private static final float MIN_DISTANCE = 1000;
     private BarcodeData data;
     private GoogleMap mMap;
-
-    private static final int DISPLAY_DATA = 1;
-    private boolean cont = true;
+    final Handler handler = new Handler();
+    private boolean start = false;
+    private boolean pause = false;
 
     public void countdown(final ICallback callback, final int time)
     {
-        final Handler handler = new Handler();
         handler.postDelayed( new Runnable(){
             @Override
             public void run() {
                 callback.onEndTime();
                 handler.postDelayed(this, time);
-                if(cont){
+                if(start && !pause){
 
                     Functions.fetchLastLocation(getMapsActivityContext());
 
                     CameraPosition googlePlex = CameraPosition.builder()
                             .target(new LatLng(Functions.getCargoman_lat(),Functions.getCargoman_lng()))
-                            .zoom(20)
+                            .zoom(18)
                             .bearing(0)
                             .tilt(20)
                             .build();
@@ -87,7 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         this.mMap = mMap;
     }
 
-    ArrayList<BarcodeReadModel> addList = new ArrayList<BarcodeReadModel>();
+    ArrayList<BarcodeReadModel> addList = new ArrayList<>();
     Markers marker = new Markers();
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -95,21 +81,63 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        data = (BarcodeData) getIntent().getSerializableExtra("data");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        data = new BarcodeData();
+        data.setData(Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels());
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String []{Manifest.permission.ACCESS_FINE_LOCATION},1);
-            return;
+        if(data.GetSize() > 1) {
+
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+            getSupportActionBar().setTitle(getString(R.string.my_route));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return;
+            }
+
+            mapFragment.getMapAsync(this);
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-
-        mapFragment.getMapAsync(this);
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.route_start){
+            if(start){
+                start = false;
+                Toast.makeText(getMapsActivityContext(), "durduruldu", Toast.LENGTH_SHORT).show();
+                item.setIcon(R.drawable.ic_play_arrow);
+            }
+            else{
+                start = true;
+                item.setIcon(R.drawable.ic_pause);
+                Toast.makeText(getMapsActivityContext(), "başlatıldı", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        else if(id == R.id.route_stop){
+            start = false;
+            Toast.makeText(getMapsActivityContext(), "iptal edildi.", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            onBackPressed();
+        }
+        return true;
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        pause = true;
+    }
 
     @Override
     protected void onResume() {
@@ -118,6 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             ActivityCompat.requestPermissions(this,new String []{Manifest.permission.ACCESS_FINE_LOCATION},1);
             return;
         }
+        if(mMap != null) start = true;
     }
 
     @Override
@@ -126,9 +155,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.getUiSettings().setZoomControlsEnabled(true);
         CameraPosition googlePlex = CameraPosition.builder()
                 .target(new LatLng(Functions.getCargoman_lat(),Functions.getCargoman_lng())) // will be cargoman coords
-                .zoom(10)
+                .zoom(14)
                 .bearing(0)
-                .tilt(45)
+                .tilt(55)
                 .build();
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
@@ -145,20 +174,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         countdown(new ICallback() {
             @Override
             public void onEndTime() {
+
             }
         }, 1233);
 
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                cont = true;
+                pause = false;
             }
         });
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                cont = false;
+                pause = true;
                 return false;
             }
 
@@ -175,22 +205,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
-        mMap.animateCamera(cameraUpdate);
-        locationManager.removeUpdates(this);
-    }
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) { }
-
-    @Override
-    public void onProviderEnabled(String provider) { }
-
-    @Override
-    public void onProviderDisabled(String provider) { }
 
     public Context getMapsActivityContext() {
         return MapsActivity.this;

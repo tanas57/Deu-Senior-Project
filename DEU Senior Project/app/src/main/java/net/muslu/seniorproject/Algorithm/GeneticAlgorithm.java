@@ -17,11 +17,11 @@ public class GeneticAlgorithm {
 
     private List<Chromosome> population;
     private BarcodeData barcodeData;
-    private int[][] distances;
-    private int[][] durations;
+    private double[][] distances;
+    private double[][] durations;
     private BarcodeReadModel cargoman;
     private AlgorithmType algorithmType;
-
+    private String id;
     public BarcodeReadModel getCargoman() {
         return cargoman;
     }
@@ -50,9 +50,10 @@ public class GeneticAlgorithm {
         setCargoman(geneticAlgorithmData.getCargoman());
         setAlgorithmType(geneticAlgorithmData.getAlgorithmType());
 
+        Random rd = new Random();
+        id = String.valueOf(rd.nextInt(1111));
+
         population = new ArrayList<>();
-
-
 
         int popSize = getBarcodeData().GetSize();
 
@@ -78,7 +79,7 @@ public class GeneticAlgorithm {
         }
 
         FillRoutes();
-        new GeneticTask().execute();
+        new GeneticTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
 
     private int getPopulationSize(){ return population.size(); }
@@ -165,7 +166,7 @@ public class GeneticAlgorithm {
 
             setPopulation(nextGen);
             if(counter%100==0)
-                Functions.sendNotification(MAX_ITERATION,counter,context);
+                Functions.sendNotification(MAX_ITERATION,counter,context, id);
 
             counter++;
 
@@ -562,7 +563,7 @@ public class GeneticAlgorithm {
     }
 
     private double FitnessFunction(Chromosome item){
-        double temp = 0; int metres = 0, duration = 0, tempMetres;
+        double temp = 0, tempMetres = 0; int metres = 0, duration = 0;
         ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
         BarcodeReadModel previous = null, next = null;
         for(int i = 0; i < models.size(); i++){
@@ -576,28 +577,29 @@ public class GeneticAlgorithm {
                         temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                     case ONLY_DURATION:
-                        temp += (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                        temp += durations[previous.getPackageId()][next.getPackageId()] / 60.0;
                         break;
                     case BOTH_DISTANCE_DURATION:
-                        temp += (distances[previous.getPackageId()][next.getPackageId()] / 1000) * (durations[previous.getPackageId()][next.getPackageId()] / 60);
+                        double dis = distances[previous.getPackageId()][next.getPackageId()];
+                        double dur = durations[previous.getPackageId()][next.getPackageId()];
+                        double result = (((dis/1000.0)* dis) /(dur/60.0)*dur)/10000;
+                        temp += result;
+                        //if(temp == Double.NaN) temp = 0;,
                         break;
                     case DISTANCE_PRIORITY:
-                        if(next.getCargoPackage().getPriority() == 1)
-                            temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority();
-                        else if(next.getCargoPackage().getPriority() == 2)
-                        temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority() * 10;
-                        else if(next.getCargoPackage().getPriority() == 3)
-                            temp += distances[previous.getPackageId()][next.getPackageId()] / next.getCargoPackage().getPriority() * 20;
+                        temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                     case ALL_OF_THEM:
-                        temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
-                                (durations[previous.getPackageId()][next.getPackageId()] / 60)) / next.getCargoPackage().getPriority();
+                        //temp += ((distances[previous.getPackageId()][next.getPackageId()] / 1000) *
+                                //(durations[previous.getPackageId()][next.getPackageId()] / 60)) / next.getCargoPackage().getPriority();
+                        temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                 }
 
                 metres += tempMetres;
             }
         }
+
         item.setDurations(duration);
         item.setMetres(metres);
 
@@ -611,7 +613,7 @@ public class GeneticAlgorithm {
             case DISTANCE_PRIORITY:
                 return 1/(temp/1000);
             case ALL_OF_THEM:
-                return 1/temp;
+                return 1/(temp/100);
         }
         return 0;
     }
@@ -619,8 +621,11 @@ public class GeneticAlgorithm {
     private class GeneticTask extends AsyncTask<String, Void, List<HashMap<String, String>>> {
         @Override
         protected List<HashMap<String, String>> doInBackground(String... strings) {
+
+            Functions.createNotificationChannel(context, id);
+            Log.v("GENETIC TASK", "IS IN PROGRESS");
             Work();
-            Functions.createNotificationChannel(context);
+            Log.v("GENETIC TASK","END");
 
             return null;
         }
@@ -661,13 +666,83 @@ public class GeneticAlgorithm {
             tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
             Log.v("SELECTION => ", tmpstr);
 
-            for (BarcodeReadModel item : route.getBarcodeReadModels()){
-                if(item.getPackageId() == 0) continue;
-                Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
+
+            double avarage = 0;
+
+            if(algorithmType == AlgorithmType.DISTANCE_PRIORITY ) avarage = route.getMetres() / route.getBarcodeReadModels().size();
+            else if(algorithmType == AlgorithmType.DURATION_PRIORITY) avarage = route.getDurations() / route.getBarcodeReadModels().size();
+
+            ArrayList<BarcodeReadModel> changelist = new ArrayList<>();
+            double changeSum = 0;
+
+            if(algorithmType == AlgorithmType.DISTANCE_PRIORITY || algorithmType == AlgorithmType.DURATION_PRIORITY) {
+
+                for (int i = 0; i < route.getBarcodeReadModels().size(); i++) {
+
+                    BarcodeReadModel previous, next;
+
+                    if (i < route.getBarcodeReadModels().size() - 1) {
+
+                        previous = route.getBarcodeReadModels().get(i);
+                        next = route.getBarcodeReadModels().get(i + 1);
+
+                        if (algorithmType == AlgorithmType.DISTANCE_PRIORITY)
+                            changeSum = distances[previous.getPackageId()][next.getPackageId()];
+                        else if (algorithmType == AlgorithmType.DURATION_PRIORITY)
+                            changeSum = durations[previous.getPackageId()][next.getPackageId()];
+
+                        if (changeSum < avarage) {
+
+                            for (int a = 0; a < changelist.size(); a++) {
+                                for (int b = 0; b < changelist.size(); b++) {
+
+                                    BarcodeReadModel item1 = changelist.get(a);
+                                    BarcodeReadModel item2 = changelist.get(b);
+
+                                    if (item2.getCargoPackage().getPriority() > item1.getCargoPackage().getPriority()) {
+                                        Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞİMİ YAPILDI : item1 => " + item1.getPackageId() + " | item2 =>" + item2.getPackageId());
+                                        int change1 = route.getBarcodeReadModels().indexOf(item1);
+                                        int change2 = route.getBarcodeReadModels().indexOf(item2);
+
+                                        route.getBarcodeReadModels().set(change1, item2);
+                                        route.getBarcodeReadModels().set(change2, item1);
+                                    }
+
+                                }
+                            }
+
+
+                            Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞME LİSTESİ SIFIRLANDI");
+                            changelist = new ArrayList<>();
+                            changeSum = 0;
+                        } else {
+                            changelist.add(next);
+                            Log.v("PRIORITY CALCULATE", "ÖNCELİK DEĞİŞİM LİSTESİNE EKLENDİ");
+                        }
+                    }
+                }
+
+                route.setFitnessScore(FitnessFunction(route));
+
+                for (BarcodeReadModel item2 : route.getBarcodeReadModels()) {
+                    tmpstr += item2.getPackageId() + " ";
+                }
+                tmpstr += " point => " + route.getFitnessScore() + " METRES " + route.getMetres();
+                Log.v("PRIORITY FITNESS ", tmpstr);
+
+                tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
+                Log.v("PRIORITY SELECTION => ", tmpstr);
+
+
             }
 
-            Functions.addRoute(route);
+            for (BarcodeReadModel item : route.getBarcodeReadModels()) {
+                if (item.getPackageId() == 0) continue;
+                Log.v("CUSTOMER " + item.getPackageId(), " priority : " + item.getCargoPackage().getPriority() + " " + item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
+            }
 
+            route.setAlgorithmType(algorithmType);
+            Functions.addRoute(route);
         }
     }
 
@@ -679,13 +754,13 @@ public class GeneticAlgorithm {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public int[][] getDistances() { return distances; }
+    public double[][] getDistances() { return distances; }
 
-    public void setDistances(int[][] distances) { this.distances = distances; }
+    public void setDistances(double[][] distances) { this.distances = distances; }
 
-    public int[][] getDurations() { return durations; }
+    public double[][] getDurations() { return durations; }
 
-    public void setDurations(int[][] durations) { this.durations = durations; }
+    public void setDurations(double[][] durations) { this.durations = durations; }
 
     public AlgorithmType getAlgorithmType() {
         return algorithmType;

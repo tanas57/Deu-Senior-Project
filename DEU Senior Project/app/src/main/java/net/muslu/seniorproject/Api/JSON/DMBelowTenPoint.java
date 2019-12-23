@@ -128,8 +128,8 @@ public class DMBelowTenPoint {
 
 
             int barcodeSize =getBarcodeData().GetSize();
-            int [][] distances = new int[barcodeSize][barcodeSize];
-            int [][] durations = new int[barcodeSize][barcodeSize];
+            double [][] distances = new double[barcodeSize][barcodeSize];
+            double [][] durations = new double[barcodeSize][barcodeSize];
 
             int counter1 = 0, counter2 = 0;
             for(HashMap<String, String> path : lists){

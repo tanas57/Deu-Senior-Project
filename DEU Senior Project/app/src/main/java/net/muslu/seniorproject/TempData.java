@@ -276,12 +276,12 @@ public final class TempData {
             "269 411 322 133 379 369 378 392 349 342 287 315 211 169 96 216 132 123 161 180 147 71 128 332 73 181 211 207 301 230 298 92 240 267 345 425 202 347 95 225 127 145 373 173 127 82 180 0 43 " +
             "310 412 362 173 434 424 378 392 349 342 287 315 244 209 136 256 172 163 201 220 187 111 168 364 78 213 251 248 301 271 339 132 280 307 400 425 242 320 95 225 166 185 345 241 133 36 174 48 0";
 
-    ArrayList<int[][]> result;
+    ArrayList<double[][]> result;
 
     public TempData(int size) {
         result = new ArrayList<>();
-        int[][] distances = new int[size][size];
-        int[][] durations = new int[size][size];
+        double[][] distances = new double[size][size];
+        double[][] durations = new double[size][size];
         String[] distanceStr = null, durationStr= null;
         if (size == 11) {
             distanceStr = tenPointdistance.split(" ");
@@ -313,7 +313,7 @@ public final class TempData {
         result.add(durations);
     }
 
-    public ArrayList<int[][]> getData(){
+    public ArrayList<double[][]> getData(){
         return result;
     }
 

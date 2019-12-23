@@ -7,10 +7,8 @@ import android.os.StrictMode;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
 
@@ -36,9 +34,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
 
-
                 AlertDialog alert = builder.create();
-
 
                 if (Functions.isConnected(getApplicationContext())) {
                     Intent myIntent = new Intent(LoginActivity.this,MainPage.class);
@@ -46,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     alert.show();
                 }
-
             }
         });
     }
@@ -54,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getWindow().setSoftInputMode(WindowManager.
-                LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 }
