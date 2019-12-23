@@ -1,9 +1,7 @@
 package net.muslu.seniorproject.Routing;
 
 import android.util.Log;
-
 import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +28,6 @@ public class JSONParser {
             HttpURLConnection urlConnection = (HttpURLConnection) urlnew.openConnection();
             is = new BufferedInputStream(urlConnection.getInputStream());
 
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -44,14 +41,11 @@ public class JSONParser {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
             }
-
             json = sb.toString();
             is.close();
         } catch (Exception e) {
             Log.e("Buffer Error", "Error converting result " + e.toString());
         }
-        //Log.v("JSON_RUTA", json);
         return json;
-
     }
 }

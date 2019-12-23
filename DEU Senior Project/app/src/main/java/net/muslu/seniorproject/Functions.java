@@ -4,7 +4,6 @@ import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import java.util.ArrayList;
-import android.Manifest;
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -31,7 +30,6 @@ import java.net.URL;
 public final class Functions {
     private static Location currentLocation;
     private static FusedLocationProviderClient fusedLocationProviderClient;
-
     public static final String API_URL = "https://api.muslu.net";
     private static ArrayList<Chromosome> routes = new ArrayList<>();
     private static BarcodeData barcodeData = new BarcodeData();
@@ -41,14 +39,13 @@ public final class Functions {
     public static final String CHANNEL_ID = "Rota İşlem Bildirimleri";
     private static NotificationManagerCompat notificationManager;
     private static int selectedRoute = -1;
-
     public static int getSelectedRoute() {
         return selectedRoute;
     }
-
     public static void setSelectedRoute(int pos) {
         selectedRoute = pos;
     }
+    //private static String[] routingTypes =
 
     public static boolean takePermission(Context context, Activity activity, String per){
         if(ContextCompat.checkSelfPermission(context, per)!= PackageManager.PERMISSION_GRANTED){
@@ -153,7 +150,7 @@ public final class Functions {
 
         notificationManager.notify(Integer.valueOf(name), notification.build());
 
-        if(maxIteration-1<=count) {
+        if(maxIteration-2<=count) {
             notification.setContentText("Rota hesaplama işlemi tamamlandı.")
                      .setSmallIcon(R.drawable.ic_done_black_24dp)
                     .setProgress(0, 0, false)
@@ -178,7 +175,6 @@ public final class Functions {
             Log.v("NOTIFICATION", "IS CREATED IN CHANNEL " + name);
         }
     }
-
 
     public static void fetchLastLocation(final Context context) {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);

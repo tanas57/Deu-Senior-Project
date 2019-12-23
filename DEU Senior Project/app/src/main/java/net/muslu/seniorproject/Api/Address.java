@@ -2,7 +2,6 @@ package net.muslu.seniorproject.Api;
 
 public class Address extends AddressHelper {
 
-
     public String GetAddress(ApiProcess apiProcess) {
         String tempUrl = getApi_address();
 
