@@ -52,4 +52,12 @@
             En kısa mesafe,süre ve müşteri önceliği
         </item>
     </string-array>
+    <string-array name="delivery_selection">
+         <item>
+            Teslim edildi.
+        </item>
+        <item>
+            Teslim edilemedi.
+        </item>
+    </string-array>
 </resources>

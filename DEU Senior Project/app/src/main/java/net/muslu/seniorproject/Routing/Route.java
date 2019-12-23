@@ -175,7 +175,8 @@ public class Route {
                 Polyline line = mMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
                         .width(15)
-                        .color(Color.rgb(240,140,40)).geodesic(true));
+                        .color(Color.rgb(64,155,230)).geodesic(true));
+
                 drawedLine.add(line);
             }
         }

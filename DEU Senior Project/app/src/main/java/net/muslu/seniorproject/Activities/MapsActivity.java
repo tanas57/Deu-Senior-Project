@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private BarcodeData data;
-    private GoogleMap mMap;
+    private  GoogleMap mMap;
     final Handler handler = new Handler();
     private boolean start = false;
     private boolean pause = false;
@@ -146,7 +146,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             ActivityCompat.requestPermissions(this,new String []{Manifest.permission.ACCESS_FINE_LOCATION},1);
             return;
         }
-        if(mMap != null) start = true;
+        //if(mMap != null) start = true;
     }
 
     @Override
@@ -159,6 +159,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .bearing(0)
                 .tilt(55)
                 .build();
+
 
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(googlePlex), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(true);
