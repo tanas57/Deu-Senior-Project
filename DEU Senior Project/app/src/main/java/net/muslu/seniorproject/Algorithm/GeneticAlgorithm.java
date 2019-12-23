@@ -79,7 +79,7 @@ public class GeneticAlgorithm {
         }
 
         FillRoutes();
-        new GeneticTask().execute();
+        new GeneticTask().executeOnExecutor(AsyncTask.SERIAL_EXECUTOR);
     }
 
     private int getPopulationSize(){ return population.size(); }

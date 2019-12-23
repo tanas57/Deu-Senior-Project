@@ -38,6 +38,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+
 import jp.wasabeef.blurry.Blurry;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -52,6 +54,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private BarcodeData barcodeData;
     private LatLng cargoman;
 
+    private boolean[] isChecked = new boolean[6];
+    private ArrayList<AlgorithmType> algorithmTypes = new ArrayList<>();
     private int psize = 22;
     String [] barcodes = new String[psize];
 
@@ -132,29 +136,15 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                             mBuilder.setTitle("Rota hesaplama türünü seçiniz: ");
                             mBuilder.setCancelable(false);
-                            mBuilder.setSingleChoiceItems(selectRoute, -1, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,  int which) {
-                                    //Log.v("İtem:",selectRoute[which]);
-                                    switch (which){
-                                        case 0:
-                                            returnedType=AlgorithmType.ONLY_DISTANCE;
-                                            break;
-                                        case 1:
-                                            returnedType=AlgorithmType.ONLY_DURATION;
-                                            break;
-                                        case 2:
-                                            returnedType=AlgorithmType.BOTH_DISTANCE_DURATION;
-                                            break;
-                                        case 3:
-                                            returnedType=AlgorithmType.DISTANCE_PRIORITY;
-                                            break;
-                                        case 4:
-                                            returnedType=AlgorithmType.DURATION_PRIORITY;
-                                            break;
-                                        case 5:
-                                            returnedType=AlgorithmType.ALL_OF_THEM;
-                                            break;
-                                        default: returnedType=AlgorithmType.ONLY_DISTANCE;
+
+                            mBuilder.setMultiChoiceItems(selectRoute, isChecked, new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                    if (isChecked) {
+                                        algorithmTypes.add(getReturnedType(which));
+                                    }
+                                    else if (algorithmTypes.contains(getReturnedType(which))) {
+                                        algorithmTypes.remove(getReturnedType(which));
                                     }
                                 }
                             });
@@ -181,16 +171,22 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     double [][] distances = tempData.getData().get(0);
                                     double [][] durations = tempData.getData().get(1);
 
-                                    Log.v("GENETIC STARTS", "WITH CHOICE => " + returnedType);
+                                    for(AlgorithmType type: algorithmTypes){
 
-                                    GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
-                                    geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, 38.371881, 27.194662, getApplicationContext()));
-                                    geneticAlgorithmData.setDistances(distances);
-                                    geneticAlgorithmData.setDurations(durations);
-                                    geneticAlgorithmData.setBarcodeData(barcodeData);
-                                    geneticAlgorithmData.setAlgorithmType(returnedType);
+                                        Log.v("GENETIC STARTS", "WITH CHOICE => " + returnedType);
 
-                                    new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
+                                        GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
+                                        geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, 38.371881, 27.194662, getApplicationContext()));
+                                        geneticAlgorithmData.setDistances(distances);
+                                        geneticAlgorithmData.setDurations(durations);
+                                        geneticAlgorithmData.setBarcodeData(barcodeData);
+                                        geneticAlgorithmData.setAlgorithmType(type);
+
+                                        new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
+
+                                    }
+
+
 
                                     Intent intent = new Intent(getApplicationContext(), MainPage.class);
                                     startActivity(intent);
@@ -230,6 +226,24 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                     return true;
                 }
             };
+
+    private AlgorithmType getReturnedType(int pos){
+        switch (pos){
+            case 0:
+                return AlgorithmType.ONLY_DISTANCE;
+            case 1:
+                return AlgorithmType.ONLY_DURATION;
+            case 2:
+                return AlgorithmType.BOTH_DISTANCE_DURATION;
+            case 3:
+                return AlgorithmType.DISTANCE_PRIORITY;
+            case 4:
+                return AlgorithmType.DURATION_PRIORITY;
+            case 5:
+                return AlgorithmType.ALL_OF_THEM;
+            default: return AlgorithmType.ONLY_DISTANCE;
+        }
+    }
 
     @Override
     public void onBackPressed() {
