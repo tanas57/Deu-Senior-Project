@@ -36,6 +36,29 @@ namespace ProjectAPI.Data.Migrations
                     b.ToTable("Branches");
                 });
 
+            modelBuilder.Entity("ProjectAPI.Models.Cargoman", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Fullname");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Profile");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Cargoman");
+                });
+
             modelBuilder.Entity("ProjectAPI.Models.Customer", b =>
                 {
                     b.Property<int>("Id")

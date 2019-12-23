@@ -11,5 +11,7 @@ namespace ProjectAPI.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public string Profile { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using ProjectAPI.Data;
 namespace ProjectAPI.Data.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20191216125720_Migrations")]
-    partial class Migrations
+    [Migration("20191223220237_DBInitial")]
+    partial class DBInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,29 @@ namespace ProjectAPI.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Branches");
+                });
+
+            modelBuilder.Entity("ProjectAPI.Models.Cargoman", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Fullname");
+
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Profile");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Cargoman");
                 });
 
             modelBuilder.Entity("ProjectAPI.Models.Customer", b =>

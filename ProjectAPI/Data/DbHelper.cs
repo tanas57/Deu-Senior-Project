@@ -27,6 +27,10 @@ namespace ProjectAPI.Data
                 var packages = GetPackages(context).ToArray(); ;
                 context.Packages.AddRange(packages);
                 context.SaveChanges();
+
+                var cargoman = GetCargoman().ToArray(); ;
+                context.Cargoman.AddRange(cargoman);
+                context.SaveChanges();
             }
         }
         public static List<Customer> GetCustomers()
@@ -142,6 +146,18 @@ namespace ProjectAPI.Data
                 new Package{ Barcode = 12345678957, Customer = context.Customers.FirstOrDefault(x=> x.Id == 48), PackageDesi = 6, PackageWeigth =3 }
             };
             return packages;
+        }
+
+        public static List<Cargoman> GetCargoman()
+        {
+            List<Cargoman> customers = new List<Cargoman>()
+            {
+                new Cargoman { Fullname = "Enes Demirdere", Username = "demirdere", Password = "6332", Profile = "cargoman_0000001.jpeg" },
+                new Cargoman { Fullname = "Tayyip Muslu", Username = "tanas57", Password = "123456", Profile = "cargoman_0000002.jpeg" }
+
+            };
+
+            return customers;
         }
     }
 }

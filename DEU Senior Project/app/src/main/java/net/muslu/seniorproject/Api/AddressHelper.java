@@ -55,7 +55,8 @@ public class AddressHelper implements IAddress {
         GET_CUSTOMER_BY_BARCODE("/package/customer/"),
         GET_CUSTOMER("/customer/"),
         GET_CUSTOMER_ALL("/customer/list"),
-        SET_PACKAGE_STATUS("package/edit/");
+        SET_PACKAGE_STATUS("/package/edit/"),
+        CONTROL_CARGOMAN("cargoman/");
 
         private String url;
 

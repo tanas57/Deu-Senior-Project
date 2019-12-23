@@ -1,6 +1,7 @@
 package net.muslu.seniorproject;
 
 import net.muslu.seniorproject.Algorithm.Chromosome;
+import net.muslu.seniorproject.Models.Cargoman;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import java.util.ArrayList;
@@ -34,8 +35,6 @@ public final class Functions {
     private static ArrayList<Chromosome> routes = new ArrayList<>();
     private static BarcodeData barcodeData = new BarcodeData();
     private static int packageid = 1;
-    private static double cargoman_lat = 38.371881;
-    private static double cargoman_lng = 27.194662;
     public static final String CHANNEL_ID = "Rota İşlem Bildirimleri";
     private static NotificationManagerCompat notificationManager;
     private static int selectedRoute = -1;
@@ -44,6 +43,15 @@ public final class Functions {
     }
     public static void setSelectedRoute(int pos) {
         selectedRoute = pos;
+    }
+    protected static Cargoman cargoman;
+
+    public static Cargoman getCargoman() {
+        return cargoman;
+    }
+
+    public static void setCargoman(Cargoman cargoman) {
+        Functions.cargoman = cargoman;
     }
 
     public static boolean takePermission(Context context, Activity activity, String per){
@@ -57,19 +65,19 @@ public final class Functions {
     public static int getPackageSize(){ return barcodeData.GetData().size(); }
 
     public static double getCargoman_lat() {
-        return cargoman_lat;
+        return cargoman.getLatitude();
     }
 
     public static void setCargoman_lat(double cargoman_lat) {
-        Functions.cargoman_lat = cargoman_lat;
+        Functions.cargoman.setLatitude(cargoman_lat);
     }
 
     public static double getCargoman_lng() {
-        return cargoman_lng;
+        return cargoman.getLongitude();
     }
 
     public static void setCargoman_lng(double cargoman_lng) {
-        Functions.cargoman_lng = cargoman_lng;
+        Functions.cargoman.setLongitude(cargoman_lng);
     }
 
     public static int getPackageid() {
