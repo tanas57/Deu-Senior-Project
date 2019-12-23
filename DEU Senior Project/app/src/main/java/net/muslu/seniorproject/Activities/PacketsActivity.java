@@ -14,8 +14,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import net.muslu.seniorproject.CustomAdapter;
@@ -37,7 +41,10 @@ public class PacketsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.cargo_packages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        data = Functions.getPackets();
+        data = new BarcodeData();
+        for(BarcodeReadModel model: Functions.getPackets().GetData()){
+            data.GetData().add(model);
+        }
         if(data.GetSize()>0) {
             setContentView(R.layout.activity_packets);
             rv = findViewById(R.id.rv);
@@ -94,12 +101,40 @@ public class PacketsActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.search_menu,menu);
+
+        MenuItem search = menu.findItem(R.id.menu_search_item);
+        SearchView searchView = (SearchView)search.getActionView();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if(Functions.getPackageSize() > 0)
+                    ad.getFilter().filter(newText);
+
+                return false;
+            }
+        });
+        return true;
+    }
+
+    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        onBackPressed();
+        if(item.getItemId() != R.id.menu_search_item)
+            onBackPressed();
         return true;
     }
 }
