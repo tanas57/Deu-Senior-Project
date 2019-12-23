@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,14 +25,17 @@ public class RouteActivity extends AppCompatActivity {
 
     private RoutingListAdapter routingListAdapter;
     private RecyclerView rout;
+    private SwipeRefreshLayout swipeContainer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setTitle(getString(R.string.cargo_packages));
+        getSupportActionBar().setTitle(getString(R.string.our_routes));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         final ArrayList<Chromosome> chromosomes = Functions.getRoutes();
+
+
 
         Log.v("RESPONSE CHROMOSOME", "FETCH CHROMOSOME");
         if (chromosomes != null && chromosomes.size() > 0) {
@@ -41,7 +46,7 @@ public class RouteActivity extends AppCompatActivity {
                 @Override
                 public void onPositionClicked(View view, int pos) {
                     Functions.setSelectedRoute(pos);
-                    rout.setAdapter(routingListAdapter);
+                    routingListAdapter.notifyDataSetChanged();
                 }
             });
 
@@ -68,10 +73,27 @@ public class RouteActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            swipeContainer = findViewById(R.id.swipeContainer);
+            // Setup refresh listener which triggers new data loading
+            swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    routingListAdapter.notifyDataSetChanged();
+                    swipeContainer.setRefreshing(false);
+                }
+            });
+            // Configure the refreshing colors
+            swipeContainer.setColorSchemeResources(android.R.color.holo_blue_dark,
+                    android.R.color.holo_blue_dark,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light);
+
         }
         else{
             setContentView(R.layout.warning_layout);
         }
+
     }
 
     @Override

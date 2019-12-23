@@ -56,7 +56,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private boolean[] isChecked = new boolean[6];
     private ArrayList<AlgorithmType> algorithmTypes = new ArrayList<>();
-    private int psize = 10;
+    private int psize = 22;
     String [] barcodes = new String[psize];
 
     private void cargomanLocation(){
@@ -68,26 +68,11 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     public void onCreate(Bundle state) {
         super.onCreate(state);
-
+        setContentView(R.layout.activity_camera);
         barcodeData = Functions.getPackets();
 
         //cargomanLocation(); // update cargoman location
 
-        if(Functions.getPackageSize() < psize) {
-            for (int i = 10; i < barcodes.length + 10; i++) {
-                String temp2 = "123456789" + i;
-                barcodes[i - 10] = temp2;
-            }
-
-            for (int i = 0; i < barcodes.length; i++) {
-                AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
-                String apiUrl = addressByBarcode.GetAddress();
-
-                new Background().execute(apiUrl, barcodes[i]);
-            }
-        }
-
-        setContentView(R.layout.activity_camera);
         contentFrame = findViewById(R.id.fragment_container);
         bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -109,6 +94,20 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         zXingScannerView.setClickable(true);
         zXingScannerView.setIsBorderCornerRounded(true);
         zXingScannerView.setBorderAlpha((float)50.0);
+
+        if(Functions.getPackageSize() < psize) {
+            for (int i = 10; i < barcodes.length + 10; i++) {
+                String temp2 = "123456789" + i;
+                barcodes[i - 10] = temp2;
+            }
+
+            for (int i = 0; i < barcodes.length; i++) {
+                AddressHelper addressByBarcode = new PackageByBarcode(Long.parseLong(barcodes[i]));
+                String apiUrl = addressByBarcode.GetAddress();
+
+                new Background().execute(apiUrl, barcodes[i]);
+            }
+        }
 
     }
 

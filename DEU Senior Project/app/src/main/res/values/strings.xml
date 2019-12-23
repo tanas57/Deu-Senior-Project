@@ -9,6 +9,7 @@
     <string name="home_customer_text">Müşteriler</string>
     <string name="home_statistic_text">İstatistik</string>
     <string name="home_page">Anasayfa</string>
+    <string name="our_routes">Rotalarım</string>
     <string name="scan_Qr">Qr Kod Tara</string>
     <string name="cargo_packages">Paketlerim</string>
     <string name="calculate_route">Rota Bul</string>
@@ -28,6 +29,9 @@
     <string name="empty_packet_text">Henüz paket eklemediniz</string>
     <string name="my_route">Navigasyon</string>
     <string name="only_distance">Sadece Uzaklık</string>
+
+    <string name="search">Ara</string>
+
     <string-array name="route_selection">
         <item>
             En kısa mesafe

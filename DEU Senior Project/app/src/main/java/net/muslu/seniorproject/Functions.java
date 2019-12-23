@@ -45,7 +45,6 @@ public final class Functions {
     public static void setSelectedRoute(int pos) {
         selectedRoute = pos;
     }
-    //private static String[] routingTypes =
 
     public static boolean takePermission(Context context, Activity activity, String per){
         if(ContextCompat.checkSelfPermission(context, per)!= PackageManager.PERMISSION_GRANTED){
