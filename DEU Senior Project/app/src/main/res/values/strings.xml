@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Senior Project</string>
+    <string name="app_name">ENTA Logistics</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_key">AIzaSyCrN6atEBUzLR6Ubv7J53IwWp5GJ5KzBxs</string>
     <string name="google_direction_matrix_api_url">https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial</string>

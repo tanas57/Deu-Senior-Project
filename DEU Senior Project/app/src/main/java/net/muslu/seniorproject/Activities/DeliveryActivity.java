@@ -46,10 +46,9 @@ public class DeliveryActivity extends AppCompatActivity {
         if(intent == null) return;
         if(intent.getExtras() == null) return;
 
-        final BarcodeReadModel model = Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(model_id);
         final int model_id = intent.getExtras().getInt("model_id");
-
         final BarcodeReadModel model = Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(model_id);
+
         final LatLng pos = new LatLng(Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(model_id).getLatitude(),
                 Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(model_id).getLongitutde() );
         if(model != null){
