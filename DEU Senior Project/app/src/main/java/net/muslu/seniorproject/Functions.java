@@ -21,6 +21,10 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import java.io.IOException;
@@ -33,6 +37,10 @@ public final class Functions {
     public static final String API_URL = "https://api.muslu.net";
     private static ArrayList<Chromosome> routes = new ArrayList<>();
     private static BarcodeData barcodeData = new BarcodeData();
+
+
+
+    private static GoogleMap map ;
     private static int packageid = 1;
     private static double cargoman_lat = 38.371881;
     private static double cargoman_lng = 27.194662;
@@ -63,6 +71,14 @@ public final class Functions {
 
     public static void setCargoman_lat(double cargoman_lat) {
         Functions.cargoman_lat = cargoman_lat;
+    }
+
+    public static GoogleMap getMap() {
+        return map;
+    }
+
+    public static void setMap(GoogleMap map) {
+        Functions.map = map;
     }
 
     public static double getCargoman_lng() {
@@ -190,5 +206,28 @@ public final class Functions {
                 }
             }
         });
+    }
+
+    public static void changeMarkerIcon(int index, ArrayList<LatLng>mList , boolean status){
+
+        if(!status){
+            getMap().addMarker(new MarkerOptions().position(mList.get(index)).icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_no)));
+
+            if(index!=mList.size()-1)
+                getMap().addMarker(new MarkerOptions().position(mList.get(index+1)).icon(BitmapDescriptorFactory.fromResource(R.mipmap.next_loc)));
+
+        }
+
+        else if(status){
+            getMap().addMarker(new MarkerOptions().position(mList.get(index)).icon(BitmapDescriptorFactory.fromResource(R.mipmap.loc_yes)));
+
+            if(index!=mList.size()-1)
+                getMap().addMarker(new MarkerOptions().position(mList.get(index+1)).icon(BitmapDescriptorFactory.fromResource(R.mipmap.next_loc)));
+
+        }
+
+
+
+
     }
 }
