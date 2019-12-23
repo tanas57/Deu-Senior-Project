@@ -86,19 +86,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        data = Functions.getPackets();
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        data = new BarcodeData();
+        data.setData(Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels());
 
-        getSupportActionBar().setTitle(getString(R.string.my_route));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(data.GetSize() > 1) {
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String []{Manifest.permission.ACCESS_FINE_LOCATION},1);
-            return;
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+            getSupportActionBar().setTitle(getString(R.string.my_route));
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                return;
+            }
+
+            mapFragment.getMapAsync(this);
         }
-
-        mapFragment.getMapAsync(this);
-
     }
 
     @Override

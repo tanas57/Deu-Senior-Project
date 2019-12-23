@@ -17,8 +17,8 @@ public class GeneticAlgorithm {
 
     private List<Chromosome> population;
     private BarcodeData barcodeData;
-    private int[][] distances;
-    private int[][] durations;
+    private double[][] distances;
+    private double[][] durations;
     private BarcodeReadModel cargoman;
     private AlgorithmType algorithmType;
     private String id;
@@ -563,7 +563,7 @@ public class GeneticAlgorithm {
     }
 
     private double FitnessFunction(Chromosome item){
-        double temp = 0; int metres = 0, duration = 0, tempMetres;
+        double temp = 0, tempMetres = 0; int metres = 0, duration = 0;
         ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
         BarcodeReadModel previous = null, next = null;
         for(int i = 0; i < models.size(); i++){
@@ -577,13 +577,13 @@ public class GeneticAlgorithm {
                         temp += distances[previous.getPackageId()][next.getPackageId()];
                         break;
                     case ONLY_DURATION:
-                        temp += Integer.valueOf(durations[previous.getPackageId()][next.getPackageId()]) / 60.0;
+                        temp += durations[previous.getPackageId()][next.getPackageId()] / 60.0;
                         break;
                     case BOTH_DISTANCE_DURATION:
-                        double dis = Integer.valueOf(distances[previous.getPackageId()][next.getPackageId()]);
-                        double dur = Integer.valueOf(durations[previous.getPackageId()][next.getPackageId()]);
-                        double result = round((((dis/1000.0)* dis) /(dur/60.0)*dur)/10000, 2);
-                        temp += round(result,2);
+                        double dis = distances[previous.getPackageId()][next.getPackageId()];
+                        double dur = durations[previous.getPackageId()][next.getPackageId()];
+                        double result = (((dis/1000.0)* dis) /(dur/60.0)*dur)/10000;
+                        temp += result;
                         //if(temp == Double.NaN) temp = 0;,
                         break;
                     case DISTANCE_PRIORITY:
@@ -678,6 +678,7 @@ public class GeneticAlgorithm {
                 Log.v("CUSTOMER " + item.getPackageId()," priority : " + item.getCargoPackage().getPriority() + " "+  item.getCustomer().getFullName() + " " + item.getCustomer().getAddress());
             }
 
+            route.setAlgorithmType(algorithmType);
             Functions.addRoute(route);
 
         }
@@ -691,13 +692,13 @@ public class GeneticAlgorithm {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public int[][] getDistances() { return distances; }
+    public double[][] getDistances() { return distances; }
 
-    public void setDistances(int[][] distances) { this.distances = distances; }
+    public void setDistances(double[][] distances) { this.distances = distances; }
 
-    public int[][] getDurations() { return durations; }
+    public double[][] getDurations() { return durations; }
 
-    public void setDurations(int[][] durations) { this.durations = durations; }
+    public void setDurations(double[][] durations) { this.durations = durations; }
 
     public AlgorithmType getAlgorithmType() {
         return algorithmType;

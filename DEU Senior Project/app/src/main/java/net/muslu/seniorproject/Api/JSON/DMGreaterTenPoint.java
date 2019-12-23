@@ -249,8 +249,8 @@ public class DMGreaterTenPoint {
             points.add(pointData);
             if(points.size() == barcodeSize){
                 getBarcodeData().GetData().remove(0);
-                int[][] distancesMx = new int[barcodeSize][barcodeSize];
-                int[][] durationMx = new int[barcodeSize][barcodeSize];
+                double[][] distancesMx = new double[barcodeSize][barcodeSize];
+                double[][] durationMx = new double[barcodeSize][barcodeSize];
 
                 for(int i=0; i < points.size(); i++){
                     int[] tempDis = points.get(i).getDistance();

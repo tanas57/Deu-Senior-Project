@@ -52,7 +52,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
     private BarcodeData barcodeData;
     private LatLng cargoman;
 
-    private int psize = 48;
+    private int psize = 22;
     String [] barcodes = new String[psize];
 
     private void cargomanLocation(){
@@ -67,7 +67,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
         barcodeData = Functions.getPackets();
 
-        cargomanLocation(); // update cargoman location
+        //cargomanLocation(); // update cargoman location
 
         if(Functions.getPackageSize() < psize) {
             for (int i = 10; i < barcodes.length + 10; i++) {
@@ -173,18 +173,18 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     zXingScannerView.setLaserEnabled(true);
                                     Blurry.delete(contentFrame);
 
-                                    cargomanLocation(); // update cargoman location
+                                    //cargomanLocation(); // update cargoman location
 
                                     int size = Functions.getPackageSize() + 1;
 
                                     TempData tempData = new TempData(size);
-                                    int [][] distances = tempData.getData().get(0);
-                                    int [][] durations = tempData.getData().get(1);
+                                    double [][] distances = tempData.getData().get(0);
+                                    double [][] durations = tempData.getData().get(1);
 
                                     Log.v("GENETIC STARTS", "WITH CHOICE => " + returnedType);
 
                                     GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
-                                    geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                    geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, 38.371881, 27.194662, getApplicationContext()));
                                     geneticAlgorithmData.setDistances(distances);
                                     geneticAlgorithmData.setDurations(durations);
                                     geneticAlgorithmData.setBarcodeData(barcodeData);
@@ -317,7 +317,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         //ad.notifyItemInserted(data.GetSize());
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
-
+/*
                         Vibrator v = (Vibrator) getSystemService(getApplicationContext().VIBRATOR_SERVICE);
                         // Vibrate for 500 milliseconds
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -325,7 +325,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         } else {
                             //deprecated in API 26
                             v.vibrate(200);
-                        }
+
+
+ */
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();
