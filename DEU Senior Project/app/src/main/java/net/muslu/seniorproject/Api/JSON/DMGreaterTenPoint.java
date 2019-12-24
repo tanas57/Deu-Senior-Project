@@ -25,13 +25,13 @@ public class DMGreaterTenPoint {
     private BarcodeData barcodeData;
     private Context context;
     private ArrayList<PointData> points;
-    private AlgorithmType algorithmType;
+    private ArrayList<AlgorithmType> algorithmType;
 
-    public AlgorithmType getAlgorithmType() {
+    public ArrayList<AlgorithmType> getAlgorithmType() {
         return algorithmType;
     }
 
-    public void setAlgorithmType(AlgorithmType algorithmType) {
+    public void setAlgorithmType(ArrayList<AlgorithmType> algorithmType) {
         this.algorithmType = algorithmType;
     }
 
@@ -116,7 +116,7 @@ public class DMGreaterTenPoint {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public DMGreaterTenPoint(Context context, BarcodeData barcodeData, AlgorithmType algorithmType) {
+    public DMGreaterTenPoint(Context context, BarcodeData barcodeData, ArrayList<AlgorithmType> algorithmType) {
         setContext(context);
         setBarcodeData(barcodeData);
         setAlgorithmType(algorithmType);
@@ -261,11 +261,15 @@ public class DMGreaterTenPoint {
                     }
                 }
 
-                geneticAlgorithmData.setAlgorithmType(getAlgorithmType());
+
                 geneticAlgorithmData.setDistances(distancesMx);
                 geneticAlgorithmData.setDurations(durationMx);
                 geneticAlgorithmData.setBarcodeData(getBarcodeData());
-                new GeneticAlgorithm(context, geneticAlgorithmData);
+
+                for(AlgorithmType type : getAlgorithmType()){
+                    geneticAlgorithmData.setAlgorithmType(type);
+                    new GeneticAlgorithm(context, geneticAlgorithmData);
+                }
             }
         }
     }

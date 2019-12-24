@@ -127,8 +127,6 @@ public class DeliveryActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.packet_saved), Toast.LENGTH_LONG).show();
                     int index = Markers.markerList.indexOf(pos);
-                    Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(model_id).getCargoPackage().setStatus(true);
-
                     Functions.changeMarkerIcon(index,Markers.markerList,stat);
                     onBackPressed();
                 }

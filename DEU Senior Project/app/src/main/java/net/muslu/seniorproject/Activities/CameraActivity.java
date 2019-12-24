@@ -24,6 +24,7 @@ import com.google.zxing.Result;
 import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.Api.AddressHelper;
+import net.muslu.seniorproject.Api.JSON.DMBelowTenPoint;
 import net.muslu.seniorproject.Api.JSON.DMGreaterTenPoint;
 import net.muslu.seniorproject.Api.JSON.GeneticAlgorithmData;
 import net.muslu.seniorproject.Api.JSON.JsonProcess;
@@ -71,7 +72,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         setContentView(R.layout.activity_camera);
         barcodeData = Functions.getPackets();
 
-        //cargomanLocation(); // update cargoman location
+        cargomanLocation(); // update cargoman location
 
         contentFrame = findViewById(R.id.fragment_container);
         bottomNav = findViewById(R.id.bottom_navigation);
@@ -95,6 +96,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         zXingScannerView.setIsBorderCornerRounded(true);
         zXingScannerView.setBorderAlpha((float)50.0);
 
+        /*
         if(Functions.getPackageSize() < psize) {
             for (int i = 10; i < barcodes.length + 10; i++) {
                 String temp2 = "123456789" + i;
@@ -108,6 +110,8 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                 new Background().execute(apiUrl, barcodes[i]);
             }
         }
+
+         */
 
     }
 
@@ -162,8 +166,21 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     zXingScannerView.setLaserEnabled(true);
                                     Blurry.delete(contentFrame);
 
-                                    //cargomanLocation(); // update cargoman location
+                                    cargomanLocation(); // update cargoman location
 
+                                    if(Functions.getPackageSize() > 9){
+                                        DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, Functions.getPackets(), algorithmTypes);
+                                        dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                        dmGreaterTenPoint.Execute();
+                                    }else{
+
+                                        DMBelowTenPoint dmBelowTenPoint = new DMBelowTenPoint(CameraActivity.this, Functions.getPackets(), algorithmTypes);
+                                        dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                        dmBelowTenPoint.Execute();
+                                    }
+
+
+                                    /*
                                     int size = Functions.getPackageSize() + 1;
 
                                     TempData tempData = new TempData(size);
@@ -186,21 +203,14 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     }
 
 
+                                     */
+
 
                                     Intent intent = new Intent(getApplicationContext(), MainPage.class);
                                     startActivity(intent);
 
 /*
-                                    if(Functions.getPackageSize() > 9){
-                                        DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, Functions.getPackets(), returnedType);
-                                        dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
-                                        dmGreaterTenPoint.Execute();
-                                    }else{
 
-                                        //DMBelowTenPoint dmBelowTenPoint = new DMBelowTenPoint(BarcodeRead.this, data);
-                                        //dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
-                                        //dmBelowTenPoint.Execute();
-                                    }
 */
 
                                 }
@@ -330,7 +340,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         //ad.notifyItemInserted(data.GetSize());
                         Log.v("BARCODE IMG ADDRESS", newPackage.getBarcodeImgApiURL());
                         //Toast.makeText(getApplicationContext(), data.GetSize(), Toast.LENGTH_LONG).show();
-/*
+
                         Vibrator v = (Vibrator) getSystemService(getApplicationContext().VIBRATOR_SERVICE);
                         // Vibrate for 500 milliseconds
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -338,9 +348,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                         } else {
                             //deprecated in API 26
                             v.vibrate(200);
-
-
- */
+                        }
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Bu paket daha önce eklendi", Toast.LENGTH_LONG).show();

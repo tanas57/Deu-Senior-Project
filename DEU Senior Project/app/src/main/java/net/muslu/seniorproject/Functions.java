@@ -207,8 +207,8 @@ public final class Functions {
             public void onSuccess(Location location) {
                 if(location!=null){
                     currentLocation=location;
-                    //setCargoman_lat(location.getLatitude());
-                    //setCargoman_lng(location.getLongitude());
+                    setCargoman_lat(location.getLatitude());
+                    setCargoman_lng(location.getLongitude());
                     Log.v("CARGOMAN LOCATION", currentLocation.getLatitude()+" "+currentLocation.getLongitude());
                 }
             }
