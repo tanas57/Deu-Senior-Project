@@ -15,13 +15,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f89aa55b-fecf-423c-aa22-dd437ba20cf2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/TempData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/DMGreaterTenPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/DMGreaterTenPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/GeneticAlgorithmData.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/GeneticAlgorithmData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Reader/Barcode/BarcodeRead.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Reader/Barcode/BarcodeRead.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProjectAPI/.vs/ProjectAPI/v16/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectAPI/.vs/ProjectAPI/v16/.suo" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ProjectAPI/.vs/ProjectAPI/v16/Server/sqlite3/storage.ide" beforeDir="false" afterPath="$PROJECT_DIR$/../ProjectAPI/.vs/ProjectAPI/v16/Server/sqlite3/storage.ide" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/RouteActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/RouteActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Functions.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Functions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/RoutingListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/RoutingListAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_route.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_route.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,7 +31,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="520372bd4867546b" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="5203f97c5bb8b3c5" />
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
@@ -54,72 +52,39 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Reader/Barcode/BarcodeRead.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/RouteActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="104" column="48" selection-start-line="104" selection-start-column="37" selection-end-line="104" selection-end-column="48" />
+            <state relative-caret-position="-17">
+              <caret line="27" selection-start-line="27" selection-end-line="27" />
               <folding>
-                <element signature="e#3669#5770#0" expanded="true" />
-                <element signature="e#5769#5770#0" expanded="true" />
-                <element signature="method#onResume#0;class#BarcodeRead#0" />
-                <element signature="method#onPause#0;class#BarcodeRead#0" />
-                <element signature="method#handleResult#0;class#BarcodeRead#0" />
-                <element signature="class#Background#0;class#BarcodeRead#0" />
+                <element signature="e#1644#1846#0" expanded="true" />
+                <element signature="e#1845#1846#0" expanded="true" />
+                <element signature="e#2180#2663#0" expanded="true" />
+                <element signature="e#2662#2663#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/TempData.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Functions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="349">
-              <caret line="144" column="25" selection-start-line="144" selection-start-column="25" selection-end-line="144" selection-end-column="25" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/DMGreaterTenPoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="92" column="48" selection-start-line="92" selection-start-column="40" selection-end-line="92" selection-end-column="48" />
+            <state relative-caret-position="114">
+              <caret line="50" column="42" lean-forward="true" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#PointData#0;class#DMGreaterTenPoint#0" />
-                <element signature="e#1132#1133#0" expanded="true" />
-                <element signature="e#1180#1181#0" expanded="true" />
-                <element signature="class#UrlData#0;class#DMGreaterTenPoint#0" />
-                <element signature="method#getRequestURL#0;class#DMGreaterTenPoint#0" />
-                <element signature="class#TaskRequestDistance#0;class#DMGreaterTenPoint#0" />
-                <element signature="method#doInBackground#0;class#TaskRequestDistance#0;class#DMGreaterTenPoint#0" />
+                <element signature="e#2009#2010#0" expanded="true" />
+                <element signature="e#2045#2046#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/GeneticAlgorithmData.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/RoutingListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="15" column="56" selection-start-line="15" selection-start-column="56" selection-end-line="15" selection-end-column="56" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#521#522#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/DMBelowTenPoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="406">
-              <caret line="156" lean-forward="true" selection-start-line="156" selection-end-line="156" />
-              <folding>
-                <element signature="method#getRequestURL#0;class#DMBelowTenPoint#0" />
-                <element signature="class#TaskRequestDistance#0;class#DMBelowTenPoint#0" />
-              </folding>
+            <state relative-caret-position="237">
+              <caret line="50" column="40" selection-start-line="50" selection-start-column="11" selection-end-line="50" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -156,11 +121,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/IAddress.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/Address.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/AddressByBarcode.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/AddressHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Map/ICoordinate.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/GetJsonResult.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_item_barcoderead.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
@@ -181,7 +141,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Map/MapsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Map/FetchCoordinate.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/MapsActivity.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/CustomAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Models/Branch.java" />
@@ -191,7 +150,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Algorithm/Route.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/JSONParser.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Reader/Barcode/BarcodeReadModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/Markers.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/Route.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/JsonDirectionMatrix.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Algorithm/Chromosome.java" />
@@ -207,6 +165,13 @@
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/TempData.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Api/JSON/GeneticAlgorithmData.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Reader/Barcode/BarcodeRead.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/DeliveryActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/MapsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/Markers.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_route.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Functions.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/RoutingListAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/RouteActivity.java" />
       </list>
     </option>
   </component>
@@ -224,8 +189,24 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane" />
       <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Senior Project" type="58d84e3e:PackageViewProjectNode" />
+              <item name="app" type="616d4139:PackageViewModuleNode" />
+            </path>
+            <path>
+              <item name="Senior Project" type="58d84e3e:PackageViewProjectNode" />
+              <item name="app" type="616d4139:PackageViewModuleNode" />
+              <item name="net.muslu.seniorproject" type="1f31426a:PackageElementNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="ProjectPane" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -249,35 +230,34 @@
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="seniorproject" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Algorithm" type="462c0819:PsiDirectoryNode" />
+              <item name="Activities" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Senior Project" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="seniorproject" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Api" type="462c0819:PsiDirectoryNode" />
+              <item name="Routing" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Senior Project" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="seniorproject" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Api" type="462c0819:PsiDirectoryNode" />
-              <item name="JSON" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
               <item name="Senior Project" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="seniorproject" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="Barcode" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="Senior Project" type="1abcf292:AndroidViewProjectNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -412,7 +392,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.2080537" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.21342282" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info id="Build Variants" order="4" side_tool="true" />
@@ -472,33 +452,6 @@
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main2.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Main2Activity.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Reader/Barcode/BarcodeIMG.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/read_barcode_view.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_barcode_read.xml">
-      <provider editor-type-id="android-designer2" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="40" column="16" selection-start-line="40" selection-start-column="16" selection-end-line="40" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-28/android/location/Address.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Map/ICoordinate.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -553,12 +506,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
-      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Map/FetchCoordinate.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -609,13 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/Markers.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="45" column="109" selection-start-line="45" selection-start-column="109" selection-end-line="45" selection-end-column="109" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/Route.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="213">
@@ -649,16 +595,6 @@
           <caret line="39" selection-start-line="39" selection-end-line="39" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/MapsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="67" column="51" selection-start-line="67" selection-start-column="41" selection-end-line="67" selection-end-column="51" />
-          <folding>
-            <element signature="e#1056#1074#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -891,6 +827,87 @@
             <element signature="method#onPause#0;class#BarcodeRead#0" />
             <element signature="method#handleResult#0;class#BarcodeRead#0" />
             <element signature="class#Background#0;class#BarcodeRead#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/MapsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1989">
+          <caret line="160" column="29" selection-start-line="160" selection-start-column="29" selection-end-line="160" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/Markers.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="65" column="32" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/DeliveryActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="45" column="103" selection-start-line="45" selection-start-column="103" selection-end-line="45" selection-end-column="103" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/CameraActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="55" column="26" selection-start-line="55" selection-start-column="26" selection-end-line="55" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_route.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Functions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="50" column="42" lean-forward="true" selection-start-line="50" selection-start-column="42" selection-end-line="50" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2009#2010#0" expanded="true" />
+            <element signature="e#2045#2046#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/PacketsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-340">
+          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="e#4086#4087#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Routing/RoutingListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="50" column="40" selection-start-line="50" selection-start-column="11" selection-end-line="50" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/net/muslu/seniorproject/Activities/RouteActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-17">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#1644#1846#0" expanded="true" />
+            <element signature="e#1845#1846#0" expanded="true" />
+            <element signature="e#2180#2663#0" expanded="true" />
+            <element signature="e#2662#2663#0" expanded="true" />
           </folding>
         </state>
       </provider>

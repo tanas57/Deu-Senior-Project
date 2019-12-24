@@ -35,8 +35,18 @@ public class Route {
         context = c;
          if(points.size() > 2)
         {
-            String url = makeURL(points,"driving",optimize);
-            new connectAsyncTask(url,withIndications).execute();
+            ArrayList<LatLng> url = new ArrayList<>();
+
+            for(int i = 0; i < points.size(); i++){
+                url.add(points.get(i));
+
+                if( (i % 24 == 0 && i != 0) ||(i == points.size()-1) ){
+                    String url2 = makeURL(url,"driving",optimize);
+                    new connectAsyncTask(url2,withIndications).execute();
+                    url = new ArrayList<>();
+                    url.add(points.get(i)); // destinatons is going to be origin
+                }
+            }
             return true;
         }
         return false;
@@ -53,7 +63,7 @@ public class Route {
         String str_dest = "destination=" + points.get(points.size()-1).latitude + "," + points.get(points.size()-1).longitude;
 
         // Mode
-         mode = "mode=" + directionMode;
+        mode = "mode=" + directionMode;
         // Building the parameters to the web service
 
         StringBuilder urlString = new StringBuilder();
@@ -61,8 +71,8 @@ public class Route {
         urlString.append("&waypoints=");
         if(optimize)
             urlString.append( points.get(1).latitude);
-            urlString.append(',');
-            urlString.append(points.get(1).longitude);
+        urlString.append(',');
+        urlString.append(points.get(1).longitude);
 
         for(int i=2;i<points.size()-1;i++)
         {
@@ -126,7 +136,7 @@ public class Route {
             // TODO Auto-generated method stub
             super.onPreExecute();
             progressDialog = new ProgressDialog(context);
-            progressDialog.setMessage("Rota hesaplanıyor, Lütfen bekleyin...");
+            progressDialog.setMessage(context.getString(R.string.waiting_route_draw));
             progressDialog.setIndeterminate(true);
             progressDialog.show();
         }
@@ -157,6 +167,7 @@ public class Route {
             JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
             String encodedString = overviewPolylines.getString("points");
             List<LatLng> list = decodePoly(encodedString);
+            ArrayList<Polyline> drawedLine = new ArrayList<Polyline>();
 
             for(int z = 0; z<list.size()-1;z++){
                 LatLng src= list.get(z);
@@ -164,65 +175,12 @@ public class Route {
                 Polyline line = mMap.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
                         .width(15)
-                        .color(Color.rgb(240,140,40)).geodesic(true));
+                        .color(Color.rgb(64,155,230)).geodesic(true));
+
+                drawedLine.add(line);
             }
-            /*if(withSteps)
-            {
-                JSONArray arrayLegs = routes.getJSONArray("legs");
-                JSONObject legs = arrayLegs.getJSONObject(0);
-                JSONArray stepsArray = legs.getJSONArray("steps");
-                //put initial point
-
-                for(int i=0;i<stepsArray.length();i++)
-                {
-                    Step step = new Step(stepsArray.getJSONObject(i));
-                    mMap.addMarker(new MarkerOptions()
-                            .position(step.location)
-                            .title(step.distance)
-                            .snippet(step.instructions)
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)));
-
-                }
-            }*/
         }
         catch (JSONException e) {
         }
     }
-
-
-    /**
-     * Class that represent every step of the directions. It store distance, location and instructions
-     */
-    private class Step
-    {
-        public String distance;
-        public LatLng location;
-        public String instructions;
-
-        Step(JSONObject stepJSON)
-        {
-            JSONObject startLocation;
-            try {
-
-                distance = stepJSON.getJSONObject("distance").getString("text");
-                startLocation = stepJSON.getJSONObject("start_location");
-                location = new LatLng(startLocation.getDouble("lat"),startLocation.getDouble("lng"));
-                try {
-                    instructions = URLDecoder.decode(Html.fromHtml(stepJSON.getString("html_instructions")).toString(), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                };
-
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-    }
-
-
-
-
-
 }

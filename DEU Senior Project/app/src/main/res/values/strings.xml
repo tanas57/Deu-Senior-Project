@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Senior Project</string>
+    <string name="app_name">ENTA Logistics</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_key">AIzaSyCrN6atEBUzLR6Ubv7J53IwWp5GJ5KzBxs</string>
     <string name="google_direction_matrix_api_url">https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial</string>
@@ -9,10 +9,29 @@
     <string name="home_customer_text">Müşteriler</string>
     <string name="home_statistic_text">İstatistik</string>
     <string name="home_page">Anasayfa</string>
+    <string name="our_routes">Rotalarım</string>
     <string name="scan_Qr">Qr Kod Tara</string>
     <string name="cargo_packages">Paketlerim</string>
     <string name="calculate_route">Rota Bul</string>
     <string name="cargo_delivery">Paket Teslim Bilgileri</string>
+    <string name="waiting_route_draw">Rota hazırlanıyor, Lütfen bekleyin...</string>
+    <string name="packet_delete_title">Paket Silme</string>
+    <string name="packet_delete_desc">paketi sistemden kaldırılacak, onaylıyor musunuz?</string>
+    <string name="yes">Evet</string>
+    <string name="no">Hayır</string>
+    <string name="route_select">Rotayı seç</string>
+    <string name="your_signature">İmzanız</string>
+    <string name="packet_saved">Paket durumu kaydedildi...</string>
+    <string name="clear_signature">İmzayı Temizle</string>
+    <string name="packet_status_save">Kaydet</string>
+    <string name="snipper_button_text">Paketi teslim et</string>
+    <string name="empty_route_text">Henüz rota oluşturmadınız</string>
+    <string name="empty_packet_text">Henüz paket eklemediniz</string>
+    <string name="my_route">Navigasyon</string>
+    <string name="only_distance">Sadece Uzaklık</string>
+
+    <string name="search">Ara</string>
+
     <string-array name="route_selection">
         <item>
             En kısa mesafe
@@ -31,6 +50,14 @@
         </item>
         <item>
             En kısa mesafe,süre ve müşteri önceliği
+        </item>
+    </string-array>
+    <string-array name="delivery_selection">
+         <item>
+            Teslim edildi.
+        </item>
+        <item>
+            Teslim edilemedi.
         </item>
     </string-array>
 </resources>

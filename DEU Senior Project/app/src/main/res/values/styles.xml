@@ -5,14 +5,15 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
     </style>
     <style name="MyAlertDialog" parent="Base.Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">#FFECB3</item>
-        <item name="colorAccent">@color/cameraBorderColor</item>
-        <item name="android:colorControlNormal">@color/cameraBorderColor</item>
-        <item name="textColorAlertDialogListItem">#BBDEFB</item>
-        <item name="android:fontFamily">sans-serif-thin</item>
+        <item name="colorAccent">@color/curated_light</item>
+        <item name="android:colorControlNormal">@color/curated_light</item>
+        <item name="textColorAlertDialogListItem">@color/curated_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textSize">17dp</item>
         <item name="android:radius">10dp</item>
 
@@ -22,20 +23,20 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/mainPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
     <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/mainPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/login_theme</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="ThemeCurrent" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mainPrimary</item>
-        <item name="colorPrimaryDark">@color/mainPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="Normal_Margin_Style" parent="AppTheme">
@@ -58,9 +59,9 @@
 
     <style name="ThemeCurrent2" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/mainPrimary</item>
-        <item name="colorPrimaryDark">@color/mainPrimary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/blackTransparent</item>
+        <item name="colorPrimaryDark">@color/blackTransparent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:background">@color/transparent</item>
 
     </style>

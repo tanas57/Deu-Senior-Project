@@ -77,7 +77,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
          */
 
         rv = findViewById(R.id.rv);
-        ad = new CustomAdapter(BarcodeRead.this, data.GetData());
+        //ad = new CustomAdapter(BarcodeRead.this, data.GetData());
         rv.setAdapter(ad);
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setHasFixedSize(false);
@@ -91,8 +91,8 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
 
                 int size = data.GetSize() + 1;
                 TempData tempData = new TempData(size);
-                int [][] distances = tempData.getData().get(0);
-                int [][] durations = tempData.getData().get(1);
+                double [][] distances = tempData.getData().get(0);
+                double [][] durations = tempData.getData().get(1);
                 if(data.GetData().size() > 9){
                     //DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(BarcodeRead.this, data);
                     //dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
@@ -105,7 +105,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
                 }
 
                 GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
-                geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude));
+                geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
                 geneticAlgorithmData.setDistances(distances);
                 geneticAlgorithmData.setDurations(durations);
                 geneticAlgorithmData.setBarcodeData(data);
@@ -202,7 +202,7 @@ public class BarcodeRead extends AppCompatActivity implements ZXingScannerView.R
         protected void onPostExecute(String s) {
             Log.w("GET JSON RESULT", s);
             if(!s.contains("error")){
-                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode);
+                BarcodeReadModel newPackage = JsonProcess.GetPackageInfo(s, barcode, getApplicationContext());
                 if(newPackage != null){
                     if(data.AddData(newPackage)){
                         newPackage.setPackageId(packageCounter);

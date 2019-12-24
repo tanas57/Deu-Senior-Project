@@ -2,11 +2,22 @@ package net.muslu.seniorproject.Algorithm;
 
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public class Chromosome {
 
     protected int metres;
+    protected int durations;
+    private ArrayList<BarcodeReadModel> barcodeReadModels;
+    private double fitnessScore;
+    protected AlgorithmType algorithmType;
+
+    public int getDurations() {
+        return durations;
+    }
+
+    public void setDurations(int durations) {
+        this.durations = durations;
+    }
 
     public int getMetres() {
         return metres;
@@ -32,8 +43,12 @@ public class Chromosome {
         this.fitnessScore = fitnessScore;
     }
 
-    private ArrayList<BarcodeReadModel> barcodeReadModels;
-    private double fitnessScore;
+    public AlgorithmType getAlgorithmType() {
+        return algorithmType;
+    }
 
+    public void setAlgorithmType(AlgorithmType algorithmType) {
+        this.algorithmType = algorithmType;
+    }
 }
 

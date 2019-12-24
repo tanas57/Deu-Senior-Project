@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -24,6 +25,15 @@ public class DMGreaterTenPoint {
     private BarcodeData barcodeData;
     private Context context;
     private ArrayList<PointData> points;
+    private ArrayList<AlgorithmType> algorithmType;
+
+    public ArrayList<AlgorithmType> getAlgorithmType() {
+        return algorithmType;
+    }
+
+    public void setAlgorithmType(ArrayList<AlgorithmType> algorithmType) {
+        this.algorithmType = algorithmType;
+    }
 
     private class PointData{
         private int index;
@@ -89,6 +99,7 @@ public class DMGreaterTenPoint {
             this.response = response;
         }
     }
+
     public void setCargoman(BarcodeReadModel cargoman) {
         geneticAlgorithmData.cargoman = cargoman;
     }
@@ -105,9 +116,10 @@ public class DMGreaterTenPoint {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public DMGreaterTenPoint(Context context, BarcodeData barcodeData) {
+    public DMGreaterTenPoint(Context context, BarcodeData barcodeData, ArrayList<AlgorithmType> algorithmType) {
         setContext(context);
         setBarcodeData(barcodeData);
+        setAlgorithmType(algorithmType);
         points = new ArrayList<>();
     }
 
@@ -203,7 +215,6 @@ public class DMGreaterTenPoint {
         @Override
         protected void onPostExecute(List<HashMap<String, String>> lists) {
 
-
             int barcodeSize = getBarcodeData().GetSize();
             int [] distances = new int[barcodeSize];
             int [] durations = new int[barcodeSize];
@@ -227,9 +238,9 @@ public class DMGreaterTenPoint {
                 temp += distances[i] + " ";
                 temp2 += durations[i] + " ";
             }
-            //Log.v("MATRIX DISTANCE", temp);
+            Log.v("MATRIX DISTANCE", temp);
             temp = "";
-            Log.v("MATRIX DURATION", temp2);
+            //Log.v("MATRIX DURATION", temp2);
             temp = "";
 
             pointData.setDistance(distances);
@@ -238,8 +249,8 @@ public class DMGreaterTenPoint {
             points.add(pointData);
             if(points.size() == barcodeSize){
                 getBarcodeData().GetData().remove(0);
-                int[][] distancesMx = new int[barcodeSize][barcodeSize];
-                int[][] durationMx = new int[barcodeSize][barcodeSize];
+                double[][] distancesMx = new double[barcodeSize][barcodeSize];
+                double[][] durationMx = new double[barcodeSize][barcodeSize];
 
                 for(int i=0; i < points.size(); i++){
                     int[] tempDis = points.get(i).getDistance();
@@ -250,10 +261,15 @@ public class DMGreaterTenPoint {
                     }
                 }
 
+
                 geneticAlgorithmData.setDistances(distancesMx);
                 geneticAlgorithmData.setDurations(durationMx);
                 geneticAlgorithmData.setBarcodeData(getBarcodeData());
-                new GeneticAlgorithm(context, geneticAlgorithmData);
+
+                for(AlgorithmType type : getAlgorithmType()){
+                    geneticAlgorithmData.setAlgorithmType(type);
+                    new GeneticAlgorithm(context, geneticAlgorithmData);
+                }
             }
         }
     }

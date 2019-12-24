@@ -27,6 +27,10 @@ namespace ProjectAPI.Data
                 var packages = GetPackages(context).ToArray(); ;
                 context.Packages.AddRange(packages);
                 context.SaveChanges();
+
+                var cargoman = GetCargoman().ToArray(); ;
+                context.Cargoman.AddRange(cargoman);
+                context.SaveChanges();
             }
         }
         public static List<Customer> GetCustomers()
@@ -60,7 +64,30 @@ namespace ProjectAPI.Data
                 new Customer{ FullName = "Yataş Bedding", Address = "Kuruçeşme, Doğuş Caddesi, 205/5. Sk. A D:No :25, 35390 Buca/İzmir", Phone = "5462003052" },
                 new Customer{ FullName = "Kuruçeşme Muhtarlığı", Address = "Kuruçeşme, 205. Sk. No:30, 35678 Buca/İzmir", Phone = "541313131" },
                 new Customer{ FullName = "Ata Matbaacılık", Address = "Bucaosb Mahallesi 3/19 Sok. No:11, Begos Sitesi, 35400 Buca", Phone = "541232131" },
-                new Customer{ FullName = "Nilüfer Çeyiz Evi", Address = "Ataturk mh, 204/7. Sk. no 7 D: 4, 35150 Buca/İzmir", Phone = "5131321" }
+                new Customer{ FullName = "Nilüfer Çeyiz Evi", Address = "Ataturk mh, 204/7. Sk. no 7 D: 4, 35150 Buca/İzmir", Phone = "5131321" },
+
+
+                new Customer{ FullName = "Kampüs Öğrenci Yurdu", Address = "Kuruçeşme, 205/59. Sk. No:5, 35390 Tınaztepe / Buca/Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "ELEKTRİKÇİ KAYA ELEKTRİK &UYDU", Address = "Kuruçeşme, 205/8. Sk. No:11, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "ArBe Beyaz Eşya Teknik Servis ve Ticaret", Address = "Kuruçeşme, 205/2. Sk. No:43, 35160 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Can Market", Address = "Kuruçeşme, 205/37. Sk. No: 2A, 35110 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "İnci&Kasap SteakHouse", Address = "Kuruçeşme, 205. Sk. No.62/A, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Ayak6 Mağazası", Address = "Kuruçeşme, 205. Sk. No:68A, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Uht Bilişim Yazılım Web Tasarım ve Bilgi Teknolojileri", Address = "Buca Koop., Buca Koop, 1408. Sk., 35090 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "SOil Benzinlik", Address = "Yıldız, 206/68. Sokak No:4/27, 35400 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Seçkin İnternet Kafe", Address = "Yıldız, Hoca Ahmet Yesevi Cd. no:110/a, 35160 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Food Bomb", Address = "Yıldız, 206/50. Sk. No: 3/A, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Özel Dokuz Eylül Sürücü Kursu", Address = "Atatürk, Hoca Ahmet Yesevi Cd. No 66, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Üniversiteliler Apartmanı", Address = "Atatürk, 202/6. Sk. No:29, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "ÖZ İPEK", Address = "Atatürk Mah, 202/9. Sk. No:2/A, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Suyapı Gayrimenkul & İnşaat", Address = "Yıldız, 206/31. Sk. No:1A, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Relax Gayrimenkul Yatırımları", Address = "Atatürk, 202/12. Sk. NO 37/C, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Knauf Mavikale", Address = "Adatepe, No:41/ İzmir, 63. Sk. No:41, 35400 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Deniz bilgisayar", Address = "Atatürk, 202/21. Sk. No:11, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Renkli Düşler Itriyat Deposu", Address = "Atatürk Mah, 204/21. Sk. No: 10/A, 35390 Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "Efsane Berber", Address = "Yıldız, 206/6. Sk. No:5, 35390 Buca Osb/Buca/İzmir", Phone = "5131321" },
+                new Customer{ FullName = "NZR Organizasyon", Address = "Yıldız, 242/21. Sk. 12/A, 35100 Buca/İzmir", Phone = "5131321" }
+
             };
             return customers;
         }
@@ -96,9 +123,41 @@ namespace ProjectAPI.Data
                 new Package{ Barcode = 12345678934, Customer = context.Customers.FirstOrDefault(x=> x.Id == 25), PackageDesi = 6, PackageWeigth =3 },
                 new Package{ Barcode = 12345678935, Customer = context.Customers.FirstOrDefault(x=> x.Id == 26), PackageDesi = 2, PackageWeigth =3 },
                 new Package{ Barcode = 12345678936, Customer = context.Customers.FirstOrDefault(x=> x.Id == 27), PackageDesi = 1, PackageWeigth = 5 },
-                new Package{ Barcode = 12345678937, Customer = context.Customers.FirstOrDefault(x=> x.Id == 28), PackageDesi = 6, PackageWeigth =3 }
+                new Package{ Barcode = 12345678937, Customer = context.Customers.FirstOrDefault(x=> x.Id == 28), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678938, Customer = context.Customers.FirstOrDefault(x=> x.Id == 29), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678939, Customer = context.Customers.FirstOrDefault(x=> x.Id == 30), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678940, Customer = context.Customers.FirstOrDefault(x=> x.Id == 31), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678941, Customer = context.Customers.FirstOrDefault(x=> x.Id == 32), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678942, Customer = context.Customers.FirstOrDefault(x=> x.Id == 33), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678943, Customer = context.Customers.FirstOrDefault(x=> x.Id == 34), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678944, Customer = context.Customers.FirstOrDefault(x=> x.Id == 35), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678945, Customer = context.Customers.FirstOrDefault(x=> x.Id == 36), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678946, Customer = context.Customers.FirstOrDefault(x=> x.Id == 37), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678947, Customer = context.Customers.FirstOrDefault(x=> x.Id == 38), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678948, Customer = context.Customers.FirstOrDefault(x=> x.Id == 39), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678949, Customer = context.Customers.FirstOrDefault(x=> x.Id == 40), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678950, Customer = context.Customers.FirstOrDefault(x=> x.Id == 41), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678951, Customer = context.Customers.FirstOrDefault(x=> x.Id == 42), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678952, Customer = context.Customers.FirstOrDefault(x=> x.Id == 43), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678953, Customer = context.Customers.FirstOrDefault(x=> x.Id == 44), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678954, Customer = context.Customers.FirstOrDefault(x=> x.Id == 45), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678955, Customer = context.Customers.FirstOrDefault(x=> x.Id == 46), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678956, Customer = context.Customers.FirstOrDefault(x=> x.Id == 47), PackageDesi = 6, PackageWeigth =3 },
+                new Package{ Barcode = 12345678957, Customer = context.Customers.FirstOrDefault(x=> x.Id == 48), PackageDesi = 6, PackageWeigth =3 }
             };
             return packages;
+        }
+
+        public static List<Cargoman> GetCargoman()
+        {
+            List<Cargoman> customers = new List<Cargoman>()
+            {
+                new Cargoman { Fullname = "Enes Demirdere", Username = "demirdere", Password = "6332", Profile = "cargoman_0000001.jpeg" },
+                new Cargoman { Fullname = "Tayyip Muslu", Username = "tanas57", Password = "123456", Profile = "cargoman_0000002.jpeg" }
+
+            };
+
+            return customers;
         }
     }
 }

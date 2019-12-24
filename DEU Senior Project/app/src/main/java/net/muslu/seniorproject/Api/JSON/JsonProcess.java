@@ -1,5 +1,7 @@
 package net.muslu.seniorproject.Api.JSON;
 
+import android.content.Context;
+
 import net.muslu.seniorproject.Models.Customer;
 import net.muslu.seniorproject.Models.CargoPackage;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
@@ -9,7 +11,7 @@ import org.json.JSONObject;
 
 public final class JsonProcess {
     Customer customer;
-    public static BarcodeReadModel GetPackageInfo(String s, long barcode){
+    public static BarcodeReadModel GetPackageInfo(String s, long barcode, Context context){
         try {
             JSONObject pack = new JSONObject(s);
             JSONObject cus = pack.getJSONObject("customer");
@@ -30,7 +32,7 @@ public final class JsonProcess {
                     null,
                     pack.getInt("priority"));
 
-            return new BarcodeReadModel(barcode, newPackage);
+            return new BarcodeReadModel(barcode, newPackage, context);
         } catch (JSONException e) {
             e.printStackTrace();
         }

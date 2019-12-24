@@ -20,5 +20,6 @@ namespace ProjectAPI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Package> Packages { get; set; }
         public DbSet<PackageStatus> PackageStatuses { get; set; }
+        public DbSet<ProjectAPI.Models.Cargoman> Cargoman { get; set; }
     }
 }

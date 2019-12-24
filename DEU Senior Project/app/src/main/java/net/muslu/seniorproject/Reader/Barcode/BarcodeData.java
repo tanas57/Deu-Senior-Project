@@ -28,27 +28,6 @@ public class BarcodeData implements Serializable {
         return true;
     }
 
-    public boolean AddData(int barcode, CargoPackage cargoPackage){
-
-        boolean isAdded = false;
-        for(int i = 0; i < GetSize(); i++){
-            if(getDataByID(i).getBarcode() == barcode){
-                isAdded = true;
-                break;
-            }
-        }
-        if(!isAdded){
-            this.data
-                    .add(new BarcodeReadModel(
-                            barcode,
-                            cargoPackage
-                    ));
-            return true;
-        }
-
-        return false;
-    }
-
     public boolean RemoveData(int barcode){
 
         for(int i = 0; i < GetSize(); i++){
@@ -59,6 +38,17 @@ public class BarcodeData implements Serializable {
             }
         }
         return false;
+    }
+
+    public boolean removeData(int position){
+        try{
+            data.remove(position);
+            return true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public BarcodeReadModel getDataByID(int id){

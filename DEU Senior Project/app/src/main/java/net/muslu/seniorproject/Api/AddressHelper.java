@@ -1,5 +1,7 @@
 package net.muslu.seniorproject.Api;
 
+import net.muslu.seniorproject.Functions;
+
 public class AddressHelper implements IAddress {
 
     protected long barcode;
@@ -31,7 +33,7 @@ public class AddressHelper implements IAddress {
     }
 
     public AddressHelper() {
-        setApi_address("http://api.muslu.net");
+        setApi_address(Functions.API_URL);
     }
 
     protected String api_address;
@@ -42,12 +44,10 @@ public class AddressHelper implements IAddress {
 
     protected void setApi_address(String api_address){ this.api_address = api_address;}
 
-
     @Override
     public String GetAddress() {
         return null;
     }
-
 
     public enum ApiProcess{
         GET_PACKAGES("/package/list"),
@@ -55,7 +55,8 @@ public class AddressHelper implements IAddress {
         GET_CUSTOMER_BY_BARCODE("/package/customer/"),
         GET_CUSTOMER("/customer/"),
         GET_CUSTOMER_ALL("/customer/list"),
-        SET_PACKAGE_STATUS("package/edit/");
+        SET_PACKAGE_STATUS("/package/edit/"),
+        CONTROL_CARGOMAN("cargoman/");
 
         private String url;
 

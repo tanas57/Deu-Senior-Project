@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.GeneticAlgorithm;
 import net.muslu.seniorproject.R;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -16,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +31,15 @@ public class DMBelowTenPoint {
 
     private BarcodeData barcodeData;
     private Context context;
+    private ArrayList<AlgorithmType> algorithmType;
+
+    public ArrayList<AlgorithmType> getAlgorithmType() {
+        return algorithmType;
+    }
+
+    public void setAlgorithmType(ArrayList<AlgorithmType> algorithmType) {
+        this.algorithmType = algorithmType;
+    }
 
     public void setCargoman(BarcodeReadModel cargoman) {
         geneticAlgorithmData.cargoman = cargoman;
@@ -46,9 +57,10 @@ public class DMBelowTenPoint {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public DMBelowTenPoint(Context context, BarcodeData barcodeData) {
+    public DMBelowTenPoint(Context context, BarcodeData barcodeData, ArrayList<AlgorithmType> algorithmType) {
         setContext(context);
         setBarcodeData(barcodeData);
+        setAlgorithmType(algorithmType);
     }
 
     public void Execute(){
@@ -128,8 +140,8 @@ public class DMBelowTenPoint {
 
 
             int barcodeSize =getBarcodeData().GetSize();
-            int [][] distances = new int[barcodeSize][barcodeSize];
-            int [][] durations = new int[barcodeSize][barcodeSize];
+            double [][] distances = new double[barcodeSize][barcodeSize];
+            double [][] durations = new double[barcodeSize][barcodeSize];
 
             int counter1 = 0, counter2 = 0;
             for(HashMap<String, String> path : lists){
@@ -158,7 +170,11 @@ public class DMBelowTenPoint {
             geneticAlgorithmData.setDistances(distances);
             geneticAlgorithmData.setDurations(durations);
             geneticAlgorithmData.setBarcodeData(getBarcodeData());
-            new GeneticAlgorithm(context, geneticAlgorithmData);
+
+            for(AlgorithmType type : getAlgorithmType()){
+                geneticAlgorithmData.setAlgorithmType(type);
+                new GeneticAlgorithm(context, geneticAlgorithmData);
+            }
         }
     }
 
