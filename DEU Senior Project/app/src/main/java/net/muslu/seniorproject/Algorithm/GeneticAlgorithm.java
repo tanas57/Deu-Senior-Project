@@ -35,7 +35,7 @@ public class GeneticAlgorithm {
     private static final double ELITIZIM_SIZE = 0.35;
     private int POPULATION_MULTIPLIER = 1;
     private Context context;
-    private long startTime = System.currentTimeMillis();
+    private long startTime;
     private long endTime;
     // customer priority
     // package priority
@@ -619,6 +619,7 @@ public class GeneticAlgorithm {
 
             Functions.createNotificationChannel(context, id);
             Log.v("GENETIC TASK", "IS IN PROGRESS");
+            startTime = System.currentTimeMillis();
             Work();
             Log.v("GENETIC TASK","END");
 
@@ -628,10 +629,7 @@ public class GeneticAlgorithm {
         @Override
         protected void onPostExecute(List<HashMap<String, String>> hashMaps) {
             super.onPostExecute(hashMaps);
-            endTime = System.currentTimeMillis();
-            long estimatedTime = endTime - startTime;
-            double seconds = (double)estimatedTime/1000;
-            Log.v("RUNNING TIME => ", seconds + " ");
+
             Chromosome route = null;
 
             double control = -1;
@@ -727,6 +725,12 @@ public class GeneticAlgorithm {
 
             route.setAlgorithmType(algorithmType);
             Functions.addRoute(route);
+
+            endTime = System.currentTimeMillis();
+            long estimatedTime = endTime - startTime;
+            double seconds = (double)estimatedTime/1000;
+            Log.v("RUNNING TIME => ", seconds + " ");
+
         }
     }
 
