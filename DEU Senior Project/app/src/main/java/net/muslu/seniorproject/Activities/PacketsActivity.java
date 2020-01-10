@@ -25,12 +25,10 @@ import android.widget.Toast;
 import net.muslu.seniorproject.CustomAdapter;
 import net.muslu.seniorproject.Functions;
 import net.muslu.seniorproject.R;
-import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeReadModel;
 
 public class PacketsActivity extends AppCompatActivity {
 
-    private BarcodeData data;
     private RecyclerView rv;
     private CustomAdapter ad;
 
@@ -41,14 +39,10 @@ public class PacketsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.cargo_packages));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        data = new BarcodeData();
-        for(BarcodeReadModel model: Functions.getPackets().GetData()){
-            data.GetData().add(model);
-        }
-        if(data.GetSize()>0) {
+        if(Functions.getPackageSize() > 0) {
             setContentView(R.layout.activity_packets);
             rv = findViewById(R.id.rv);
-            ad = new CustomAdapter(PacketsActivity.this, data.GetData(), new CustomAdapter.ClickListener() {
+            ad = new CustomAdapter(PacketsActivity.this, Functions.getPackets().GetData(), new CustomAdapter.ClickListener() {
 
                 @Override
                 public void onPositionClicked(final View view, final BarcodeReadModel model, final int pos) {
@@ -78,7 +72,7 @@ public class PacketsActivity extends AppCompatActivity {
                                 Toast.makeText(view.getContext(), model.getCustomer().getFullName() + " müşterisinin " + model.getBarcode() + " numaralı paketi kaldırıldı.", Toast.LENGTH_SHORT).show();
                                 Functions.remPacket(pos);
                                 Functions.setPackageid(Functions.getPackageid() - 1);
-                                rv.setAdapter(ad);
+                                ad.notifyDataSetChanged();
                                 Log.v("PACKAGE DELETED", model.getCustomer().getFullName() + " PACKAGE DELETED");
                             }
                         });
