@@ -6,7 +6,7 @@
     <string name="home_route_text">Rotam</string>
     <string name="home_addpacket_text">Paket Ekle</string>
     <string name="home_packet_text">Paketlerim</string>
-    <string name="home_customer_text">Müşteriler</string>
+    <string name="home_create_route">Rota Oluştur</string>
     <string name="home_statistic_text">İstatistik</string>
     <string name="home_page">Anasayfa</string>
     <string name="our_routes">Rotalarım</string>

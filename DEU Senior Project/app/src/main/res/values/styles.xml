@@ -19,6 +19,18 @@
 
     </style>
 
+    <style name="MyAlertDialogHome" parent="Base.Theme.AppCompat.Light.Dialog">
+        <item name="android:textColor">#FFECB3</item>
+        <item name="colorAccent">@color/black</item>
+        <item name="android:colorControlNormal">@color/curated_light</item>
+        <item name="textColorAlertDialogListItem">@color/curated_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:radius">10dp</item>
+
+    </style>
+
+
     <style name="MainpageTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>

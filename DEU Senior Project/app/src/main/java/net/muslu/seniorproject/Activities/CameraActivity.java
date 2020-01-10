@@ -46,7 +46,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class CameraActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler  {
 
-    private AlgorithmType returnedType;
     private String [] selectRoute ;
     private ZXingScannerView zXingScannerView;
     private String[] perms = {Manifest.permission.CAMERA};
@@ -96,7 +95,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         zXingScannerView.setIsBorderCornerRounded(true);
         zXingScannerView.setBorderAlpha((float)50.0);
 
-
+/*
         if(Functions.getPackageSize() < psize) {
             for (int i = 10; i < barcodes.length + 10; i++) {
                 String temp2 = "123456789" + i;
@@ -110,7 +109,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                 new Background().execute(apiUrl, barcodes[i]);
             }
         }
-
+*/
 
 
     }
@@ -144,10 +143,10 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                 @Override
                                 public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                     if (isChecked) {
-                                        algorithmTypes.add(getReturnedType(which));
+                                        algorithmTypes.add(Functions.getReturnedType(which));
                                     }
-                                    else if (algorithmTypes.contains(getReturnedType(which))) {
-                                        algorithmTypes.remove(getReturnedType(which));
+                                    else if (algorithmTypes.contains(Functions.getReturnedType(which))) {
+                                        algorithmTypes.remove(Functions.getReturnedType(which));
                                     }
                                 }
                             });
@@ -168,42 +167,24 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
                                     cargomanLocation(); // update cargoman location
 
-                                    if(Functions.getPackageSize() > 9){
-                                        DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, Functions.getPackets(), algorithmTypes);
-                                        dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
-                                        dmGreaterTenPoint.Execute();
-                                    }else{
+                                    if(Functions.getPackageSize()>0) {
+                                        if (Functions.getPackageSize() > 9) {
+                                            DMGreaterTenPoint dmGreaterTenPoint = new DMGreaterTenPoint(CameraActivity.this, Functions.getPackets(), algorithmTypes);
+                                            dmGreaterTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                            dmGreaterTenPoint.Execute();
+                                        } else {
 
-                                        DMBelowTenPoint dmBelowTenPoint = new DMBelowTenPoint(CameraActivity.this, Functions.getPackets(), algorithmTypes);
-                                        dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
-                                        dmBelowTenPoint.Execute();
+                                            DMBelowTenPoint dmBelowTenPoint = new DMBelowTenPoint(CameraActivity.this, Functions.getPackets(), algorithmTypes);
+                                            dmBelowTenPoint.setCargoman(new BarcodeReadModel(0, cargoman.latitude, cargoman.longitude, getApplicationContext()));
+                                            dmBelowTenPoint.Execute();
+                                        }
+
+                                        Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                                        startActivity(intent);
                                     }
-
-
-                                   /*
-                                    int size = Functions.getPackageSize() + 1;
-
-                                    TempData tempData = new TempData(size);
-                                    double [][] distances = tempData.getData().get(0);
-                                    double [][] durations = tempData.getData().get(1);
-
-                                    for(AlgorithmType type: algorithmTypes){
-
-                                        Log.v("GENETIC STARTS", "WITH CHOICE => " + type);
-
-                                        GeneticAlgorithmData geneticAlgorithmData = new GeneticAlgorithmData();
-                                        geneticAlgorithmData.setCargoman(new BarcodeReadModel(0, 38.371881, 27.194662, getApplicationContext()));
-                                        geneticAlgorithmData.setDistances(distances);
-                                        geneticAlgorithmData.setDurations(durations);
-                                        geneticAlgorithmData.setBarcodeData(barcodeData);
-                                        geneticAlgorithmData.setAlgorithmType(type);
-
-                                        new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
-
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Bu işlemden önce paket eklenmesi gerekmektedir", Toast.LENGTH_LONG).show();
                                     }
- */
-                                    Intent intent = new Intent(getApplicationContext(), MainPage.class);
-                                    startActivity(intent);
 
                                 }
                             })  ;
@@ -227,24 +208,6 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                     return true;
                 }
             };
-
-    private AlgorithmType getReturnedType(int pos){
-        switch (pos){
-            case 0:
-                return AlgorithmType.ONLY_DISTANCE;
-            case 1:
-                return AlgorithmType.ONLY_DURATION;
-            case 2:
-                return AlgorithmType.BOTH_DISTANCE_DURATION;
-            case 3:
-                return AlgorithmType.DISTANCE_PRIORITY;
-            case 4:
-                return AlgorithmType.DURATION_PRIORITY;
-            case 5:
-                return AlgorithmType.ALL_OF_THEM;
-            default: return AlgorithmType.ONLY_DISTANCE;
-        }
-    }
 
     @Override
     public void onBackPressed() {

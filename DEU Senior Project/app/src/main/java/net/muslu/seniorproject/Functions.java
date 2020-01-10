@@ -1,5 +1,6 @@
 package net.muslu.seniorproject;
 
+import net.muslu.seniorproject.Algorithm.AlgorithmType;
 import net.muslu.seniorproject.Algorithm.Chromosome;
 import net.muslu.seniorproject.Models.Cargoman;
 import net.muslu.seniorproject.Reader.Barcode.BarcodeData;
@@ -232,9 +233,23 @@ public final class Functions {
                 getMap().addMarker(new MarkerOptions().position(mList.get(index+1)).icon(BitmapDescriptorFactory.fromResource(R.mipmap.next_loc)));
 
         }
+    }
 
-
-
-
+    public static AlgorithmType getReturnedType(int pos){
+        switch (pos){
+            case 0:
+                return AlgorithmType.ONLY_DISTANCE;
+            case 1:
+                return AlgorithmType.ONLY_DURATION;
+            case 2:
+                return AlgorithmType.BOTH_DISTANCE_DURATION;
+            case 3:
+                return AlgorithmType.DISTANCE_PRIORITY;
+            case 4:
+                return AlgorithmType.DURATION_PRIORITY;
+            case 5:
+                return AlgorithmType.ALL_OF_THEM;
+            default: return AlgorithmType.ONLY_DISTANCE;
+        }
     }
 }

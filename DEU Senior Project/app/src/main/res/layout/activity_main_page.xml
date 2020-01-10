@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/home_content"
     android:background="@drawable/main_user_bg">
     <!-- user profile -->
 
@@ -52,7 +53,7 @@
             android:layout_width="0dp"
             android:layout_weight="0.3"
             android:layout_height="80dp"
-            android:src="@drawable/barcode"
+            android:src="@drawable/user"
             app:civ_border_color="#59B2FF"
             app:civ_border_width="2dp" />
 
@@ -187,6 +188,7 @@ tools:context=".Activities.MainPage">
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/home_create_route"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
@@ -205,13 +207,13 @@ tools:context=".Activities.MainPage">
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
-                        android:src="@drawable/customer" />
+                        android:src="@drawable/create_route" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:text="@string/home_customer_text"
+                        android:text="@string/home_create_route"
                         android:fontFamily="sans-serif-light"
                         android:textColor="#000"
                         android:textSize="18sp" />
