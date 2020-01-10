@@ -238,9 +238,9 @@ public class DMGreaterTenPoint {
                 temp += distances[i] + " ";
                 temp2 += durations[i] + " ";
             }
-            Log.v("MATRIX DISTANCE", temp);
+            //Log.v("MATRIX DISTANCE", temp);
             temp = "";
-            //Log.v("MATRIX DURATION", temp2);
+            Log.v("MATRIX DURATION", temp2);
             temp = "";
 
             pointData.setDistance(distances);
@@ -254,7 +254,7 @@ public class DMGreaterTenPoint {
 
                 for(int i=0; i < points.size(); i++){
                     int[] tempDis = points.get(i).getDistance();
-                    int[] tempDur = points.get(i).getDistance();
+                    int[] tempDur = points.get(i).getDuration();
                     for(int j=0; j<tempDis.length; j++){
                         distancesMx[points.get(i).getIndex()][j] = tempDis[j];
                         durationMx[points.get(i).getIndex()][j] = tempDur[j];

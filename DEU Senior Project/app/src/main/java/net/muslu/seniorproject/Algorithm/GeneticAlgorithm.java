@@ -559,14 +559,14 @@ public class GeneticAlgorithm {
     }
 
     private double FitnessFunction(Chromosome item){
-        double temp = 0, tempMetres = 0; int metres = 0, duration = 0;
+        double temp = 0; double metres = 0, duration = 0;
         ArrayList<BarcodeReadModel> models = item.getBarcodeReadModels();
         BarcodeReadModel previous = null, next = null;
         for(int i = 0; i < models.size(); i++){
             if(i < models.size() - 1){
                 previous = models.get(i);
                 next = models.get(i+1);
-                tempMetres = distances[previous.getPackageId()][next.getPackageId()];
+                metres += distances[previous.getPackageId()][next.getPackageId()];
                 duration += durations[previous.getPackageId()][next.getPackageId()];
                 switch (algorithmType){
                     case ONLY_DISTANCE:
@@ -589,13 +589,11 @@ public class GeneticAlgorithm {
                         temp += durations[previous.getPackageId()][next.getPackageId()] / 60.0;
                         break;
                 }
-
-                metres += tempMetres;
             }
         }
 
-        item.setDurations(duration);
-        item.setMetres(metres);
+        item.setDurations((int)duration);
+        item.setMetres((int)metres);
 
         switch (algorithmType){
             case ONLY_DISTANCE:
@@ -656,7 +654,7 @@ public class GeneticAlgorithm {
                 tmpstr += item2.getPackageId() + " ";
             }
 
-            tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres();
+            tmpstr += " Fitness : " + route.getFitnessScore() + " metres " + route.getMetres() + " durations " + route.getDurations();
             Log.v("SELECTION => ", tmpstr);
             tmpstr = "";
 
@@ -664,9 +662,6 @@ public class GeneticAlgorithm {
 
             if(algorithmType == AlgorithmType.DISTANCE_PRIORITY ) avarage = route.getMetres() / route.getBarcodeReadModels().size();
             else if(algorithmType == AlgorithmType.DURATION_PRIORITY) avarage = route.getDurations() / route.getBarcodeReadModels().size();
-
-            ArrayList<BarcodeReadModel> changelist = new ArrayList<>();
-            double changeSum = 0;
 
             if(algorithmType == AlgorithmType.DISTANCE_PRIORITY || algorithmType == AlgorithmType.DURATION_PRIORITY
                     || algorithmType == AlgorithmType.ALL_OF_THEM) {
@@ -742,17 +737,9 @@ public class GeneticAlgorithm {
 
     public void setBarcodeData(BarcodeData barcodeData) { this.barcodeData = barcodeData; }
 
-    public double[][] getDistances() { return distances; }
-
     public void setDistances(double[][] distances) { this.distances = distances; }
 
-    public double[][] getDurations() { return durations; }
-
     public void setDurations(double[][] durations) { this.durations = durations; }
-
-    public AlgorithmType getAlgorithmType() {
-        return algorithmType;
-    }
 
     public void setAlgorithmType(AlgorithmType algorithmType) {
         this.algorithmType = algorithmType;

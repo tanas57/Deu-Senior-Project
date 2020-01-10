@@ -30,7 +30,7 @@ public class Markers {
     Context context;
 
 
-    public void createMarkers(GoogleMap map, final MapsActivity activity, Context c , ArrayList<BarcodeReadModel> markers) throws IOException {
+    public void createMarkers(GoogleMap map, final MapsActivity activity, Context c , final ArrayList<BarcodeReadModel> markers) throws IOException {
         mMap = map;
         Functions.setMap(mMap);
         context=c;
@@ -46,7 +46,7 @@ public class Markers {
                     String[] toGetDeliverOrder = marker.getId().split("m");
                     int deliverOrder = Integer.valueOf(toGetDeliverOrder[1]);
 
-                    if(deliverOrder != 0){
+                    if(deliverOrder != 0 && deliverOrder < markers.size()){
                         BarcodeReadModel model = Functions.getRoutes().get(Functions.getSelectedRoute()).getBarcodeReadModels().get(deliverOrder);
                         View view = activity.getLayoutInflater().inflate(R.layout.snippet_view,null);
 

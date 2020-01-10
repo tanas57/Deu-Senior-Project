@@ -57,7 +57,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
 
     private boolean[] isChecked = new boolean[6];
     private ArrayList<AlgorithmType> algorithmTypes = new ArrayList<>();
-    private int psize = 22;
+    private int psize = 10;
     String [] barcodes = new String[psize];
 
     private void cargomanLocation(){
@@ -96,7 +96,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
         zXingScannerView.setIsBorderCornerRounded(true);
         zXingScannerView.setBorderAlpha((float)50.0);
 
-        /*
+
         if(Functions.getPackageSize() < psize) {
             for (int i = 10; i < barcodes.length + 10; i++) {
                 String temp2 = "123456789" + i;
@@ -111,7 +111,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             }
         }
 
-         */
+
 
     }
 
@@ -180,7 +180,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                     }
 
 
-                                    /*
+                                   /*
                                     int size = Functions.getPackageSize() + 1;
 
                                     TempData tempData = new TempData(size);
@@ -201,17 +201,9 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
                                         new GeneticAlgorithm(getApplicationContext(), geneticAlgorithmData);
 
                                     }
-
-
-                                     */
-
-
+ */
                                     Intent intent = new Intent(getApplicationContext(), MainPage.class);
                                     startActivity(intent);
-
-/*
-
-*/
 
                                 }
                             })  ;
