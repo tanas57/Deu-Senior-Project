@@ -250,7 +250,7 @@ public class CameraActivity extends AppCompatActivity implements ZXingScannerVie
             public void run() {
                 zXingScannerView.resumeCameraPreview(CameraActivity.this);
             }
-        }, 333);
+        }, 155);
     }
 
     protected class Background extends AsyncTask<String, String ,String> {
